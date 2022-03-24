@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses028AreaMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses028Area" >
+    <id column="ID_AREA" property="idArea" jdbcType="DECIMAL" />
+    <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="CLAVE_AREA" property="claveArea" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_AREA, ID_UR, CLAVE_AREA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses028AreaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES028_AREA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES028_AREA
+    where ID_AREA = #{idArea,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TSES028_AREA
+    where ID_AREA = #{idArea,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses028AreaExample" >
+    delete from TSES028_AREA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses028Area" >
+    insert into TSES028_AREA (ID_AREA, ID_UR, CLAVE_AREA
+      )
+    values (#{idArea,jdbcType=DECIMAL}, #{idUr,jdbcType=DECIMAL}, #{claveArea,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses028Area" >
+    insert into TSES028_AREA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idArea != null" >
+        ID_AREA,
+      </if>
+      <if test="idUr != null" >
+        ID_UR,
+      </if>
+      <if test="claveArea != null" >
+        CLAVE_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idArea != null" >
+        #{idArea,jdbcType=DECIMAL},
+      </if>
+      <if test="idUr != null" >
+        #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="claveArea != null" >
+        #{claveArea,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses028AreaExample" resultType="java.lang.Integer" >
+    select count(*) from TSES028_AREA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES028_AREA
+    <set >
+      <if test="record.idArea != null" >
+        ID_AREA = #{record.idArea,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUr != null" >
+        ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.claveArea != null" >
+        CLAVE_AREA = #{record.claveArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES028_AREA
+    set ID_AREA = #{record.idArea,jdbcType=DECIMAL},
+      ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      CLAVE_AREA = #{record.claveArea,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses028Area" >
+    update TSES028_AREA
+    <set >
+      <if test="idUr != null" >
+        ID_UR = #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="claveArea != null" >
+        CLAVE_AREA = #{claveArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_AREA = #{idArea,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses028Area" >
+    update TSES028_AREA
+    set ID_UR = #{idUr,jdbcType=DECIMAL},
+      CLAVE_AREA = #{claveArea,jdbcType=VARCHAR}
+    where ID_AREA = #{idArea,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,192 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.web.controller.controlacceso;
+
+import java.math.BigDecimal;
+import java.util.Date;
+//import java.util.Optional;
+import mx.sep.sesi.datos.vo.OperacionVO;
+import mx.sep.sesi.modelo.Tses004Personas;
+import mx.sep.sesi.modelo.Tses010CuadranteArea;
+import mx.sep.sesi.modelo.Tses011Visitantes;
+import mx.sep.sesi.modelo.Tses012Operacion;
+import mx.sep.sesi.modelo.join.TSES004PersonasJoin;
+import mx.sep.sesi.servicios.ControlAccesoServicio;
+import mx.sep.sesi.servicios.util.LoggerUtil;
+
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ *
+ * @author pedro.flores
+ */
+@Controller
+@RequestMapping(value = "/controlAcceso")
+public class ControlAccesoController {
+    
+    @Autowired
+    private ControlAccesoServicio controlAccesoServicio;
+    
+    
+    /*@RequestMapping(value = "/registrarEntradaPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Tses004Personas registrarEntradaPersona(@RequestBody OperacionVO operacionVO ) throws Exception {
+        Tses004Personas persona = new Tses004Personas();
+        BigDecimal idPersona = operacionVO.getIdPersona();        
+        persona = controlAccesoServicio.obtenerInformacion(idPersona); 
+        if( persona != null ){
+            if(persona.getEstatus() == 1){
+                controlAccesoServicio.registrarEntrada(operacionVO);                
+            } 
+        }
+        return persona;
+    } */
+        
+    
+    @RequestMapping(value = "/registrarEntradaPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> registrarEntradaPersona(@RequestBody OperacionVO operacionVO ) throws Exception {
+        Tses004Personas persona = new Tses004Personas();
+        Integer idPersona = operacionVO.getIdPersona(); 
+        System.out.println("Controller registrarEntradaPersona: " + new Date());
+        try{
+            persona = controlAccesoServicio.obtenerInformacion(idPersona); 
+            if( persona != null ){
+                if(persona.getEstatus() == 1){
+                    System.out.print("Solicitud registroEntrada idPersona: " + persona.getIdPersona() + " fecha: " +new Date());
+                    //Optional<Long> idOperacion  =  controlAccesoServicio.registrarEntrada(operacionVO);
+                    //System.out.print("Respuesta registroEntrada idPersona: " + persona.getIdPersona() + " idOperacion: " + idOperacion.get() + " fecha: " +new Date());
+                } else {
+                    return new ResponseEntity<Tses004Personas>(persona, HttpStatus.LOCKED); 
+                }
+            } else {
+                return new ResponseEntity<Tses004Personas>(persona, HttpStatus.NOT_FOUND); 
+            }
+        }catch(Exception exc){
+            return new ResponseEntity<String>("Ocurrió un error", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Tses004Personas>(persona, HttpStatus.OK);  
+    }
+    
+    
+    /*@RequestMapping(value = "/registrarEntradaVisitante", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Tses011Visitantes registrarEntradaVisitante(@RequestBody OperacionVO operacionVO ) throws Exception {
+        Tses011Visitantes visitante = new Tses011Visitantes();
+        BigDecimal idVisitante = operacionVO.getIdVisitante();        
+        visitante = controlAccesoServicio.obtenerInformacionVisitante(idVisitante); 
+        if( visitante != null ){ 
+            Date fecha1 = visitante.getFechaActualizacion();
+            Date fecha2 = new Date();
+            Integer dias = numeroDias(fecha1,fecha2);
+            if(dias <= 5){
+                controlAccesoServicio.registrarEntrada(operacionVO);  
+            } 
+        }
+        return visitante;
+    } */
+    
+    
+    @RequestMapping(value = "/registrarEntradaVisitante", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?>  registrarEntradaVisitante(@RequestBody OperacionVO operacionVO ) throws Exception {
+        Tses011Visitantes visitante = new Tses011Visitantes();
+        Integer idInmueble = operacionVO.getIdInmueble();
+        Long idEtiqueta = operacionVO.getIdEtiqueta();  
+        LoggerUtil.debug(this, "Número de etiqueta del visitante --> " + idEtiqueta );
+        System.out.println("Controller : " + new Date());
+        try{
+            visitante = controlAccesoServicio.obtenerVisitantePorEtiqueta( idInmueble, idEtiqueta ); 
+            if( visitante != null ){ 
+                Date fecha1 = visitante.getFechaActualizacion();
+                Date fecha2 = new Date();
+                Integer dias = numeroDias(fecha1,fecha2);
+                if(dias <= 5){
+                    operacionVO.setIdVisitante(visitante.getIdVisitante());
+                    //controlAccesoServicio.registrarEntrada(operacionVO);  
+                } else {
+                    return new ResponseEntity<Tses011Visitantes>(visitante, HttpStatus.LOCKED); 
+                }
+            } else {
+                return new ResponseEntity<Tses011Visitantes>(visitante, HttpStatus.NOT_FOUND); 
+            }
+        }catch(Exception exc){
+            return new ResponseEntity<String>("Ocurrió un error", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Tses011Visitantes>(visitante, HttpStatus.OK);  
+    } 
+    
+    
+    @RequestMapping(value = "/registrarSalidaPersona", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> registrarSalidaPersona(@RequestBody OperacionVO operacionVO ) throws Exception {
+        Tses004Personas persona = new Tses004Personas();
+        Integer idPersona = operacionVO.getIdPersona(); 
+        LoggerUtil.debug(this, "Registro de persona --> "+idPersona);
+        try{
+            persona = controlAccesoServicio.obtenerInformacion(idPersona); 
+            if( persona != null ){
+                    controlAccesoServicio.registrarSalida(operacionVO);                 
+            } else {
+                return new ResponseEntity<Tses004Personas>(persona, HttpStatus.NOT_FOUND); 
+            }
+        }catch(Exception exc){
+            return new ResponseEntity<String>("Ocurrió un error", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Tses004Personas>(persona, HttpStatus.OK);  
+    }
+    
+    
+    @RequestMapping(value = "/registrarSalidaVisitante", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?>  registrarSalidaVisitante(@RequestBody OperacionVO operacionVO ) throws Exception {
+        Tses011Visitantes visitante = new Tses011Visitantes();
+        Integer idInmueble = operacionVO.getIdInmueble();
+        Long idEtiqueta = operacionVO.getIdEtiqueta();  
+        LoggerUtil.debug(this, "Registro de visitante --> "+idEtiqueta);
+        try{
+            visitante = controlAccesoServicio.obtenerVisitantePorEtiqueta( idInmueble, idEtiqueta ); 
+            if( visitante != null ){ 
+                /*Date fecha1 = visitante.getFechaActualizacion();
+                Date fecha2 = new Date();
+                Integer dias = numeroDias(fecha1,fecha2);
+                if(dias <= 5){*/
+                    operacionVO.setIdVisitante(visitante.getIdVisitante());
+                    controlAccesoServicio.registrarSalida(operacionVO);  
+                /*} else {
+                    return new ResponseEntity<Tses011Visitantes>(visitante, HttpStatus.LOCKED); 
+                }*/
+            } else {
+                return new ResponseEntity<Tses011Visitantes>(visitante, HttpStatus.NOT_FOUND); 
+            }
+        }catch(Exception exc){
+            return new ResponseEntity<String>("Ocurrió un error", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Tses011Visitantes>(visitante, HttpStatus.OK);  
+    } 
+    
+    
+    
+    public int numeroDias(Date fecha1, Date fecha2){
+        long startTime = fecha1.getTime();
+        long endTime = fecha2.getTime();
+        long diffTime = endTime - startTime;
+        long diffDays = diffTime / (1000 * 60 * 60 * 24);
+        return (int)diffDays;
+    }
+    
+}

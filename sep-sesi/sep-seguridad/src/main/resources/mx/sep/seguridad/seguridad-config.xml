@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"		
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"   
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-4.1.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd		
+       	http://www.springframework.org/schema/context
+       	http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+       
+    <context:component-scan base-package="mx.sep.seguridad"/>
+	
+    <tx:advice id="txAdviceSeguridad" transaction-manager="txManagerSeguridad">
+        <tx:attributes>
+            <!-- Los métodos de consulta -->
+            <tx:method name="busca*" read-only="true"/>            
+            <tx:method name="consulta*" read-only="true"/>
+            <!-- todo lo demás tiene configuración default -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+	
+    <aop:config>
+        <aop:pointcut id="pointcutServicios" expression="execution(* mx..*servicios..*.*(..))"/>
+        <aop:advisor advice-ref="txAdviceSeguridad" pointcut-ref="pointcutServicios" order="1"/>
+    </aop:config>  	
+		
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="mx.sep.seguridad.dao" />
+        <property name="sqlSessionFactory" ref="seguridadSqlSessionFactory" />
+    </bean>
+	
+    <bean id="seguridadSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceSeguridad" />
+        <property name="configLocation" value="classpath:mx/sep/seguridad/mybatis-sqlmap.xml" />
+        <property name="typeAliasesPackage" value="mx.sep.seguridad.modelo" />
+        <property name="mapperLocations" value="classpath*:mx/sep/seguridad/datos/mybatis/**/*.xml" />
+    </bean>
+	
+    <bean id="txManagerSeguridad" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSourceSeguridad" />
+	    
+    <bean id="sepUserDetailsService" class="mx.sep.seguridad.servicios.CustomUserDetailsService">
+    </bean>
+        
+    <bean id="passwordEncoder"
+          class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+    </bean>
+	
+    <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator" ref="permissionEvaluator"/>
+    </bean>
+    
+    <bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
+        <constructor-arg ref="aclService"/>
+    </bean>    
+    
+    <bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcAclService">
+        <constructor-arg ref="dataSourceSeguridad"/>
+        <constructor-arg ref="lookupStrategy"/>
+        <!--         <property name="sidIdentityQuery" value="SELECT currval('acl_sid_id_seq')"/> -->
+        <!--         <property name="classIdentityQuery" value="SELECT currval('acl_class_id_seq')"/> -->
+    </bean>  	
+	    
+    <bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+        <constructor-arg ref="dataSourceSeguridad"/>
+        <constructor-arg ref="aclCache"/>
+        <constructor-arg ref="aclAuthzStrategy"/>
+        <constructor-arg ref="grantingStrategy"/>
+    </bean>
+	
+    <bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+        <constructor-arg>
+            <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager">
+                    <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+                </property>
+                <property name="cacheName" value="aclCache"/>
+            </bean>
+        </constructor-arg>	
+        <constructor-arg ref="grantingStrategy"/>    
+        <constructor-arg ref="aclAuthzStrategy"/>    
+    </bean>
+	
+    <bean id="aclAuthzStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                    <constructor-arg value="ROLE_ADMINISTRADOR"/>
+                </bean>
+                <bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                    <constructor-arg value="ROLE_ADMINISTRADOR"/>
+                </bean>
+                <bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
+                    <constructor-arg value="ROLE_ADMINISTRADOR"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>	
+    
+    <bean id="grantingStrategy" class="org.springframework.security.acls.domain.DefaultPermissionGrantingStrategy">
+        <constructor-arg>
+            <bean class="org.springframework.security.acls.domain.ConsoleAuditLogger"/>
+        </constructor-arg>
+    </bean>
+    <beans profile="desarrollo">
+
+      <!--<bean id="dataSourceSeguridad" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+            <property name="url" value="jdbc:oracle:thin:@nomdgticscan.sep.gob.mx:1530/NOMDES"/>
+            <property name="username" value="SISEDES" />
+            <property name="password" value="S1s3D35#trY" />
+            <property name="initialSize" value="2" />
+            <property name="maxActive" value="10" />   
+        </bean>-->
+        
+        <bean id="dataSourceSeguridad" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+            <property name="url" value="jdbc:oracle:thin:@nomdgticscan.sep.gob.mx:1530/NOMDES"/>
+            <property name="username" value="SESIQA" />
+            <property name="password" value="YqOT$UvT3$Bd" />
+            <property name="initialSize" value="2" />
+            <property name="maxActive" value="10" />   
+        </bean>
+        
+       <!--<bean id="dataSourceSeguridad" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+            <property name="url" value="jdbc:oracle:thin:@nomdgticscan.sep.gob.mx:1530/NOMDES"/>
+            <property name="username" value="SESI" />
+            <property name="password" value="f#4_G5dC3hZ" />
+            <property name="initialSize" value="2" />
+            <property name="maxActive" value="10" />   
+        </bean>-->
+
+    </beans>        
+
+               
+
+    <beans profile="testing">   
+        <bean id="dataSourceSeguridad" class="org.springframework.jndi.JndiObjectFactoryBean">  
+
+             <property name="jndiName" value="jdbc/sesi"/>
+        </bean> 
+
+    </beans> 
+	
+    <beans profile="produccion">
+        <bean id="dataSourceSeguridad" class="org.springframework.jndi.JndiObjectFactoryBean">
+            <property name="jndiName" value="jdbc/sesi"/>
+        </bean>
+    </beans>
+			
+</beans>

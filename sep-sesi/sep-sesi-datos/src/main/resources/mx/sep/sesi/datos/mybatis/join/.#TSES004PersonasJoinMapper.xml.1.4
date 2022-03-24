@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.join.TSES004PersonasJoinMapper">
+  
+  <resultMap id="resultMapPersonasJoin" type="mx.sep.sesi.modelo.join.TSES004PersonasJoin" >
+    <id column="ID_PERSONA" property="idPersona" jdbcType="DECIMAL" />
+    <result column="CURP" property="curp" jdbcType="VARCHAR" />
+    <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+    <result column="APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="ID_TIPO_PERSONA" property="idTipoPersona" jdbcType="DECIMAL" />
+    <result column="PUESTO" property="puesto" jdbcType="VARCHAR" />
+    
+    <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+    <result column="UNIDAD_RESPONSABLE" property="unidadResponsable" jdbcType="VARCHAR" />
+    <result column="TIPO_PERSONA" property="tipoPersona" jdbcType="VARCHAR" />
+    <result column="ESTATUS" property="estatus" jdbcType="DECIMAL" />
+    
+  </resultMap>
+  
+  <resultMap id="resultMapVisitantesJoin" type="mx.sep.sesi.modelo.join.Tses011VisitanteJoin" >
+    <id column="ID_VISITANTE" property="idVisitante" jdbcType="DECIMAL" />
+    <result column="CURP" property="curp" jdbcType="VARCHAR" />
+    <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+    <result column="APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="ID_TIPO_PERSONA" property="idTipoPersona" jdbcType="DECIMAL" />
+    <result column="PERSONA_VISITA" property="personaVisita" jdbcType="VARCHAR" />
+    
+    <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+    <result column="UNIDAD_RESPONSABLE" property="unidadResponsable" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  
+    <select id="selecPersonas" resultMap="resultMapPersonasJoin">
+        SELECT * 
+          FROM TSES004_PERSONAS PER
+        LEFT JOIN TSES009_INMUEBLES INM ON PER.ID_INMUEBLE = INM.ID_INMUEBLE
+        JOIN TSES005_TIPO_PERSONA TIPO ON PER.ID_TIPO_PERSONA = TIPO.ID_TIPO_PERSONA
+        JOIN TSES006_UNIDAD_RESPONSABLE UR ON PER.ID_UR = UR.ID_UR
+        WHERE  PER.ID_UR = #{idUr}
+        
+        <if test="idTipoPersona != null and idTipoPersona != ''"  > 
+            AND PER.ID_TIPO_PERSONA = #{idTipoPersona}
+        </if> 
+        <if test="curp != null and curp != ''"  > 
+            AND PER.CURP = #{curp}
+        </if> 
+        <if test="nombre != null and nombre != ''"  >
+            AND PER.NOMBRE = #{nombre}
+        </if> 
+        <if test="primerApellido != null and primerApellido != ''"  >
+            AND PER.APELLIDO1 = #{primerApellido}
+        </if> 
+        <if test="segundoApellido != null and segundoApellido != ''"  > 
+            AND PER.APELLIDO2 = #{segundoApellido}
+        </if>   
+    </select>
+    
+    <select id="selectVisitantes" resultMap="resultMapVisitantesJoin">
+        SELECT * 
+          FROM TSES011_VISITANTES VIS
+        LEFT JOIN TSES009_INMUEBLES INM ON VIS.ID_INMUEBLE = INM.ID_INMUEBLE
+        JOIN TSES005_TIPO_PERSONA TIPO ON VIS.ID_TIPO_PERSONA = TIPO.ID_TIPO_PERSONA
+        JOIN TSES006_UNIDAD_RESPONSABLE UR ON VIS.ID_UR = UR.ID_UR
+     
+        <if test="curp != null and curp != ''"  > 
+            AND VIS.CURP = #{curp}
+        </if> 
+        <if test="nombre != null and nombre != ''"  >
+            AND VIS.NOMBRE = #{nombre}
+        </if> 
+    </select>
+</mapper>

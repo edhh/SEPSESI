@@ -1,0 +1,663 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+window.addEventListener ?
+        window.addEventListener("load", init, false) :
+        window.attachEvent && window.attachEvent("onload", init);
+
+function init() {
+    obtInmueble();
+    obtenerUR();
+    obtenertipoSangre();
+    obtenerCuadrante();
+    obtenerCuadranteTodos();
+    var idPersona = obtenerValorParametro('idPersona');
+    console.log('idPersona es ' + idPersona);
+    $('#idPersona').val(idPersona);
+    if (idPersona !== null) {
+        obtieneEmpleado(idPersona);
+    }
+}
+
+function obtieneEmpleado(idPersona) {
+    //Obtiene el usuario de sesión
+    console.log('obteniendo usuario');
+    console.log('El idPersona para obtener es ' + idPersona);
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: baseURI + "/mvc/persona/obtieneEmpleado/" + idPersona,
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            if (response.idPersona !== '') {
+                console.log('idPersona' + response.idPersona);
+                $('#idPersona').val(response.idPersona);
+                $('#curp').val(response.curp);
+                $('#nombre').val(response.nombre);
+                $('#primerApellido').val(response.apellido1);
+                $('#segundoApellido').val(response.apellido2);
+                $('#inmuebleID').val(response.idInmueble);
+                $('#ur').val(response.idUr);
+                $('#cuadrante').val(response.idCuadranteArea);
+                $('#puesto').val(response.puesto);
+                $('#tipoSangre').val(response.idTipoSangre);
+                $('#emergencia').val(response.telEmergencia);
+                $('#alergias').val(response.alergias);
+                $('#correo').val(response.email);
+                $('#enfermedad').val(response.enfermedad);
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+
+}
+
+function obtenerValorParametro(sParametroNombre) {
+    var sPaginaURL = window.location.search.substring(1);
+    var sURLVariables = sPaginaURL.split('?');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParametro = sURLVariables[i].split('=');
+        if (sParametro[0] == sParametroNombre) {
+            return sParametro[1];
+        }
+    }
+    return null;
+}
+
+function obtInmueble()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerInmueble",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var inmuebles;
+                inmuebles = response;
+                populateSelectInmueble(inmuebles);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectInmueble(lstInmueble) {
+    console.log("POPULATING SELECT INMUEBLE");
+    console.log(lstInmueble);
+    document.getElementById("inmuebleID").options.length = 0;
+    console.log('aqui');
+    console.log(document.getElementById("inmuebleID").options.length);
+    for (var i = 0; i <= lstInmueble.length - 1; i++) {
+        if (i == 0 && lstInmueble.length >= 1) {
+            $('#inmuebleID').append('<option>' + 'Selecciona' + '</option>');
+        }
+        $('#inmuebleID').append('<option value="' + lstInmueble[i].idInmueble + '">' + lstInmueble[i].denominacion + '</option>');
+    }
+
+}
+
+function obtenerUR()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerUR",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var UR;
+                UR = response;
+                populateSelectUR(UR);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function obtenertipoSangre()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenertipoSangre",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var sangre;
+                sangre = response;
+                populateSelectSangre(sangre);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function obtenerAlergias()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerAlergias",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var alergias;
+                alergias = response;
+                populateSelectAlergias(alergias);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function obtenerCuadrante()
+{
+    var inmueble = $("#inmueble").val();
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerCuadrante/" + inmueble,
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var cuadrante;
+                cuadrante = response;
+                populateSelectCuadrante(cuadrante);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function obtenerCuadranteTodos()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerCuadranteTodos",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var cuadrante;
+                cuadrante = response;
+                populateSelectCuadrante(cuadrante);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function obtenerEnfermedad()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerEnfermedad",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            console.log(response.length);
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+                console.log('if');
+                console.log(response);
+                var enfermedad;
+                enfermedad = response;
+                populateSelectEnfermedad(enfermedad);
+            } else {
+                console.log('else');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectEnfermedad(lstEnfermedad) {
+    console.log("POPULATING SELECT ENFERMEDAD");
+    console.log(lstEnfermedad);
+    document.getElementById("enfermedad").options.length = 0;
+    for (var i = 0; i <= lstEnfermedad.length - 1; i++) {
+        console.log('i' + i);
+        console.log('lstEnfermedad.length' + lstEnfermedad.length);
+        if (i == 0 && lstEnfermedad.length >= 1) {
+            console.log('Aqui');
+            $('#enfermedad').append('<option>' + 'Selecciona' + '</option>');
+        }
+        $('#enfermedad').append('<option value="' + lstEnfermedad[i].idEnfermedad + '">' + lstEnfermedad[i].descEnfermedad + '</option>');
+    }
+
+}
+
+function populateSelectUR(lstUR) {
+    console.log("POPULATING SELECT UR");
+    console.log(lstUR);
+    document.getElementById("ur").options.length = 0;
+    for (var i = 0; i <= lstUR.length - 1; i++) {
+        if (i == 0 && lstUR.length >= 1) {
+            $('#ur').append('<option>' + 'Selecciona' + '</option>');
+        }
+        $('#ur').append('<option value="' + lstUR[i].idUr + '">' + lstUR[i].unidadResponsable + '</option>');
+    }
+
+}
+
+function populateSelectSangre(lstSangre) {
+    console.log("POPULATING SELECT Sangre");
+    console.log(lstSangre);
+    document.getElementById("tipoSangre").options.length = 0;
+    for (var i = 0; i <= lstSangre.length - 1; i++) {
+        if (i == 0 && lstSangre.length >= 1) {
+            $('#tipoSangre').append('<option>' + 'Selecciona' + '</option>');
+        }
+        $('#tipoSangre').append('<option value="' + lstSangre[i].idTipo + '">' + lstSangre[i].tipoSangre + '</option>');
+    }
+
+}
+
+function populateSelectAlergias(lstAlergias) {
+    console.log("POPULATING SELECT Alergias");
+    console.log(lstAlergias);
+    document.getElementById("alergias").options.length = 0;
+    for (var i = 0; i <= lstAlergias.length - 1; i++) {
+        if (i == 0 && lstAlergias.length >= 1) {
+            $('#alergias').append('<option>' + 'Selecciona' + '</option>');
+        }
+        $('#alergias').append('<option value="' + lstAlergias[i].idAlergia + '">' + lstAlergias[i].descAlergia + '</option>');
+    }
+
+}
+
+function populateSelectCuadrante(lstCuadrante) {
+    console.log("POPULATING SELECT Cuadrante");
+    console.log(lstCuadrante);
+    document.getElementById("cuadrante").options.length = 0;
+    for (var i = 0; i <= lstCuadrante.length - 1; i++) {
+        if (i == 0 && lstCuadrante.length >= 1) {
+            $('#cuadrante').append('<option>' + 'Selecciona' + '</option>');
+        }
+        $('#cuadrante').append('<option value="' + lstCuadrante[i].idCuadranteArea + '">' + lstCuadrante[i].cuadranteArea + '</option>');
+    }
+
+}
+
+function insertaEmpleado() {
+
+    var search = {};
+    search["curp"] = $("#curp").val();
+    search["nombre"] = $("#nombre").val();
+    search["primerApellido"] = $("#apPaterno").val();
+    search["segundoApellido"] = $("#apMaterno").val();
+    search["idInmueble"] = $("#inmueble").val();
+    search["idUR"] = $("#ur").val();
+    search["cuadrante"] = $("#cuadrante").val();
+    search["tipoSangre"] = $("#tipoSangre").val();
+    search["emergencia"] = $("#emergencia").val();
+    search["idAlergia"] = $("#alergias").val();
+    search["enfermedad"] = $("#enfermedad").val();
+    console.log(search);
+    //if (validaDatos()) {
+    document.getElementById("btnGuardar").disabled = true;
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: baseURI + "/mvc/persona/insertaEmpleado",
+        data: search,
+        method: "POST",
+        dataType: 'json',
+        success: function (reponse) {
+            console.log(reponse.msg);
+            $('#myModal1').modal('show');
+            $("#myModal1 .modal-body").text(reponse.msg);
+            console.log('despues');
+            //docenteId = 0;
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#myModal1').modal('show');
+            $("#myModal1 .modal-body").text('Ocurri&#243; un error al registrar los datos');
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+    //}
+}
+
+function reloadPageModal() {
+    location.reload();
+}
+
+function validaDatos() {
+    console.log("validaDatos");
+    var datosValidos = true;
+    var curp = $("#curp").val();
+    var nombre = $("#nombre").val();
+    var apPaterno = $("#primerApellido").val();
+    var apMaterno = $("#segundoApellido").val();
+    var inmueble = $("#inmueble").val();
+    var ur = $("#ur").val();
+    var cuadrante = $("#cuadrante").val();
+    var tipoSangre = $("#tipoSangre").val();
+    var emergencia = $("#emergencia").val();
+    var alergias = $("#alergias").val();
+    var enfermedad = $("#enfermedad").val();
+    var puesto = $("#puesto").val();
+
+    if (curp === null || curp.length === 0) {
+        $("#curpDiv").addClass("has-error");
+        $("#errorCurp").text('');
+        $("#errorCurp").show();
+        $("#errorCurp").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (nombre === null || nombre.length === 0) {
+        $("#nombreDiv").addClass("has-error");
+        $("#errorNombre").text('');
+        $("#errorNombre").show();
+        $("#errorNombre").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (apPaterno === null || apPaterno.length === 0) {
+        $("#paternoDiv").addClass("has-error");
+        $("#errorPaterno").text('');
+        $("#errorPaterno").show();
+        $("#errorPaterno").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (puesto === null || puesto.length === 0) {
+        $("#puestoDiv").addClass("has-error");
+        $("#errorPuesto").text('');
+        $("#errorPuesto").show();
+        $("#errorPuesto").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (validaSoloLetras(nombre) && nombre.length > 0) {
+        $("#nombreDiv").addClass("has-error");
+        $("#errorNombre").text('');
+        $("#errorNombre").show();
+        $("#errorNombre").append("Únicamente debe contener caracteres alfabéticos");
+        datosValidos = false;
+    }
+
+    if (validaSoloLetras(apPaterno) && apPaterno.length > 0) {
+        $("#paternoDiv").addClass("has-error");
+        $("#errorPaterno").text('');
+        $("#errorPaterno").show();
+        $("#errorPaterno").append("Únicamente debe contener caracteres alfabéticos");
+        datosValidos = false;
+    }
+
+    if (validaSoloLetras(apMaterno) && apMaterno.length > 0) {
+        $("#maternoDiv").addClass("has-error");
+        $("#errorMaterno").text('');
+        $("#errorMaterno").show();
+        $("#errorMaterno").append("Únicamente debe contener caracteres alfabéticos");
+        datosValidos = false;
+    }
+
+
+    if (emergencia.length != 10 && emergencia.length > 0) {
+        $("#emergenciaDiv").addClass("has-error");
+        $("#errorEmergencia").text('');
+        $("#errorEmergencia").show();
+        $("#errorEmergencia").append("Debe contener 10 dígitos");
+        datosValidos = false;
+    }
+
+    if (validaSoloNumeros(emergencia) && emergencia.length > 0) {
+        $("#emergenciaDiv").addClass("has-error");
+        $("#errorEmergencia").text('');
+        $("#errorEmergencia").show();
+        $("#errorEmergencia").append("Únicamente debe contener caracteres numéricos");
+        datosValidos = false;
+    }
+
+    if (inmueble == "Selecciona") {
+        $("#inmuebleDiv").parent("div.form-group").addClass("has-error");
+        $("#errorInmueble").text('');
+        $("#errorInmueble").show();
+        $("#errorInmueble").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (ur == "Selecciona") {
+        $("#urDiv").parent("div.form-group").addClass("has-error");
+        $("#errorUr").text('');
+        $("#errorUr").show();
+        $("#errorUr").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (cuadrante == "Selecciona") {
+        $("#cuadranteDiv").parent("div.form-group").addClass("has-error");
+        $("#errorCuadrante").text('');
+        $("#errorCuadrante").show();
+        $("#errorCuadrante").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (tipoSangre == "Selecciona") {
+        $("#sangreDiv").parent("div.form-group").addClass("has-error");
+        $("#errortipoSangre").text('');
+        $("#errortipoSangre").show();
+        $("#errortipoSangre").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    return datosValidos;
+}
+
+function reloadPageAfterLoadFile() {
+    console.log("BOTON DE CARGA");
+    var doc = document.getElementById("cargaArchivo").value;
+    if (validaDatos()) {
+        if (doc) {
+            var jpgType = doc.search(".jpg");
+            var jpegType = doc.search(".jpeg");
+            if (jpgType != -1 || jpegType != -1) {
+                $('#myModal').modal('show');
+                document.forms["formCarga"].submit();
+            }
+            else {
+                $('#myModal').modal('show');
+                $("#myModal .modal-body").text('Tipo de archivo invalido');
+            }
+        }
+        else {
+            console.log("SELECIONE UN ARCHIVO");
+            $('#myModal').modal('show');
+            $("#myModal .modal-body").text('Seleccione un archivo');
+        }
+    }
+    document.getElementById("cargaArchivo").value = "";
+    //$('#myModal1').modal();
+    //$('#myModal2').modal();
+    //$('#myModal3').modal();
+}
+
+function validaSoloLetras(data) {
+    var re = /((^[A-Za-z\\s\u00f1\u00d1.,\\-_\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00e4\u00eb\u00ef\u00f6\u00fc\u00c4\u00cb\u00cf\u00d6\u00dc]?)|(^[A-Z a-z\\s\u00f1\u00d1.,\\-_\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00e4\u00eb\u00ef\u00f6\u00fc\u00c4\u00cb\u00cf\u00d6\u00dc]+))([A-Za-z\\s\u00f1\u00d1.,\\-_\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\u00e4\u00eb\u00ef\u00f6\u00fc\u00c4\u00cb\u00cf\u00d6\u00dc]$)/;
+    if (data.match(re))  //Coincide con el formato general?
+        return false;
+    else
+        return true; //Validado
+}
+
+function validaCurp(curp) {
+    var re = /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
+    validado = curp.match(re);
+    console.log("VALIDANDO CURP " + validado);
+    if (curp.match(re))  //Coincide con el formato general?
+        return false;
+    else
+        return true; //Validado
+}
+
+function validaSoloNumeros(data) {
+    var re = /^[0-9]+$/;
+    if (data.match(re))  //Coincide con el formato general?
+        return false;
+    else
+        return true; //Validado
+}
+
+function readFile(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            var filePreview = document.createElement('img');
+            filePreview.id = 'file-preview';
+            //e.target.result contents the base64 data from the image uploaded
+            filePreview.src = e.target.result;
+
+            var previewZone = document.getElementById('file-preview-zone');
+            previewZone.appendChild(filePreview);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var fileUpload = document.getElementById('cargaArchivo');
+fileUpload.onchange = function (e) {
+    readFile(e.srcElement);
+}
+
+function limpiar() {
+    document.getElementById("formCarga").reset();
+}
+
+function cerrar() {
+
+    window.close();
+}
+
+function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+    }
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);

@@ -1,0 +1,64 @@
+<%@ tag language="java" pageEncoding="UTF-8"%>
+
+<style>
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -1px;
+}
+</style>
+<div class="row">
+	<nav class="navbar navbar-inverse sub-navbar navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#subenlaces">
+					<span class="sr-only">Interruptor de Navegación</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+
+				<a class="navbar-brand" href="${pageContext.request.contextPath}">LEEN</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="subenlaces">
+				<ul class="nav navbar-nav navbar-right" id="ulMenu">
+				</ul>
+                            <ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="${pageContext.request.contextPath}/mvc/PlanTrabajo/PlanTrabajo" role="button" aria-expanded="false">Diagnóstico/Plan de trabajo del comité</a> 
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Integrantes del comité<span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="${pageContext.request.contextPath}/mvc/integrantes/presidente">Presidente</a></li>
+									<li><a href="${pageContext.request.contextPath}/mvc/integrantes/tesorera">Tesorera</a></li>
+									<li><a href="${pageContext.request.contextPath}/mvc/integrantes/secretario">Secretario</a></li>
+									<li><a href="${pageContext.request.contextPath}/mvc/integrantes/vocal1">Vocal 1</a></li>
+									<li><a href="${pageContext.request.contextPath}/mvc/integrantes/vocal2">Vocal 2</a></li>
+									<li><a href="${pageContext.request.contextPath}/mvc/integrantes/estudiante">Estudiante</a></li>
+								</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="acta.html" role="button" aria-expanded="false">Acta del comité</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+								   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+									   Inicio</a>
+							</li>
+					</ul>
+			</div>
+		</div>
+	</nav>
+</div>
+

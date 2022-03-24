@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses027OperacionEquiposMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses027OperacionEquipos" >
+    <id column="ID_OPERACION_EQUIPOS" property="idOperacionEquipos" jdbcType="DECIMAL" />
+    <result column="ID_USUARIO" property="idUsuario" jdbcType="DECIMAL" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="ID_EQUIPO" property="idEquipo" jdbcType="DECIMAL" />
+    <result column="ID_EQUIPO_VIS" property="idEquipoVis" jdbcType="DECIMAL" />
+    <result column="FECHA_OPERACION" property="fechaOperacion" jdbcType="TIMESTAMP" />
+    <result column="ENTRADA_SALIDA" property="entradaSalida" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_OPERACION_EQUIPOS, ID_USUARIO, ID_INMUEBLE, ID_EQUIPO, ID_EQUIPO_VIS, FECHA_OPERACION, 
+    ENTRADA_SALIDA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquiposExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES027_OPERACION_EQUIPOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES027_OPERACION_EQUIPOS
+    where ID_OPERACION_EQUIPOS = #{idOperacionEquipos,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TSES027_OPERACION_EQUIPOS
+    where ID_OPERACION_EQUIPOS = #{idOperacionEquipos,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquiposExample" >
+    delete from TSES027_OPERACION_EQUIPOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquipos" >
+    insert into TSES027_OPERACION_EQUIPOS (ID_OPERACION_EQUIPOS, ID_USUARIO, ID_INMUEBLE, 
+      ID_EQUIPO, ID_EQUIPO_VIS, FECHA_OPERACION, 
+      ENTRADA_SALIDA)
+    values (#{idOperacionEquipos,jdbcType=DECIMAL}, #{idUsuario,jdbcType=DECIMAL}, #{idInmueble,jdbcType=DECIMAL}, 
+      #{idEquipo,jdbcType=DECIMAL}, #{idEquipoVis,jdbcType=DECIMAL}, #{fechaOperacion,jdbcType=TIMESTAMP}, 
+      #{entradaSalida,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquipos" >
+    insert into TSES027_OPERACION_EQUIPOS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idOperacionEquipos != null" >
+        ID_OPERACION_EQUIPOS,
+      </if>
+      <if test="idUsuario != null" >
+        ID_USUARIO,
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE,
+      </if>
+      <if test="idEquipo != null" >
+        ID_EQUIPO,
+      </if>
+      <if test="idEquipoVis != null" >
+        ID_EQUIPO_VIS,
+      </if>
+      <if test="fechaOperacion != null" >
+        FECHA_OPERACION,
+      </if>
+      <if test="entradaSalida != null" >
+        ENTRADA_SALIDA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idOperacionEquipos != null" >
+        #{idOperacionEquipos,jdbcType=DECIMAL},
+      </if>
+      <if test="idUsuario != null" >
+        #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idEquipo != null" >
+        #{idEquipo,jdbcType=DECIMAL},
+      </if>
+      <if test="idEquipoVis != null" >
+        #{idEquipoVis,jdbcType=DECIMAL},
+      </if>
+      <if test="fechaOperacion != null" >
+        #{fechaOperacion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entradaSalida != null" >
+        #{entradaSalida,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquiposExample" resultType="java.lang.Integer" >
+    select count(*) from TSES027_OPERACION_EQUIPOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES027_OPERACION_EQUIPOS
+    <set >
+      <if test="record.idOperacionEquipos != null" >
+        ID_OPERACION_EQUIPOS = #{record.idOperacionEquipos,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUsuario != null" >
+        ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idInmueble != null" >
+        ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idEquipo != null" >
+        ID_EQUIPO = #{record.idEquipo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idEquipoVis != null" >
+        ID_EQUIPO_VIS = #{record.idEquipoVis,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fechaOperacion != null" >
+        FECHA_OPERACION = #{record.fechaOperacion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.entradaSalida != null" >
+        ENTRADA_SALIDA = #{record.entradaSalida,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES027_OPERACION_EQUIPOS
+    set ID_OPERACION_EQUIPOS = #{record.idOperacionEquipos,jdbcType=DECIMAL},
+      ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      ID_EQUIPO = #{record.idEquipo,jdbcType=DECIMAL},
+      ID_EQUIPO_VIS = #{record.idEquipoVis,jdbcType=DECIMAL},
+      FECHA_OPERACION = #{record.fechaOperacion,jdbcType=TIMESTAMP},
+      ENTRADA_SALIDA = #{record.entradaSalida,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquipos" >
+    update TSES027_OPERACION_EQUIPOS
+    <set >
+      <if test="idUsuario != null" >
+        ID_USUARIO = #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idEquipo != null" >
+        ID_EQUIPO = #{idEquipo,jdbcType=DECIMAL},
+      </if>
+      <if test="idEquipoVis != null" >
+        ID_EQUIPO_VIS = #{idEquipoVis,jdbcType=DECIMAL},
+      </if>
+      <if test="fechaOperacion != null" >
+        FECHA_OPERACION = #{fechaOperacion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entradaSalida != null" >
+        ENTRADA_SALIDA = #{entradaSalida,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID_OPERACION_EQUIPOS = #{idOperacionEquipos,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses027OperacionEquipos" >
+    update TSES027_OPERACION_EQUIPOS
+    set ID_USUARIO = #{idUsuario,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      ID_EQUIPO = #{idEquipo,jdbcType=DECIMAL},
+      ID_EQUIPO_VIS = #{idEquipoVis,jdbcType=DECIMAL},
+      FECHA_OPERACION = #{fechaOperacion,jdbcType=TIMESTAMP},
+      ENTRADA_SALIDA = #{entradaSalida,jdbcType=DECIMAL}
+    where ID_OPERACION_EQUIPOS = #{idOperacionEquipos,jdbcType=DECIMAL}
+  </update>
+</mapper>

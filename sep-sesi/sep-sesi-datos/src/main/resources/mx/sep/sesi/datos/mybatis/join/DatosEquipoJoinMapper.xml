@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.join.DatosEquipoJoinMapper">
+
+    <resultMap id="resultMapDatosEquipoJoin" type="mx.sep.sesi.datos.vo.DatosEquipoVO" >
+        <result column="CURP" property="curp" jdbcType="VARCHAR" />
+        <result column="CORREO" property="correo" jdbcType="VARCHAR" />
+        <result column="NUM_SERIE" property="numSerie" jdbcType="VARCHAR" />
+        <result column="TIPOOPERACION" property="tipoOperacion" jdbcType="DECIMAL" />
+    
+    </resultMap>
+
+    <resultMap id="resultMapDatosEquipoUltima" type="mx.sep.sesi.modelo.Tses027OperacionEquipos" >
+        <result column="ID_OPERACION_EQUIPOS" property="idOperacionEquipos" jdbcType="DECIMAL" />
+        <result column="ID_USUARIO" property="idUsuario" jdbcType="DECIMAL" />
+        <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="ID_EQUIPO" property="idEquipo" jdbcType="DECIMAL" />
+        <result column="ID_EQUIPO_VIS" property="idEquipoVis" jdbcType="DECIMAL" />
+        <result column="FECHA_OPERACION" property="fechaOperacion" jdbcType="DATE" />
+        <result column="ENTRADA_SALIDA" property="entradaSalida" jdbcType="DECIMAL" />
+    
+    </resultMap>
+    
+    <select id="cunsultaDatosEquipo" resultMap="resultMapDatosEquipoJoin">
+        select a.curp, b.num_serie, a.correo
+        from tses004_personas a, tses024_equipos b
+        where a.id_persona = b.id_persona
+        
+        <if test="curp != null and curp != ''"  > 
+            AND a.curp = #{curp,jdbcType=VARCHAR}
+        </if> 
+       
+        <if test="numSerie != null and numSerie != ''"  > 
+            AND b.num_serie = #{numSerie,jdbcType=VARCHAR}
+        </if> 
+        
+    </select>
+    
+    <select id="consultaUltimaOperacion" resultMap="resultMapDatosEquipoUltima">
+        select * from tses027_operacion_equipos where id_equipo = #{idEquipo}  and id_inmueble = #{idInmueble}
+        and id_operacion_equipos = (select max(id_operacion_equipos) from tses027_operacion_equipos 
+        where id_equipo = #{idEquipo}  and id_inmueble = #{idInmueble})
+        
+    </select>
+
+</mapper>

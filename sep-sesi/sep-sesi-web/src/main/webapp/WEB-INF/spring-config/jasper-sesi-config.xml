@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <!-- Aqui se agregan las vistas que usarán los controllers para generar jasper reports. -->
+    <bean id="repCredencial"
+              class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/credencial.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">attachment; filename=credencial.pdf</prop>				
+            </props>
+        </property>
+    </bean>
+    <bean id="repCredencialTrabajadores"
+              class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/credencialTrabajador.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">attachment; filename=credencial.pdf</prop>				
+            </props>
+        </property>
+    </bean>
+    <bean id="repCredencialTrabajadoresPVC"
+              class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/credencialPvc1.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">attachment; filename=credencial.pdf</prop>				
+            </props>
+        </property>
+    </bean>
+    <bean id="repCredencialEtiqueta"
+              class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView">
+            <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/credencial5.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">attachment; filename=credencial.pdf</prop>				
+            </props>
+        </property>
+        
+    </bean>
+    <bean id="repEtiqueta"
+              class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/etiqueta.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">attachment; filename=etiqueta.pdf</prop>				
+            </props>
+        </property>
+    </bean>    
+    <bean id="repUsuarios"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/ReporteUsuarios.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">        
+                    attachment; filename=Reporte_Usuarios.xls
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="repUsuariosVisitante"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/ReporteUsuariosVisitante.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">        
+                    attachment; filename=Reporte_Usuarios.xls
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="repUsuariosPC"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/ReporteUsuariosPC.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">        
+                    attachment; filename=Reporte_Usuarios.xls
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="repControl"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/ReporteControl.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">        
+                    attachment; filename=Reporte_Control_Accesos.xls
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="repControlVisitante"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/ReporteControlVisitante.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">        
+                    attachment; filename=Reporte_Control_Accesos.xls
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="repEquipos"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView">
+        <property name="url" value="/WEB-INF/classes/mx/sep/sesi/reportes/ReporteEquipos.jasper"/>
+        <property name="reportDataKey" value="dataSourceKey"/>
+        <property name="headers">
+            <props>
+                <prop key="Content-Disposition">        
+                    attachment; filename=Reporte_Equipos.xls
+                </prop>
+            </props>
+        </property>
+    </bean>
+</beans>

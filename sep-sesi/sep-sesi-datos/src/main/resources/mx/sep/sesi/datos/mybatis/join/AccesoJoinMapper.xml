@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.sesi.dao.join.AccesoJoinMapper">
+   
+    <resultMap id="BaseResultMap" type="mx.sep.sesi.datos.vo.AccesoVO">
+        <id column="ID_ACCESO" property="idAcceso" jdbcType="DECIMAL" />
+        <id column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="DES_ACCESO" property="desAcceso" jdbcType="VARCHAR" />
+        <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+    </resultMap>  
+
+    <select id="obtenerCatAcceso"  resultMap="BaseResultMap" > 
+      select
+         TSES009.ID_INMUEBLE
+       , TSES009.DENOMINACION
+       , TSES013.ID_ACCESO
+       , TSES013.DES_ACCESO
+FROM
+        TSES009_INMUEBLES TSES009
+      , TSES013_ACCESOS TSES013
+WHERE
+        TSES009.ID_INMUEBLE = TSES013.ID_INMUEBLE
+         
+        <if test="idInmueble != null and idInmueble != ''"  > 
+            AND TSES009.ID_INMUEBLE = #{idInmueble}
+        </if>    
+         
+    </select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.sesi.dao.join.FirmantesJoinMapper">
+   
+    <resultMap id="BaseResultMap" type="mx.sep.sesi.datos.vo.FirmantesVO">
+        <id column="ID_FIRMANTE" property="idFirmante" jdbcType="DECIMAL" />
+        <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+        <result column="UNIDAD_RESPONSABLE" property="unidadResponsable" jdbcType="VARCHAR" />
+        <result column="NOMBRE_AUTORIZA" property="nombreAutoriza" jdbcType="VARCHAR" />
+        <result column="PUESTO_AUTORIZA" property="puestoAutoriza" jdbcType="VARCHAR" />  
+    </resultMap>  
+
+    <select id="obtenerCatUsuario"  resultMap="BaseResultMap" > 
+        SELECT 
+        TSES020.ID_FIRMANTE,
+        TSES006.ID_UR,
+        TSES006.UNIDAD_RESPONSABLE,
+        TSES020.NOMBRE_AUTORIZA,
+        TSES020.PUESTO_AUTORIZA
+        FROM
+        TSES020_FIRMANTES TSES020,
+        TSES006_UNIDAD_RESPONSABLE TSES006
+        WHERE
+        TSES006.ID_UR = TSES020.ID_UR   
+        
+        <if test="idUr != null and idUr != ''"  > 
+            AND TSES020.ID_UR = #{idUr}
+        </if> 
+         
+    </select>
+
+</mapper>

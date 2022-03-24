@@ -1,0 +1,60 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.servicios.impl;
+
+import java.util.Date;
+import java.util.List;
+import mx.sep.sesi.dao.join.TSES004PersonasJoinMapper;
+import mx.sep.sesi.modelo.join.TSES004PersonasJoin;
+import mx.sep.sesi.modelo.join.Tses011VisitanteJoin;
+import mx.sep.sesi.servicios.ConsultaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @author heriberto.perez
+ */
+@Service
+public class ConsultaServiceImpl implements ConsultaService{
+    
+    @Autowired
+    TSES004PersonasJoinMapper daoPersonasJoin;
+    
+    public List<TSES004PersonasJoin> obtenerPersonas(Integer idTipoPersona,Integer idUr,String curp,Integer idInmueble) {
+
+        List<TSES004PersonasJoin> listPersonas= daoPersonasJoin.consultaPersonas(idTipoPersona, idUr, curp, idInmueble);
+        return listPersonas;
+
+    }
+    
+    public List<TSES004PersonasJoin> obtenerPersonasPC(Integer idTipoPersona,Integer idUr,String curp,Integer idInmueble) {
+
+        List<TSES004PersonasJoin> listPersonas= daoPersonasJoin.consultaPersonasPC(idTipoPersona, idUr, curp, idInmueble);
+        return listPersonas;
+
+    }
+    
+    public List<Tses011VisitanteJoin> obtenerVisitantes(Integer idTipoPersona,Integer idUr,String curp,Integer idInmueble) {
+
+        List<Tses011VisitanteJoin> listAllVisitantes = daoPersonasJoin.consultaVisitantes(idTipoPersona, idUr, curp, idInmueble);
+        return listAllVisitantes;
+
+    }
+    
+    public List<TSES004PersonasJoin> consultaOperacion(Integer idOperacion,Integer idTipoPersona,Integer idUr,Integer idInmueble, Date fecha1,  Date fecha2) {
+        List<TSES004PersonasJoin> listPersonas= daoPersonasJoin.consultaOperacion(idOperacion,idTipoPersona, idUr, idInmueble, fecha1, fecha2);
+        return listPersonas;
+
+    }
+    
+    public List<Tses011VisitanteJoin> consultaOperacionVisitante(Integer idOperacion,Integer idTipoPersona,Integer idUr,Integer idInmueble, Date fecha1,  Date fecha2) {
+
+        List<Tses011VisitanteJoin> listPersonas= daoPersonasJoin.consultaOperacionVisitante(idOperacion,idTipoPersona, idUr, idInmueble, fecha1, fecha2);
+        return listPersonas;
+
+    }
+}

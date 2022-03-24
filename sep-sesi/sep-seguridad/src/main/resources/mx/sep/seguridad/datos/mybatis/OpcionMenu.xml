@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.seguridad.dao.OpcionMenuDao">
+
+	<resultMap type="OpcionMenu" id="resultOpcionMenu">
+		<id property="id" column="id_opcion"/>
+		<result property="opcion" column="opcion"/>
+		<result property="descripcion" column="descripcion"/>
+		<result property="url" column="url"/>
+		<collection property="opciones" column="id_opcion_padre" ofType="OpcionMenu"
+			resultMap="resultSubOpcionMenu"/>		
+	</resultMap>
+	
+	<resultMap type="OpcionMenu" id="resultSubOpcionMenu">
+		<id property="id" column="id_opcion_h"/>
+		<result property="opcion" column="opcion_h"/>
+		<result property="descripcion" column="descripcion_h"/>
+		<result property="url" column="url_h"/>			
+	</resultMap>	
+
+	<select id="consultarTodos" resultMap="resultOpcionMenu">
+		select * from TSES019_MENUS
+	</select>
+	
+	<select id="consultarOpcion" resultMap="resultOpcionMenu">
+		select * from TSES019_MENUS where id_opcion = #{id}
+	</select>
+	
+	<select id="consultarOpcionesHijas" resultMap="resultOpcionMenu">
+		select * from TSES019_MENUS
+		where id_opcion_padre = #{idPadre}	
+	</select>	
+	
+	<select id="consultarOpcionSubOpciones" resultMap="resultOpcionMenu">
+		select 
+		op_p.id_opcion,
+		op_p.descripcion,
+		op_p.opcion,
+		op_p.url,
+		op_h.id_opcion as id_opcion_h,
+		op_h.descripcion as descripcion_h,
+		op_h.opcion as opcion_h,
+		op_h.url as url_h
+		from TSES019_MENUS op_p
+		left join TSES019_MENUS op_h on op_p.id_opcion = op_h.id_opcion_padre
+		where op_p.id_opcion = #{idPadre}
+	</select>
+        
+        <select id="consultarOpcionSubOpcionesGranted" resultMap="resultOpcionMenu">
+		select 
+		op_p.id_opcion,
+		op_p.descripcion,
+		op_p.opcion,
+		op_p.url,
+		op_h.id_opcion as id_opcion_h,
+		op_h.descripcion as descripcion_h,
+		op_h.opcion as opcion_h,
+		op_h.url as url_h
+		from TSES019_MENUS op_p
+		left join TSES019_MENUS op_h on op_p.id_opcion = op_h.id_opcion_padre
+		left join acl_object_identity acl_oi on op_h.id_opcion = acl_oi.object_id_identity
+		left join acl_entry acl_e on acl_oi.id  = acl_e.acl_object_identity
+		left join tses003_rol_usuario tses003 on acl_e.sid  = tses003.id_rol_usuario
+		left join tses001_usuarios tses001 on tses003.id_usuario  = tses001.id_usuario
+		where op_p.id_opcion = #{idPadre,jdbcType=INTEGER}
+		  and tses001.nombre_usu = #{userName,jdbcType=VARCHAR}
+	</select>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.sesi.dao.join.InmueblesJoinMapper">
+	
+    <resultMap id="BaseResultMap" type="mx.sep.sesi.datos.vo.InmuebleVO">  
+        <id column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="ID_COLONIA" property="idColonia" jdbcType="DECIMAL" />
+        <result column="COLONIA" property="colonia" jdbcType="VARCHAR" />
+        <result column="ID_ALCALDIA_MUN" property="idAlcaldiaMun" jdbcType="DECIMAL" />
+        <result column="ALCALDIA_MUN" property="alcaldiaMun" jdbcType="VARCHAR" />
+        <result column="ID_ENTIDAD" property="idEntidad" jdbcType="DECIMAL" />
+        <result column="ENTIDAD" property="entidad" jdbcType="VARCHAR" />
+        <result column="CLAVE_INMUEBLE" property="claveInmueble" jdbcType="VARCHAR" />
+        <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+        <result column="CALLE" property="calle" jdbcType="VARCHAR" />
+        <result column="NUMERO" property="numero" jdbcType="VARCHAR" />
+        <result column="CP" property="cp" jdbcType="VARCHAR" />
+        <result column="NUM_ACCESOS" property="numAccesos" jdbcType="DECIMAL" />
+        <result column="ESTATUS" property="estatus" jdbcType="DECIMAL" />      
+    </resultMap>
+    
+    <select id="obtenerCatInmueble"  resultMap="BaseResultMap">
+        SELECT 
+        TSES009.ID_INMUEBLE
+        , TSES009.ID_COLONIA
+        , TSES014.COLONIA
+        , TSES009.ID_ALCALDIA_MUN
+        , TSES015.ALCALDIA_MUN
+        , TSES009.ID_ENTIDAD
+        , TSES016.ENTIDAD
+        , TSES009.CLAVE_INMUEBLE
+        , TSES009.DENOMINACION
+        , TSES009.CALLE
+        , TSES009.NUMERO
+        , TSES009.CP
+        , TSES009.NUM_ACCESOS
+        , TSES009.ESTATUS
+        FROM TSES009_INMUEBLES TSES009
+        INNER JOIN TSES014_COLONIA TSES014
+        ON TSES009.ID_COLONIA = TSES014.ID_COLONIA        
+        INNER JOIN TSES015_ALCALDIA_MUN TSES015
+        ON TSES009.ID_ALCALDIA_MUN = TSES015.ID_ALCALDIA_MUN
+        INNER JOIN TSES016_ENTIDAD TSES016
+        ON TSES009.ID_ENTIDAD = TSES016.ID_ENTIDAD    
+        <if test="idInmueble != null and idInmueble != ''"  > 
+            AND TSES009.ID_INMUEBLE = #{idInmueble}
+        </if>    
+            
+    </select>
+    
+</mapper>

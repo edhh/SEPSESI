@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiqueta" columnCount="2" printOrder="Horizontal" pageWidth="612" pageHeight="792" columnWidth="275" columnSpacing="34" leftMargin="18" rightMargin="10" topMargin="8" bottomMargin="0" uuid="ba5802a3-b79b-4bbb-a31b-31eb9a3c33f9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.apache.commons.lang.ArrayUtils"/>
+	<parameter name="REAL_PATH" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\jose.hernandezb\\Documents\\ProyectosNB\\profesiones\\ValidacionElectronica\\ValidacionElectronicaWeb\\WebContent"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PATH_WEB" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/ProyectosCVS/SESI/sep-sesi/sep-sesi-web/src/main/webapp/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCriterio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["49,10,45,48,23"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idInmueble" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT a.id_etiqueta as etiqueta, a.id_inmueble as idInmueble, b.denominacion as inmueble
+from tses018_etiquetas a, tses009_inmuebles b where a.id_inmueble = b.id_inmueble
+and a.id_etiqueta IN ( $P!{pCriterio} )
+and a.id_inmueble = $P{idInmueble}]]>
+	</queryString>
+	<field name="INMUEBLE" class="java.lang.String"/>
+	<field name="ETIQUETA" class="java.math.BigDecimal"/>
+	<field name="IdInmueble" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="144">
+			<image scaleImage="FillFrame">
+				<reportElement uuid="8886e21a-8309-437c-90e0-0576baf18152" x="2" y="41" width="274" height="103" forecolor="#999999"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_cafe.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement uuid="d6aba88e-0205-40a4-a2f6-1b52e0900cfd" x="2" y="1" width="274" height="143" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="cffaf88b-4d6e-4c22-970b-d48fa3de665b" x="1" y="1" width="275" height="40"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_vino.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="97822af3-b0e4-4b5d-a61a-00594690edfa" x="68" y="7" width="140" height="29"/>
+				<box leftPadding="0"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/EDUCACION_horizontal_blanco.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="6d48088e-bcc3-4dab-b58e-0aa99869bb85" x="1" y="41" width="275" height="103" forecolor="#999999"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_cafe.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="c44ddf42-f108-48e1-a551-290625048022" x="13" y="48" width="80" height="65"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+    new com.google.zxing.qrcode.QRCodeWriter().encode(
+            ($F{ETIQUETA}.longValue() < 10 ? "000000"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble}:
+                $F{ETIQUETA}.longValue() < 100 ? "00000"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble}:
+                $F{ETIQUETA}.longValue() < 1000 ? "0000"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble}:
+                $F{ETIQUETA}.longValue() < 10000 ? "000"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble}:
+                $F{ETIQUETA}.longValue() < 100000 ? "00"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble}:
+                $F{ETIQUETA}.longValue() < 1000000 ? "0"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble}:
+                $F{ETIQUETA}+"-"+$F{ETIQUETA}+"-3"+"-"+$F{IdInmueble} ), com.google.zxing.BarcodeFormat.QR_CODE, 200, 200));]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="62aaa1a3-b9e8-4f35-aef2-b4b6366b275a" x="96" y="117" width="73" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VISITANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c72756f4-a6b8-47bb-97c1-32f96b2ab260" x="100" y="48" width="81" height="16"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Número de etiqueta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e9965ae-e8f3-4b54-8edd-0e6d99a9683a" x="139" y="67" width="88" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Inmueble]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="fda4d823-0965-4813-81f4-85954b754ef2" x="100" y="83" width="170" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INMUEBLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="06376cde-e516-4157-8a7a-00029bcdf7a0" x="184" y="48" width="86" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ETIQUETA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

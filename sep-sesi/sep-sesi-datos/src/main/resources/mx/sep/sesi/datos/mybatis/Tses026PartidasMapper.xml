@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses026PartidasMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses026Partidas" >
+    <id column="ID_PARTIDA" property="idPartida" jdbcType="DECIMAL" />
+    <result column="PRODUCTO" property="producto" jdbcType="VARCHAR" />
+    <result column="MARCA" property="marca" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_PARTIDA, PRODUCTO, MARCA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses026PartidasExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES026_PARTIDAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES026_PARTIDAS
+    where ID_PARTIDA = #{idPartida,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TSES026_PARTIDAS
+    where ID_PARTIDA = #{idPartida,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses026PartidasExample" >
+    delete from TSES026_PARTIDAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses026Partidas" >
+    insert into TSES026_PARTIDAS (ID_PARTIDA, PRODUCTO, MARCA
+      )
+    values (#{idPartida,jdbcType=DECIMAL}, #{producto,jdbcType=VARCHAR}, #{marca,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses026Partidas" >
+    insert into TSES026_PARTIDAS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idPartida != null" >
+        ID_PARTIDA,
+      </if>
+      <if test="producto != null" >
+        PRODUCTO,
+      </if>
+      <if test="marca != null" >
+        MARCA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idPartida != null" >
+        #{idPartida,jdbcType=DECIMAL},
+      </if>
+      <if test="producto != null" >
+        #{producto,jdbcType=VARCHAR},
+      </if>
+      <if test="marca != null" >
+        #{marca,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses026PartidasExample" resultType="java.lang.Integer" >
+    select count(*) from TSES026_PARTIDAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES026_PARTIDAS
+    <set >
+      <if test="record.idPartida != null" >
+        ID_PARTIDA = #{record.idPartida,jdbcType=DECIMAL},
+      </if>
+      <if test="record.producto != null" >
+        PRODUCTO = #{record.producto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marca != null" >
+        MARCA = #{record.marca,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES026_PARTIDAS
+    set ID_PARTIDA = #{record.idPartida,jdbcType=DECIMAL},
+      PRODUCTO = #{record.producto,jdbcType=VARCHAR},
+      MARCA = #{record.marca,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses026Partidas" >
+    update TSES026_PARTIDAS
+    <set >
+      <if test="producto != null" >
+        PRODUCTO = #{producto,jdbcType=VARCHAR},
+      </if>
+      <if test="marca != null" >
+        MARCA = #{marca,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_PARTIDA = #{idPartida,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses026Partidas" >
+    update TSES026_PARTIDAS
+    set PRODUCTO = #{producto,jdbcType=VARCHAR},
+      MARCA = #{marca,jdbcType=VARCHAR}
+    where ID_PARTIDA = #{idPartida,jdbcType=DECIMAL}
+  </update>
+</mapper>

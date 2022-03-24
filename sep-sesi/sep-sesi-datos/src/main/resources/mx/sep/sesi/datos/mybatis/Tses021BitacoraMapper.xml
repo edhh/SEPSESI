@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses021BitacoraMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses021Bitacora" >
+    <id column="ID_BITACORA" property="idBitacora" jdbcType="DECIMAL" />
+    <result column="ID_USUARIO" property="idUsuario" jdbcType="DECIMAL" />
+    <result column="ID_TRAD_SERVICIO" property="idTradServicio" jdbcType="DECIMAL" />
+    <result column="PROCESO" property="proceso" jdbcType="VARCHAR" />
+    <result column="DESCRIPCION" property="descripcion" jdbcType="VARCHAR" />
+    <result column="DETALLE" property="detalle" jdbcType="VARCHAR" />
+    <result column="FECHA_OPERACION" property="fechaOperacion" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_BITACORA, ID_USUARIO, ID_TRAD_SERVICIO, PROCESO, DESCRIPCION, DETALLE, FECHA_OPERACION
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses021BitacoraExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES021_BITACORA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES021_BITACORA
+    where ID_BITACORA = #{idBitacora,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TSES021_BITACORA
+    where ID_BITACORA = #{idBitacora,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses021BitacoraExample" >
+    delete from TSES021_BITACORA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses021Bitacora" >
+    insert into TSES021_BITACORA (ID_BITACORA, ID_USUARIO, ID_TRAD_SERVICIO, 
+      PROCESO, DESCRIPCION, DETALLE, 
+      FECHA_OPERACION)
+    values (#{idBitacora,jdbcType=DECIMAL}, #{idUsuario,jdbcType=DECIMAL}, #{idTradServicio,jdbcType=DECIMAL}, 
+      #{proceso,jdbcType=VARCHAR}, #{descripcion,jdbcType=VARCHAR}, #{detalle,jdbcType=VARCHAR}, 
+      #{fechaOperacion,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses021Bitacora" >
+    insert into TSES021_BITACORA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idBitacora != null" >
+        ID_BITACORA,
+      </if>
+      <if test="idUsuario != null" >
+        ID_USUARIO,
+      </if>
+      <if test="idTradServicio != null" >
+        ID_TRAD_SERVICIO,
+      </if>
+      <if test="proceso != null" >
+        PROCESO,
+      </if>
+      <if test="descripcion != null" >
+        DESCRIPCION,
+      </if>
+      <if test="detalle != null" >
+        DETALLE,
+      </if>
+      <if test="fechaOperacion != null" >
+        FECHA_OPERACION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idBitacora != null" >
+        #{idBitacora,jdbcType=DECIMAL},
+      </if>
+      <if test="idUsuario != null" >
+        #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idTradServicio != null" >
+        #{idTradServicio,jdbcType=DECIMAL},
+      </if>
+      <if test="proceso != null" >
+        #{proceso,jdbcType=VARCHAR},
+      </if>
+      <if test="descripcion != null" >
+        #{descripcion,jdbcType=VARCHAR},
+      </if>
+      <if test="detalle != null" >
+        #{detalle,jdbcType=VARCHAR},
+      </if>
+      <if test="fechaOperacion != null" >
+        #{fechaOperacion,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses021BitacoraExample" resultType="java.lang.Integer" >
+    select count(*) from TSES021_BITACORA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES021_BITACORA
+    <set >
+      <if test="record.idBitacora != null" >
+        ID_BITACORA = #{record.idBitacora,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUsuario != null" >
+        ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idTradServicio != null" >
+        ID_TRAD_SERVICIO = #{record.idTradServicio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.proceso != null" >
+        PROCESO = #{record.proceso,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descripcion != null" >
+        DESCRIPCION = #{record.descripcion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detalle != null" >
+        DETALLE = #{record.detalle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fechaOperacion != null" >
+        FECHA_OPERACION = #{record.fechaOperacion,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES021_BITACORA
+    set ID_BITACORA = #{record.idBitacora,jdbcType=DECIMAL},
+      ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      ID_TRAD_SERVICIO = #{record.idTradServicio,jdbcType=DECIMAL},
+      PROCESO = #{record.proceso,jdbcType=VARCHAR},
+      DESCRIPCION = #{record.descripcion,jdbcType=VARCHAR},
+      DETALLE = #{record.detalle,jdbcType=VARCHAR},
+      FECHA_OPERACION = #{record.fechaOperacion,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses021Bitacora" >
+    update TSES021_BITACORA
+    <set >
+      <if test="idUsuario != null" >
+        ID_USUARIO = #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idTradServicio != null" >
+        ID_TRAD_SERVICIO = #{idTradServicio,jdbcType=DECIMAL},
+      </if>
+      <if test="proceso != null" >
+        PROCESO = #{proceso,jdbcType=VARCHAR},
+      </if>
+      <if test="descripcion != null" >
+        DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      </if>
+      <if test="detalle != null" >
+        DETALLE = #{detalle,jdbcType=VARCHAR},
+      </if>
+      <if test="fechaOperacion != null" >
+        FECHA_OPERACION = #{fechaOperacion,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID_BITACORA = #{idBitacora,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses021Bitacora" >
+    update TSES021_BITACORA
+    set ID_USUARIO = #{idUsuario,jdbcType=DECIMAL},
+      ID_TRAD_SERVICIO = #{idTradServicio,jdbcType=DECIMAL},
+      PROCESO = #{proceso,jdbcType=VARCHAR},
+      DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+      DETALLE = #{detalle,jdbcType=VARCHAR},
+      FECHA_OPERACION = #{fechaOperacion,jdbcType=TIMESTAMP}
+    where ID_BITACORA = #{idBitacora,jdbcType=DECIMAL}
+  </update>
+</mapper>

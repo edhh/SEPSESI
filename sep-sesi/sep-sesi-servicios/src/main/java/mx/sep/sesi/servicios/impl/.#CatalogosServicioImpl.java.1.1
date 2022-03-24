@@ -1,0 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.servicios.impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import mx.sep.sesi.modelo.Tses009Inmuebles;
+import mx.sep.sesi.dao.Tses009InmueblesMapper;
+import mx.sep.sesi.dao.Tses006UnidadResponsableMapper;
+import mx.sep.sesi.dao.Tses007TipoSangreMapper;
+import mx.sep.sesi.dao.Tses008AlergiasMapper;
+import mx.sep.sesi.dao.Tses010CuadranteAreaMapper;
+import mx.sep.sesi.dao.Tses018EnfermedadMapper;
+import mx.sep.sesi.modelo.Tses006UnidadResponsable;
+import mx.sep.sesi.modelo.Tses006UnidadResponsableExample;
+import mx.sep.sesi.modelo.Tses009InmueblesExample;
+import mx.sep.sesi.modelo.Tses007TipoSangre;
+import mx.sep.sesi.modelo.Tses007TipoSangreExample;
+import mx.sep.sesi.modelo.Tses008Alergias;
+import mx.sep.sesi.modelo.Tses008AlergiasExample;
+import mx.sep.sesi.modelo.Tses010CuadranteArea;
+import mx.sep.sesi.modelo.Tses010CuadranteAreaExample;
+import mx.sep.sesi.modelo.Tses018Enfermedad;
+import mx.sep.sesi.modelo.Tses018EnfermedadExample;
+import mx.sep.sesi.servicios.CatalogosServicio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @author heriberto.perez
+ */
+@Service
+public class CatalogosServicioImpl implements CatalogosServicio{
+    
+    @Autowired
+    private Tses009InmueblesMapper tses009InmueblesMapper;
+    
+    @Autowired
+    private Tses006UnidadResponsableMapper tses006UnidadResponsableMapper;
+    
+    @Autowired
+    private Tses007TipoSangreMapper tses007TipoSangreMapper;
+    
+    @Autowired
+    private Tses008AlergiasMapper tses008AlergiasMapper;
+    
+    @Autowired
+    private Tses010CuadranteAreaMapper tses010CuadranteAreaMapper;
+    
+    @Autowired
+    private Tses018EnfermedadMapper tses018EnfermedadMapper;
+    
+  
+    public List<Tses009Inmuebles> obtenerInmueble(){
+        List<Tses009Inmuebles> tses009Inmuebles = new ArrayList<Tses009Inmuebles>();
+        Tses009InmueblesExample tses009InmueblesExample = new Tses009InmueblesExample();
+        tses009Inmuebles = tses009InmueblesMapper.selectByExample(tses009InmueblesExample);
+        return tses009Inmuebles;
+    }
+    
+    public List<Tses006UnidadResponsable> obtenerUR(){
+        List<Tses006UnidadResponsable> tses006UnidadResponsable = new ArrayList<Tses006UnidadResponsable>();
+        Tses006UnidadResponsableExample tses006UnidadResponsableExample = new Tses006UnidadResponsableExample();
+        tses006UnidadResponsable = tses006UnidadResponsableMapper.selectByExample(tses006UnidadResponsableExample);
+        return tses006UnidadResponsable;
+    }
+    
+    public List<Tses007TipoSangre> obtenertipoSangre(){
+        List<Tses007TipoSangre> tses007TipoSangre = new ArrayList<Tses007TipoSangre>();
+        Tses007TipoSangreExample tses007TipoSangreExample = new Tses007TipoSangreExample();
+        tses007TipoSangre = tses007TipoSangreMapper.selectByExample(tses007TipoSangreExample);
+        return tses007TipoSangre;
+    }
+    
+    public List<Tses008Alergias> obtenerAlergias(){
+        List<Tses008Alergias> tses008Alergias = new ArrayList<Tses008Alergias>();
+        Tses008AlergiasExample tes008AlergiasExample = new Tses008AlergiasExample();
+        tses008Alergias = tses008AlergiasMapper.selectByExample(tes008AlergiasExample);
+        return tses008Alergias;
+    }
+    
+    public List<Tses010CuadranteArea> obtenerCuadrante(Short idInmueble){
+        List<Tses010CuadranteArea> tses010CuadranteArea = new ArrayList<Tses010CuadranteArea>();
+        Tses010CuadranteAreaExample tses010CuadranteAreaExample = new Tses010CuadranteAreaExample();
+        tses010CuadranteAreaExample.createCriteria().andIdInmuebleEqualTo(new BigDecimal (idInmueble));
+        tses010CuadranteArea = tses010CuadranteAreaMapper.selectByExample(tses010CuadranteAreaExample);
+        return tses010CuadranteArea;
+    }
+    
+    public List<Tses018Enfermedad> obtenerEnfermedad(){
+        List<Tses018Enfermedad> tses018Enfermedad = new ArrayList<Tses018Enfermedad>();
+        Tses018EnfermedadExample tses018EnfermedadExample = new Tses018EnfermedadExample();
+        tses018Enfermedad = tses018EnfermedadMapper.selectByExample(tses018EnfermedadExample);
+        return tses018Enfermedad;
+    }
+            
+}

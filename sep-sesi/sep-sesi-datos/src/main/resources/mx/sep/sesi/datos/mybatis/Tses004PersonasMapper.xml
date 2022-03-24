@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses004PersonasMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses004Personas" >
+    <id column="ID_PERSONA" property="idPersona" jdbcType="DECIMAL" />
+    <result column="ID_TIPO_PERSONA" property="idTipoPersona" jdbcType="DECIMAL" />
+    <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="ID_TIPO_SANGRE" property="idTipoSangre" jdbcType="DECIMAL" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="ID_CUADRANTE_AREA" property="idCuadranteArea" jdbcType="DECIMAL" />
+    <result column="CURP" property="curp" jdbcType="VARCHAR" />
+    <result column="APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+    <result column="APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+    <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="PUESTO" property="puesto" jdbcType="VARCHAR" />
+    <result column="ALERGIAS" property="alergias" jdbcType="VARCHAR" />
+    <result column="TEL_EMERGENCIA" property="telEmergencia" jdbcType="VARCHAR" />
+    <result column="ENFERMEDAD" property="enfermedad" jdbcType="VARCHAR" />
+    <result column="FECHA_ACTUALIZACION" property="fechaActualizacion" jdbcType="TIMESTAMP" />
+    <result column="ESTATUS" property="estatus" jdbcType="DECIMAL" />
+    <result column="CORREO" property="correo" jdbcType="VARCHAR" />
+    <result column="RFC" property="rfc" jdbcType="VARCHAR" />
+    <result column="ID_AREA" property="idArea" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="mx.sep.sesi.modelo.Tses004Personas" extends="BaseResultMap" >
+    <result column="FOTOGRAFIA" property="fotografia" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_PERSONA, ID_TIPO_PERSONA, ID_UR, ID_TIPO_SANGRE, ID_INMUEBLE, ID_CUADRANTE_AREA, 
+    CURP, APELLIDO1, APELLIDO2, NOMBRE, PUESTO, ALERGIAS, TEL_EMERGENCIA, ENFERMEDAD, 
+    FECHA_ACTUALIZACION, ESTATUS, CORREO, RFC, ID_AREA
+  </sql>
+  <sql id="Blob_Column_List" >
+    FOTOGRAFIA
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="mx.sep.sesi.modelo.Tses004PersonasExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TSES004_PERSONAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses004PersonasExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES004_PERSONAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TSES004_PERSONAS
+    where ID_PERSONA = #{idPersona,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES004_PERSONAS
+    where ID_PERSONA = #{idPersona,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses004PersonasExample" >
+    delete from TSES004_PERSONAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses004Personas" >
+    insert into TSES004_PERSONAS (ID_PERSONA, ID_TIPO_PERSONA, ID_UR, 
+      ID_TIPO_SANGRE, ID_INMUEBLE, ID_CUADRANTE_AREA, 
+      CURP, APELLIDO1, APELLIDO2, 
+      NOMBRE, PUESTO, ALERGIAS, 
+      TEL_EMERGENCIA, ENFERMEDAD, FECHA_ACTUALIZACION, 
+      ESTATUS, CORREO, RFC, 
+      ID_AREA, FOTOGRAFIA)
+    values (#{idPersona,jdbcType=DECIMAL}, #{idTipoPersona,jdbcType=DECIMAL}, #{idUr,jdbcType=DECIMAL}, 
+      #{idTipoSangre,jdbcType=DECIMAL}, #{idInmueble,jdbcType=DECIMAL}, #{idCuadranteArea,jdbcType=DECIMAL}, 
+      #{curp,jdbcType=VARCHAR}, #{apellido1,jdbcType=VARCHAR}, #{apellido2,jdbcType=VARCHAR}, 
+      #{nombre,jdbcType=VARCHAR}, #{puesto,jdbcType=VARCHAR}, #{alergias,jdbcType=VARCHAR}, 
+      #{telEmergencia,jdbcType=VARCHAR}, #{enfermedad,jdbcType=VARCHAR}, #{fechaActualizacion,jdbcType=TIMESTAMP}, 
+      #{estatus,jdbcType=DECIMAL}, #{correo,jdbcType=VARCHAR}, #{rfc,jdbcType=VARCHAR}, 
+      #{idArea,jdbcType=DECIMAL}, #{fotografia,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses004Personas" >
+    insert into TSES004_PERSONAS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idPersona != null" >
+        ID_PERSONA,
+      </if>
+      <if test="idTipoPersona != null" >
+        ID_TIPO_PERSONA,
+      </if>
+      <if test="idUr != null" >
+        ID_UR,
+      </if>
+      <if test="idTipoSangre != null" >
+        ID_TIPO_SANGRE,
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE,
+      </if>
+      <if test="idCuadranteArea != null" >
+        ID_CUADRANTE_AREA,
+      </if>
+      <if test="curp != null" >
+        CURP,
+      </if>
+      <if test="apellido1 != null" >
+        APELLIDO1,
+      </if>
+      <if test="apellido2 != null" >
+        APELLIDO2,
+      </if>
+      <if test="nombre != null" >
+        NOMBRE,
+      </if>
+      <if test="puesto != null" >
+        PUESTO,
+      </if>
+      <if test="alergias != null" >
+        ALERGIAS,
+      </if>
+      <if test="telEmergencia != null" >
+        TEL_EMERGENCIA,
+      </if>
+      <if test="enfermedad != null" >
+        ENFERMEDAD,
+      </if>
+      <if test="fechaActualizacion != null" >
+        FECHA_ACTUALIZACION,
+      </if>
+      <if test="estatus != null" >
+        ESTATUS,
+      </if>
+      <if test="correo != null" >
+        CORREO,
+      </if>
+      <if test="rfc != null" >
+        RFC,
+      </if>
+      <if test="idArea != null" >
+        ID_AREA,
+      </if>
+      <if test="fotografia != null" >
+        FOTOGRAFIA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idPersona != null" >
+        #{idPersona,jdbcType=DECIMAL},
+      </if>
+      <if test="idTipoPersona != null" >
+        #{idTipoPersona,jdbcType=DECIMAL},
+      </if>
+      <if test="idUr != null" >
+        #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="idTipoSangre != null" >
+        #{idTipoSangre,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idCuadranteArea != null" >
+        #{idCuadranteArea,jdbcType=DECIMAL},
+      </if>
+      <if test="curp != null" >
+        #{curp,jdbcType=VARCHAR},
+      </if>
+      <if test="apellido1 != null" >
+        #{apellido1,jdbcType=VARCHAR},
+      </if>
+      <if test="apellido2 != null" >
+        #{apellido2,jdbcType=VARCHAR},
+      </if>
+      <if test="nombre != null" >
+        #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="puesto != null" >
+        #{puesto,jdbcType=VARCHAR},
+      </if>
+      <if test="alergias != null" >
+        #{alergias,jdbcType=VARCHAR},
+      </if>
+      <if test="telEmergencia != null" >
+        #{telEmergencia,jdbcType=VARCHAR},
+      </if>
+      <if test="enfermedad != null" >
+        #{enfermedad,jdbcType=VARCHAR},
+      </if>
+      <if test="fechaActualizacion != null" >
+        #{fechaActualizacion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estatus != null" >
+        #{estatus,jdbcType=DECIMAL},
+      </if>
+      <if test="correo != null" >
+        #{correo,jdbcType=VARCHAR},
+      </if>
+      <if test="rfc != null" >
+        #{rfc,jdbcType=VARCHAR},
+      </if>
+      <if test="idArea != null" >
+        #{idArea,jdbcType=DECIMAL},
+      </if>
+      <if test="fotografia != null" >
+        #{fotografia,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses004PersonasExample" resultType="java.lang.Integer" >
+    select count(*) from TSES004_PERSONAS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES004_PERSONAS
+    <set >
+      <if test="record.idPersona != null" >
+        ID_PERSONA = #{record.idPersona,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idTipoPersona != null" >
+        ID_TIPO_PERSONA = #{record.idTipoPersona,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUr != null" >
+        ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idTipoSangre != null" >
+        ID_TIPO_SANGRE = #{record.idTipoSangre,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idInmueble != null" >
+        ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idCuadranteArea != null" >
+        ID_CUADRANTE_AREA = #{record.idCuadranteArea,jdbcType=DECIMAL},
+      </if>
+      <if test="record.curp != null" >
+        CURP = #{record.curp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.apellido1 != null" >
+        APELLIDO1 = #{record.apellido1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.apellido2 != null" >
+        APELLIDO2 = #{record.apellido2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nombre != null" >
+        NOMBRE = #{record.nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.puesto != null" >
+        PUESTO = #{record.puesto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alergias != null" >
+        ALERGIAS = #{record.alergias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telEmergencia != null" >
+        TEL_EMERGENCIA = #{record.telEmergencia,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enfermedad != null" >
+        ENFERMEDAD = #{record.enfermedad,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fechaActualizacion != null" >
+        FECHA_ACTUALIZACION = #{record.fechaActualizacion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.estatus != null" >
+        ESTATUS = #{record.estatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.correo != null" >
+        CORREO = #{record.correo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rfc != null" >
+        RFC = #{record.rfc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idArea != null" >
+        ID_AREA = #{record.idArea,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fotografia != null" >
+        FOTOGRAFIA = #{record.fotografia,jdbcType=BLOB},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update TSES004_PERSONAS
+    set ID_PERSONA = #{record.idPersona,jdbcType=DECIMAL},
+      ID_TIPO_PERSONA = #{record.idTipoPersona,jdbcType=DECIMAL},
+      ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      ID_TIPO_SANGRE = #{record.idTipoSangre,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      ID_CUADRANTE_AREA = #{record.idCuadranteArea,jdbcType=DECIMAL},
+      CURP = #{record.curp,jdbcType=VARCHAR},
+      APELLIDO1 = #{record.apellido1,jdbcType=VARCHAR},
+      APELLIDO2 = #{record.apellido2,jdbcType=VARCHAR},
+      NOMBRE = #{record.nombre,jdbcType=VARCHAR},
+      PUESTO = #{record.puesto,jdbcType=VARCHAR},
+      ALERGIAS = #{record.alergias,jdbcType=VARCHAR},
+      TEL_EMERGENCIA = #{record.telEmergencia,jdbcType=VARCHAR},
+      ENFERMEDAD = #{record.enfermedad,jdbcType=VARCHAR},
+      FECHA_ACTUALIZACION = #{record.fechaActualizacion,jdbcType=TIMESTAMP},
+      ESTATUS = #{record.estatus,jdbcType=DECIMAL},
+      CORREO = #{record.correo,jdbcType=VARCHAR},
+      RFC = #{record.rfc,jdbcType=VARCHAR},
+      ID_AREA = #{record.idArea,jdbcType=DECIMAL},
+      FOTOGRAFIA = #{record.fotografia,jdbcType=BLOB}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES004_PERSONAS
+    set ID_PERSONA = #{record.idPersona,jdbcType=DECIMAL},
+      ID_TIPO_PERSONA = #{record.idTipoPersona,jdbcType=DECIMAL},
+      ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      ID_TIPO_SANGRE = #{record.idTipoSangre,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      ID_CUADRANTE_AREA = #{record.idCuadranteArea,jdbcType=DECIMAL},
+      CURP = #{record.curp,jdbcType=VARCHAR},
+      APELLIDO1 = #{record.apellido1,jdbcType=VARCHAR},
+      APELLIDO2 = #{record.apellido2,jdbcType=VARCHAR},
+      NOMBRE = #{record.nombre,jdbcType=VARCHAR},
+      PUESTO = #{record.puesto,jdbcType=VARCHAR},
+      ALERGIAS = #{record.alergias,jdbcType=VARCHAR},
+      TEL_EMERGENCIA = #{record.telEmergencia,jdbcType=VARCHAR},
+      ENFERMEDAD = #{record.enfermedad,jdbcType=VARCHAR},
+      FECHA_ACTUALIZACION = #{record.fechaActualizacion,jdbcType=TIMESTAMP},
+      ESTATUS = #{record.estatus,jdbcType=DECIMAL},
+      CORREO = #{record.correo,jdbcType=VARCHAR},
+      RFC = #{record.rfc,jdbcType=VARCHAR},
+      ID_AREA = #{record.idArea,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses004Personas" >
+    update TSES004_PERSONAS
+    <set >
+      <if test="idTipoPersona != null" >
+        ID_TIPO_PERSONA = #{idTipoPersona,jdbcType=DECIMAL},
+      </if>
+      <if test="idUr != null" >
+        ID_UR = #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="idTipoSangre != null" >
+        ID_TIPO_SANGRE = #{idTipoSangre,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idCuadranteArea != null" >
+        ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL},
+      </if>
+      <if test="curp != null" >
+        CURP = #{curp,jdbcType=VARCHAR},
+      </if>
+      <if test="apellido1 != null" >
+        APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+      </if>
+      <if test="apellido2 != null" >
+        APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+      </if>
+      <if test="nombre != null" >
+        NOMBRE = #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="puesto != null" >
+        PUESTO = #{puesto,jdbcType=VARCHAR},
+      </if>
+      <if test="alergias != null" >
+        ALERGIAS = #{alergias,jdbcType=VARCHAR},
+      </if>
+      <if test="telEmergencia != null" >
+        TEL_EMERGENCIA = #{telEmergencia,jdbcType=VARCHAR},
+      </if>
+      <if test="enfermedad != null" >
+        ENFERMEDAD = #{enfermedad,jdbcType=VARCHAR},
+      </if>
+      <if test="fechaActualizacion != null" >
+        FECHA_ACTUALIZACION = #{fechaActualizacion,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estatus != null" >
+        ESTATUS = #{estatus,jdbcType=DECIMAL},
+      </if>
+      <if test="correo != null" >
+        CORREO = #{correo,jdbcType=VARCHAR},
+      </if>
+      <if test="rfc != null" >
+        RFC = #{rfc,jdbcType=VARCHAR},
+      </if>
+      <if test="idArea != null" >
+        ID_AREA = #{idArea,jdbcType=DECIMAL},
+      </if>
+      <if test="fotografia != null" >
+        FOTOGRAFIA = #{fotografia,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID_PERSONA = #{idPersona,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="mx.sep.sesi.modelo.Tses004Personas" >
+    update TSES004_PERSONAS
+    set ID_TIPO_PERSONA = #{idTipoPersona,jdbcType=DECIMAL},
+      ID_UR = #{idUr,jdbcType=DECIMAL},
+      ID_TIPO_SANGRE = #{idTipoSangre,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL},
+      CURP = #{curp,jdbcType=VARCHAR},
+      APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+      APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+      NOMBRE = #{nombre,jdbcType=VARCHAR},
+      PUESTO = #{puesto,jdbcType=VARCHAR},
+      ALERGIAS = #{alergias,jdbcType=VARCHAR},
+      TEL_EMERGENCIA = #{telEmergencia,jdbcType=VARCHAR},
+      ENFERMEDAD = #{enfermedad,jdbcType=VARCHAR},
+      FECHA_ACTUALIZACION = #{fechaActualizacion,jdbcType=TIMESTAMP},
+      ESTATUS = #{estatus,jdbcType=DECIMAL},
+      CORREO = #{correo,jdbcType=VARCHAR},
+      RFC = #{rfc,jdbcType=VARCHAR},
+      ID_AREA = #{idArea,jdbcType=DECIMAL},
+      FOTOGRAFIA = #{fotografia,jdbcType=BLOB}
+    where ID_PERSONA = #{idPersona,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses004Personas" >
+    update TSES004_PERSONAS
+    set ID_TIPO_PERSONA = #{idTipoPersona,jdbcType=DECIMAL},
+      ID_UR = #{idUr,jdbcType=DECIMAL},
+      ID_TIPO_SANGRE = #{idTipoSangre,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL},
+      CURP = #{curp,jdbcType=VARCHAR},
+      APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+      APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+      NOMBRE = #{nombre,jdbcType=VARCHAR},
+      PUESTO = #{puesto,jdbcType=VARCHAR},
+      ALERGIAS = #{alergias,jdbcType=VARCHAR},
+      TEL_EMERGENCIA = #{telEmergencia,jdbcType=VARCHAR},
+      ENFERMEDAD = #{enfermedad,jdbcType=VARCHAR},
+      FECHA_ACTUALIZACION = #{fechaActualizacion,jdbcType=TIMESTAMP},
+      ESTATUS = #{estatus,jdbcType=DECIMAL},
+      CORREO = #{correo,jdbcType=VARCHAR},
+      RFC = #{rfc,jdbcType=VARCHAR},
+      ID_AREA = #{idArea,jdbcType=DECIMAL}
+    where ID_PERSONA = #{idPersona,jdbcType=DECIMAL}
+  </update>
+</mapper>

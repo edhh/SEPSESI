@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses009InmueblesMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses009Inmuebles" >
+    <id column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="ID_COLONIA" property="idColonia" jdbcType="DECIMAL" />
+    <result column="ID_ALCALDIA_MUN" property="idAlcaldiaMun" jdbcType="DECIMAL" />
+    <result column="ID_ENTIDAD" property="idEntidad" jdbcType="DECIMAL" />
+    <result column="CLAVE_INMUEBLE" property="claveInmueble" jdbcType="VARCHAR" />
+    <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+    <result column="CALLE" property="calle" jdbcType="VARCHAR" />
+    <result column="NUMERO" property="numero" jdbcType="VARCHAR" />
+    <result column="CP" property="cp" jdbcType="VARCHAR" />
+    <result column="NUM_ACCESOS" property="numAccesos" jdbcType="DECIMAL" />
+    <result column="ESTATUS" property="estatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_INMUEBLE, ID_COLONIA, ID_ALCALDIA_MUN, ID_ENTIDAD, CLAVE_INMUEBLE, DENOMINACION, 
+    CALLE, NUMERO, CP, NUM_ACCESOS, ESTATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses009InmueblesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES009_INMUEBLES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES009_INMUEBLES
+    where ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES009_INMUEBLES
+    where ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses009InmueblesExample" >
+    delete from TSES009_INMUEBLES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses009Inmuebles" >
+    insert into TSES009_INMUEBLES (ID_INMUEBLE, ID_COLONIA, ID_ALCALDIA_MUN, 
+      ID_ENTIDAD, CLAVE_INMUEBLE, DENOMINACION, 
+      CALLE, NUMERO, CP, 
+      NUM_ACCESOS, ESTATUS)
+    values (#{idInmueble,jdbcType=DECIMAL}, #{idColonia,jdbcType=DECIMAL}, #{idAlcaldiaMun,jdbcType=DECIMAL}, 
+      #{idEntidad,jdbcType=DECIMAL}, #{claveInmueble,jdbcType=VARCHAR}, #{denominacion,jdbcType=VARCHAR}, 
+      #{calle,jdbcType=VARCHAR}, #{numero,jdbcType=VARCHAR}, #{cp,jdbcType=VARCHAR}, 
+      #{numAccesos,jdbcType=DECIMAL}, #{estatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses009Inmuebles" >
+    insert into TSES009_INMUEBLES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idInmueble != null" >
+        ID_INMUEBLE,
+      </if>
+      <if test="idColonia != null" >
+        ID_COLONIA,
+      </if>
+      <if test="idAlcaldiaMun != null" >
+        ID_ALCALDIA_MUN,
+      </if>
+      <if test="idEntidad != null" >
+        ID_ENTIDAD,
+      </if>
+      <if test="claveInmueble != null" >
+        CLAVE_INMUEBLE,
+      </if>
+      <if test="denominacion != null" >
+        DENOMINACION,
+      </if>
+      <if test="calle != null" >
+        CALLE,
+      </if>
+      <if test="numero != null" >
+        NUMERO,
+      </if>
+      <if test="cp != null" >
+        CP,
+      </if>
+      <if test="numAccesos != null" >
+        NUM_ACCESOS,
+      </if>
+      <if test="estatus != null" >
+        ESTATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idInmueble != null" >
+        #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idColonia != null" >
+        #{idColonia,jdbcType=DECIMAL},
+      </if>
+      <if test="idAlcaldiaMun != null" >
+        #{idAlcaldiaMun,jdbcType=DECIMAL},
+      </if>
+      <if test="idEntidad != null" >
+        #{idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="claveInmueble != null" >
+        #{claveInmueble,jdbcType=VARCHAR},
+      </if>
+      <if test="denominacion != null" >
+        #{denominacion,jdbcType=VARCHAR},
+      </if>
+      <if test="calle != null" >
+        #{calle,jdbcType=VARCHAR},
+      </if>
+      <if test="numero != null" >
+        #{numero,jdbcType=VARCHAR},
+      </if>
+      <if test="cp != null" >
+        #{cp,jdbcType=VARCHAR},
+      </if>
+      <if test="numAccesos != null" >
+        #{numAccesos,jdbcType=DECIMAL},
+      </if>
+      <if test="estatus != null" >
+        #{estatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses009InmueblesExample" resultType="java.lang.Integer" >
+    select count(*) from TSES009_INMUEBLES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES009_INMUEBLES
+    <set >
+      <if test="record.idInmueble != null" >
+        ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idColonia != null" >
+        ID_COLONIA = #{record.idColonia,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idAlcaldiaMun != null" >
+        ID_ALCALDIA_MUN = #{record.idAlcaldiaMun,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idEntidad != null" >
+        ID_ENTIDAD = #{record.idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="record.claveInmueble != null" >
+        CLAVE_INMUEBLE = #{record.claveInmueble,jdbcType=VARCHAR},
+      </if>
+      <if test="record.denominacion != null" >
+        DENOMINACION = #{record.denominacion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calle != null" >
+        CALLE = #{record.calle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numero != null" >
+        NUMERO = #{record.numero,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cp != null" >
+        CP = #{record.cp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numAccesos != null" >
+        NUM_ACCESOS = #{record.numAccesos,jdbcType=DECIMAL},
+      </if>
+      <if test="record.estatus != null" >
+        ESTATUS = #{record.estatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES009_INMUEBLES
+    set ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      ID_COLONIA = #{record.idColonia,jdbcType=DECIMAL},
+      ID_ALCALDIA_MUN = #{record.idAlcaldiaMun,jdbcType=DECIMAL},
+      ID_ENTIDAD = #{record.idEntidad,jdbcType=DECIMAL},
+      CLAVE_INMUEBLE = #{record.claveInmueble,jdbcType=VARCHAR},
+      DENOMINACION = #{record.denominacion,jdbcType=VARCHAR},
+      CALLE = #{record.calle,jdbcType=VARCHAR},
+      NUMERO = #{record.numero,jdbcType=VARCHAR},
+      CP = #{record.cp,jdbcType=VARCHAR},
+      NUM_ACCESOS = #{record.numAccesos,jdbcType=DECIMAL},
+      ESTATUS = #{record.estatus,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses009Inmuebles" >
+    update TSES009_INMUEBLES
+    <set >
+      <if test="idColonia != null" >
+        ID_COLONIA = #{idColonia,jdbcType=DECIMAL},
+      </if>
+      <if test="idAlcaldiaMun != null" >
+        ID_ALCALDIA_MUN = #{idAlcaldiaMun,jdbcType=DECIMAL},
+      </if>
+      <if test="idEntidad != null" >
+        ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="claveInmueble != null" >
+        CLAVE_INMUEBLE = #{claveInmueble,jdbcType=VARCHAR},
+      </if>
+      <if test="denominacion != null" >
+        DENOMINACION = #{denominacion,jdbcType=VARCHAR},
+      </if>
+      <if test="calle != null" >
+        CALLE = #{calle,jdbcType=VARCHAR},
+      </if>
+      <if test="numero != null" >
+        NUMERO = #{numero,jdbcType=VARCHAR},
+      </if>
+      <if test="cp != null" >
+        CP = #{cp,jdbcType=VARCHAR},
+      </if>
+      <if test="numAccesos != null" >
+        NUM_ACCESOS = #{numAccesos,jdbcType=DECIMAL},
+      </if>
+      <if test="estatus != null" >
+        ESTATUS = #{estatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses009Inmuebles" >
+    update TSES009_INMUEBLES
+    set ID_COLONIA = #{idColonia,jdbcType=DECIMAL},
+      ID_ALCALDIA_MUN = #{idAlcaldiaMun,jdbcType=DECIMAL},
+      ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL},
+      CLAVE_INMUEBLE = #{claveInmueble,jdbcType=VARCHAR},
+      DENOMINACION = #{denominacion,jdbcType=VARCHAR},
+      CALLE = #{calle,jdbcType=VARCHAR},
+      NUMERO = #{numero,jdbcType=VARCHAR},
+      CP = #{cp,jdbcType=VARCHAR},
+      NUM_ACCESOS = #{numAccesos,jdbcType=DECIMAL},
+      ESTATUS = #{estatus,jdbcType=DECIMAL}
+    where ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL}
+  </update>
+</mapper>

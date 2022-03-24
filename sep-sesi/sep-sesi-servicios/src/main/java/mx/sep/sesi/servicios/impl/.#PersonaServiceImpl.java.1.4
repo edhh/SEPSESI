@@ -1,0 +1,120 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.servicios.impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import mx.sep.sesi.datos.vo.PersonaVO;
+import mx.sep.sesi.dao.Tses004PersonasMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import mx.sep.sesi.modelo.Tses004Personas;
+import mx.sep.sesi.modelo.Tses004PersonasExample;
+import mx.sep.sesi.modelo.join.TSES004PersonasJoin;
+import mx.sep.sesi.servicios.PersonaService;
+import org.springframework.stereotype.Service;
+import mx.sep.sesi.dao.join.TSES004PersonasJoinMapper;
+
+/**
+ *
+ * @author heriberto.perez
+ */
+@Service
+public class PersonaServiceImpl implements PersonaService{
+
+    @Autowired
+    private Tses004PersonasMapper tses004PersonasMapper;
+
+    @Autowired
+    TSES004PersonasJoinMapper daoPersonasJoin;    
+    
+    public String insertaEmpleado(PersonaVO persona) {
+        try {
+            System.out.println("ENTRANDO A SERVICIO");
+            java.util.Date fecha = new Date();
+            Short idEmpleado = persona.getIdPersona();
+            Tses004Personas tses004Personas = new Tses004Personas();
+            tses004Personas.setIdTipoPersona(new BigDecimal(1));
+            tses004Personas.setCurp(persona.getCurp());
+            tses004Personas.setNombre(persona.getNombre());
+            tses004Personas.setApellido1(persona.getPrimerApellido());
+            tses004Personas.setApellido2(persona.getSegundoApellido());
+            tses004Personas.setIdInmueble(new BigDecimal (persona.getIdInmueble()));
+            tses004Personas.setIdUr(new BigDecimal (persona.getIdUR()));
+            tses004Personas.setIdCuadranteArea(new BigDecimal (persona.getCuadrante()));
+            tses004Personas.setIdTipoSangre(new BigDecimal (persona.getTipoSangre()));
+            tses004Personas.setTelEmergencia((persona.getEmergencia()));
+            tses004Personas.setAlergias((persona.getIdAlergia()));
+            tses004Personas.setEnfermedad((persona.getEnfermedad()));
+            tses004Personas.setPuesto(persona.getPuesto());
+            tses004Personas.setFechaActualizacion(fecha);
+            tses004Personas.setFotografia(persona.getImagen());
+            if (idEmpleado != null) {
+                tses004Personas.setIdPersona(new BigDecimal (idEmpleado));
+                tses004PersonasMapper.updateByPrimaryKeySelective(tses004Personas);
+                return "El registro se ha actualizado correctamente";
+            } else {
+                System.out.println("Entrando a Insert");
+                tses004PersonasMapper.insertSelective(tses004Personas);
+                return "Se ha realizado el registro correctamente";
+            }
+
+        } catch (Exception exc) {
+            return ("Error al insertar el empleado");
+        }
+    }
+    
+    public String insertaProveedor(PersonaVO persona) {
+        try {
+            System.out.println("ENTRANDO A SERVICIO");
+            java.util.Date fecha = new Date();
+            Short idEmpleado = persona.getIdPersona();
+            Tses004Personas tses004Personas = new Tses004Personas();
+            tses004Personas.setIdTipoPersona(new BigDecimal(2));
+            tses004Personas.setCurp(persona.getCurp());
+            tses004Personas.setNombre(persona.getNombre());
+            tses004Personas.setApellido1(persona.getPrimerApellido());
+            tses004Personas.setApellido2(persona.getSegundoApellido());
+            tses004Personas.setIdInmueble(new BigDecimal (persona.getIdInmueble()));
+            tses004Personas.setIdUr(new BigDecimal (persona.getIdUR()));
+            tses004Personas.setIdCuadranteArea(new BigDecimal (persona.getCuadrante()));
+            tses004Personas.setIdTipoSangre(new BigDecimal (persona.getTipoSangre()));
+            tses004Personas.setTelEmergencia((persona.getEmergencia()));
+            tses004Personas.setAlergias((persona.getIdAlergia()));
+            tses004Personas.setEnfermedad((persona.getEnfermedad()));
+            tses004Personas.setPuesto(persona.getPuesto());
+            tses004Personas.setFechaActualizacion(fecha);
+            tses004Personas.setFotografia(persona.getImagen());
+            if (idEmpleado != null) {
+                tses004Personas.setIdPersona(new BigDecimal (idEmpleado));
+                tses004PersonasMapper.updateByPrimaryKeySelective(tses004Personas);
+                return "El registro se ha actualizado correctamente";
+            } else {
+                System.out.println("Entrando a Insert");
+                tses004PersonasMapper.insertSelective(tses004Personas);
+                return "Se ha realizado el registro correctamente";
+            }
+
+        } catch (Exception exc) {
+            return ("Error al insertar el proveedor");
+        }
+    }
+    
+    public Tses004Personas obtenerPersona (Short idPersona){
+        Tses004Personas tses004Personas = new Tses004Personas();
+        tses004Personas = tses004PersonasMapper.selectByPrimaryKey(new BigDecimal (idPersona));
+        return tses004Personas;
+    }
+
+    @Override
+    public List<TSES004PersonasJoin> obtenerAllPersonaRol(Integer idRol,Integer idInmueble,Integer idUr){
+
+        List<TSES004PersonasJoin> listAllPesonas = daoPersonasJoin.selecPersonas(idRol,idInmueble,idUr);
+        return listAllPesonas;
+     
+    }
+}

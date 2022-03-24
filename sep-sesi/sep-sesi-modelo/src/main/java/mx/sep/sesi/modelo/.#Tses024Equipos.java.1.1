@@ -1,0 +1,86 @@
+package mx.sep.sesi.modelo;
+
+import java.math.BigDecimal;
+
+public class Tses024Equipos {
+    private BigDecimal idEquipo;
+
+    private BigDecimal idPersona;
+
+    private String marca;
+
+    private String numSerie;
+
+    private String descripcionEquipo;
+
+    public BigDecimal getIdEquipo() {
+        return idEquipo;
+    }
+
+    public void setIdEquipo(BigDecimal idEquipo) {
+        this.idEquipo = idEquipo;
+    }
+
+    public BigDecimal getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(BigDecimal idPersona) {
+        this.idPersona = idPersona;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca == null ? null : marca.trim();
+    }
+
+    public String getNumSerie() {
+        return numSerie;
+    }
+
+    public void setNumSerie(String numSerie) {
+        this.numSerie = numSerie == null ? null : numSerie.trim();
+    }
+
+    public String getDescripcionEquipo() {
+        return descripcionEquipo;
+    }
+
+    public void setDescripcionEquipo(String descripcionEquipo) {
+        this.descripcionEquipo = descripcionEquipo == null ? null : descripcionEquipo.trim();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        Tses024Equipos other = (Tses024Equipos) that;
+        return (this.getIdEquipo() == null ? other.getIdEquipo() == null : this.getIdEquipo().equals(other.getIdEquipo()))
+            && (this.getIdPersona() == null ? other.getIdPersona() == null : this.getIdPersona().equals(other.getIdPersona()))
+            && (this.getMarca() == null ? other.getMarca() == null : this.getMarca().equals(other.getMarca()))
+            && (this.getNumSerie() == null ? other.getNumSerie() == null : this.getNumSerie().equals(other.getNumSerie()))
+            && (this.getDescripcionEquipo() == null ? other.getDescripcionEquipo() == null : this.getDescripcionEquipo().equals(other.getDescripcionEquipo()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getIdEquipo() == null) ? 0 : getIdEquipo().hashCode());
+        result = prime * result + ((getIdPersona() == null) ? 0 : getIdPersona().hashCode());
+        result = prime * result + ((getMarca() == null) ? 0 : getMarca().hashCode());
+        result = prime * result + ((getNumSerie() == null) ? 0 : getNumSerie().hashCode());
+        result = prime * result + ((getDescripcionEquipo() == null) ? 0 : getDescripcionEquipo().hashCode());
+        return result;
+    }
+}

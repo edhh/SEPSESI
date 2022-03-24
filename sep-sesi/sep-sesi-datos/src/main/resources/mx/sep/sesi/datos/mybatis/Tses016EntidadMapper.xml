@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses016EntidadMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses016Entidad" >
+    <id column="ID_ENTIDAD" property="idEntidad" jdbcType="DECIMAL" />
+    <result column="ENTIDAD" property="entidad" jdbcType="VARCHAR" />
+    <result column="CLAVE_ENTIDAD" property="claveEntidad" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_ENTIDAD, ENTIDAD, CLAVE_ENTIDAD
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses016EntidadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES016_ENTIDAD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES016_ENTIDAD
+    where ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES016_ENTIDAD
+    where ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses016EntidadExample" >
+    delete from TSES016_ENTIDAD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses016Entidad" >
+    insert into TSES016_ENTIDAD (ID_ENTIDAD, ENTIDAD, CLAVE_ENTIDAD
+      )
+    values (#{idEntidad,jdbcType=DECIMAL}, #{entidad,jdbcType=VARCHAR}, #{claveEntidad,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses016Entidad" >
+    insert into TSES016_ENTIDAD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idEntidad != null" >
+        ID_ENTIDAD,
+      </if>
+      <if test="entidad != null" >
+        ENTIDAD,
+      </if>
+      <if test="claveEntidad != null" >
+        CLAVE_ENTIDAD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idEntidad != null" >
+        #{idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="entidad != null" >
+        #{entidad,jdbcType=VARCHAR},
+      </if>
+      <if test="claveEntidad != null" >
+        #{claveEntidad,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses016EntidadExample" resultType="java.lang.Integer" >
+    select count(*) from TSES016_ENTIDAD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES016_ENTIDAD
+    <set >
+      <if test="record.idEntidad != null" >
+        ID_ENTIDAD = #{record.idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="record.entidad != null" >
+        ENTIDAD = #{record.entidad,jdbcType=VARCHAR},
+      </if>
+      <if test="record.claveEntidad != null" >
+        CLAVE_ENTIDAD = #{record.claveEntidad,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES016_ENTIDAD
+    set ID_ENTIDAD = #{record.idEntidad,jdbcType=DECIMAL},
+      ENTIDAD = #{record.entidad,jdbcType=VARCHAR},
+      CLAVE_ENTIDAD = #{record.claveEntidad,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses016Entidad" >
+    update TSES016_ENTIDAD
+    <set >
+      <if test="entidad != null" >
+        ENTIDAD = #{entidad,jdbcType=VARCHAR},
+      </if>
+      <if test="claveEntidad != null" >
+        CLAVE_ENTIDAD = #{claveEntidad,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses016Entidad" >
+    update TSES016_ENTIDAD
+    set ENTIDAD = #{entidad,jdbcType=VARCHAR},
+      CLAVE_ENTIDAD = #{claveEntidad,jdbcType=VARCHAR}
+    where ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,312 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+#layoutPrincipal {
+    height: 100%;
+}
+#panelMenu {
+    width: 16em;
+}
+
+pre {
+    background-color: #EEEEEE;
+    font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+    margin-bottom: 10px;
+    max-height: 600px;
+    overflow: auto;
+    padding: 5px;
+    width: 80%;
+    font-size: 14px;
+}
+
+.borderBotton{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #0066CC;
+}
+
+.borderTop{
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #0066CC;
+}
+
+.borderBottonLigth{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #A6DCEE;
+}
+
+.borderTopLigth{
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #A6DCEE;
+}
+.tableContenido{
+    background-color: #F8F8F8;
+}
+.titulos{
+    color: #000000;
+    font-family: Arial;
+    font-size: 1em;    
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: normal;    
+}
+
+.subtitulos{
+    color: #000000;
+    font-family: Arial;
+    font-size: 1.0em;    
+    font-style: normal;
+    font-variant: normal;    
+    line-height: normal;
+    font-weight: normal;
+}
+
+
+.contenidosWhite{
+    white-space: nowrap;
+    color: #FFFFFF;
+    font-family: Arial;
+    font-size: 0.7em;
+}
+
+.contenidosRed{
+    white-space: nowrap;
+    color: #990000;
+    font-family: Arial;
+    font-size: 0.7em;
+}
+
+.contenidos{
+    white-space: nowrap;
+    color: #2F2F2F;
+    font-family: Arial;
+    font-size: 0.9em;
+}
+
+.contenidosBold{
+    white-space: nowrap;
+    color: #2F2F2F;
+    font-family: Arial;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.tituloFondoGris{
+    background-color: #EEEEEE;
+    color: #000000;
+    font-family: Arial;
+    font-size: 1em;    
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: normal;
+}
+
+.labelsAndValues-labelCell {
+    background-color: #CCCCCC;
+    padding-left: 1px;
+}
+
+.labelsAndValues-valueCell {    
+    background-color: white;
+}
+
+.contentPane-title{
+    background-color: #CCCCCC;
+    color: #000000;
+    text-align: center;
+    font-family: Arial;
+    font-size: 1em;    
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: normal;
+}
+
+.contentPanePair {    
+    background-color: #E6E6E6;
+    font-family: Arial;
+    font-size: 0.9em;    
+}
+.contentPaneNone {    
+    background-color: #FFFFFF;
+    font-family: Arial;
+    font-size: 0.9em;
+}
+
+.iconArchiver {
+    background: url(../images/icons/archive-icon.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconBooks {
+    background: url(../images/icons/document-icon.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconAudiencia {
+    background: url(../images/icons/audiencia.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconJuicio {
+    background: url(../images/icons/juicio.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconTribunal {
+    background: url(../images/icons/tribunal.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconTableConfig {
+    background: url(../images/icons/tableConfig.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconScreenLock {
+
+
+    background: url(../images/icons/sreen-lock-icon.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconScreenLockBlue {
+
+
+    background: url(../images/icons/sreen-lock-iconb.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconMenu {
+    background: url(../images/icons/Menu-icon.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconProfile {
+    background: url(../images/icons/user-profile.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconAccount {
+    background: url(../images/icons/my-account.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconReport {
+    background: url(../images/icons/report-icon.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconFind {
+    background: url(../images/icons/find.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconCapura1 {
+    background: url(../images/icons/capturaI.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconCapura2 {
+    background: url(../images/icons/capturaM.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconAutoriza {
+    background: url(../images/icons/seguimiento.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconParametros {
+    background: url(../images/icons/prams.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconUpdate1 {
+    background: url(../images/icons/update1.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconUpdate2 {
+    background: url(../images/icons/update2.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconExport {
+    background: url(../images/icons/fileexport.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconExcel {
+    background: url(../images/icons/page_white_excel.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconPdf {
+    background: url(../images/icons/page_white_acrobat.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconPass {
+    background: url(../images/icons/pass.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconEvaluacion {
+    background: url(../images/icons/evaluacion.png);
+    width: 16px;
+    height: 16px;
+}
+
+.iconCalcula {
+    background: url(../images/icons/calculate.png);
+    width: 16px;
+    height: 16px;    
+}
+
+.iconNotification {
+    background: url(../images/icons/notification.png);
+    width: 16px;
+    height: 16px;    
+}
+
+.iconLoadUpload {
+    background: url(../images/icons/load_upload.png);
+    width: 16px;
+    height: 16px;    
+}
+.pageTable{
+    width: 100%;
+}

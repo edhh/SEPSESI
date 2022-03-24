@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.sesi.dao.join.CuadranteJoinMapper">
+   
+    <resultMap id="BaseResultMap" type="mx.sep.sesi.datos.vo.CuadranteVO">
+        <id column="ID_CUADRANTE_AREA" property="idCuadrante" jdbcType="DECIMAL" />
+        <id column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="CUADRANTE_AREA" property="cuadrante" jdbcType="VARCHAR" />
+        <result column="DENOMINACION" property="Inmueble" jdbcType="VARCHAR" />
+    </resultMap>  
+
+    <select id="obtenerCuadrante"  resultMap="BaseResultMap" > 
+        select a.id_cuadrante_area, a.id_inmueble, a.cuadrante_area, b.denominacion
+        from tses010_cuadrante_area a, tses009_inmuebles b
+        where a.id_inmueble = b.id_inmueble 
+        
+        <if test="inmueble != null and inmueble != ''"  > 
+            and a.id_inmueble = #{inmueble}
+        </if> 
+         
+    </select>
+
+</mapper>

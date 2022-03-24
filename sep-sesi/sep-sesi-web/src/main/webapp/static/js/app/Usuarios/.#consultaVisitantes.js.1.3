@@ -1,0 +1,1025 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+var checkedRows = [];
+var modo;
+
+$(document).ready(function () {
+    $('#fecha').datepicker();
+});
+$("#foto").click(function () {
+    $("#vista").attr("src", "bety.jpg")
+});
+
+$("#limpiar").click(function () {
+    $('#curp').val('');
+    $('#nombre').val('');
+    checkedRows = [];
+    $('#resultadosResumenTable').bootstrapTable('destroy');
+
+    $("#errorCurp").text('');
+    $("#errorCurp").hide();
+    $("#curpDiv").removeClass("has-error");
+
+    $("#errorNombre").text('');
+    $("#errorNombre").hide();
+    $("#nombreDiv").removeClass("has-error");
+});
+
+function validarDatos() {
+    var curp = $("#curp").val();
+    var nombre = $("#nombre").val();
+
+    var datosValidos = true;
+
+    if ( curp.length > 0 && curpV(curp) ) {   
+        $("#curpDiv").addClass("has-error");
+        $("#errorCurp").text('');
+        $("#errorCurp").show();
+        $("#errorCurp").append("Formato inv&aacute;lido para la CURP");
+        datosValidos = false;
+    }
+    if (nombre.length > 0 && !validaSoloLetras(nombre)) {
+        $("#nombreDiv").addClass("has-error");
+        $("#errorNombre").text('');
+        $("#errorNombre").show();
+        $("#errorNombre").append("&Uacute;nicamente debe contener caracteres alfab&eacute;ticos");
+        datosValidos = false;
+    }
+    return datosValidos;
+}
+
+function addInput(value, row, index) {
+    var input;
+    var estatus = row.estatus;
+    if (estatus == 0) {
+        input = '<input type=\'checkbox\' disabled=\'true\' value="' + row.idVisitante + '" id="chk_' + row.idVisitante + '">';
+    } else {
+        input = '<input type=\'checkbox\' onchange=\'toggleCheckbox(this)\' value="' + row.idVisitante + '" id="chk_' + row.idVisitante + '">';
+    }
+    return input;
+}
+
+ $("#buscar").click(function(){    
+    //object.configModule.standby.show();
+    if(!validarDatos()){
+        return false;
+    }
+    var columnas = [
+        {
+         field : 'curp',
+         title : 'CURP',
+         align : 'center'
+        }, {
+         field : 'nombre',
+         title : 'Nombre',
+         align : 'center'
+        }, {
+         field : 'apellido1',
+         title : 'Primer Apellido',
+         align : 'center',
+     },{
+         field : 'apellido2',
+         title : 'Segundo Apellido',
+         align : 'center'
+        }, {
+         field : 'denominacion',
+         title : 'Inmueble',
+         align : 'center',
+     },{
+         field : 'unidadResponsable',
+         title : 'UR',
+         align : 'center'
+     },{
+            field: 'operate',
+            //title: 'Edit',
+            align: 'center',
+            valign: 'middle',
+            clickToSelect: false,
+         formatter : addbutton = (value,row,index) =>{
+             return '<button class=\'btn btn-primary btn-edit\' idVisitante="'+row.idVisitante + '">Modificar</button> ';
+            }
+        }]
+    $('#resultadosResumenTable').bootstrapTable({
+         columns : columnas
+    });
+    $('#resultadosResumenTable').bootstrapTable('showLoading');
+    var param = {};
+//                param["idRol"] = $('#rol').val();
+//                param["idInmueble"] = $('#inmueble').val();
+
+    //param["idTipoPersona"] = 3; //Tipo de Persona Visitante
+    param["curp"] = $('#curp').val();
+    param["nombre"] = $('#nombre').val();
+
+    $('#loader').modal('toggle');
+    checkedRows = [];
+    $.ajax({
+        url: baseURI + "/mvc/persona/listVisitante",
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        data: param,
+        //dataType: "json",
+        cache: false,
+     }).done(function(resumenInstancias) {
+        //console.log(resumenInstancias);                
+        $('#resultadosResumenTable').bootstrapTable('destroy');
+        $('#resultadosResumenTable').bootstrapTable({
+             pagination : true,
+             paginationHAlign : 'left',
+             paginationDetailHAlign : 'right',
+            classes: 'table table-bordered table-hover',
+             striped : true,
+             pageList : [],
+             columns : columnas,
+             data : resumenInstancias
+        });
+        $('#loader').modal('toggle');
+     }).fail(function() {
+        $('#loader').modal('toggle');
+    });
+});
+
+$(function () {
+    init();
+});
+
+function init() {
+}
+
+function obtInmueble()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerInmueble",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var inmuebles;
+                inmuebles = response;
+                populateSelectInmueble(inmuebles);
+            } else {
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function usuarioRol() {
+    var vUrl = baseURI + '/mvc/seguridad/menu/obtenerUsuario';
+    conectaPost(vUrl, "", resUsuario);
+}
+
+function obtenerCuadrante()
+{
+    var inmueble = $("#inmuebleID").val();
+
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerCuadrante/" + inmueble,
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var cuadrante;
+                cuadrante = response;
+                populateSelectCuadrante(cuadrante);
+            } else {
+
+                populateSelectVacio();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectCuadrante(lstCuadrante) {
+
+    document.getElementById("cuadrante").options.length = 0;
+    for (var i = 0; i <= lstCuadrante.length - 1; i++) {
+        if (i == 0 && lstCuadrante.length >= 1) {
+            $('#cuadrante').append('<option>' + 'SELECCIONA' + '</option>');
+        }
+        $('#cuadrante').append('<option value="' + lstCuadrante[i].idCuadranteArea + '">' + lstCuadrante[i].cuadranteArea + '</option>');
+    }
+
+}
+
+function populateSelectVacio() {
+
+    document.getElementById("cuadrante").options.length = 0;
+    $('#cuadrante').append('<option>' + 'SELECCIONA' + '</option>');
+
+}
+
+function obtenerUR()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerUR",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var UR;
+                UR = response;
+                populateSelectUR(UR);
+                usuarioRol();
+            } else {
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectUR(lstUR) {
+
+    document.getElementById("ur").options.length = 0;
+    for (var i = 0; i <= lstUR.length - 1; i++) {
+        if (i == 0 && lstUR.length >= 1) {
+            $('#ur').append('<option>' + 'SELECCIONA' + '</option>');
+        }
+        $('#ur').append('<option value="' + lstUR[i].idUr + '">' + lstUR[i].unidadResponsable + '</option>');
+    }
+
+}
+
+function populateSelectInmueble(lstInmueble) {
+
+    document.getElementById("inmuebleID").options.length = 0;
+    for (var i = 0; i <= lstInmueble.length - 1; i++) {
+        if (i == 0 && lstInmueble.length >= 1) {
+            $('#inmuebleID').append('<option>' + 'SELECCIONA' + '</option>');
+        }
+        $('#inmuebleID').append('<option value="' + lstInmueble[i].idInmueble + '">' + lstInmueble[i].denominacion + '</option>');
+    }
+
+}
+
+
+function usuarioRol() {
+    var vUrl = baseURI + '/mvc/seguridad/menu/obtenerUsuario';
+    conectaPost(vUrl, "", resUsuario);
+}
+
+function resUsuario(data) {
+    var rol_usuario = data.idRol
+    var idUr = data.idUr;
+    if (rol_usuario == 2) {
+        $("#ur").prop('disabled', true);
+        $('#ur').val(idUr);
+    }
+}
+
+
+$('#nuevoVisitante').click(function () {
+    console.log('nuevoVisitante');
+    //location.href = baseURI + "/mvc/persona/nuevoVisitante";
+    document.getElementById("file-preview-zone").innerHTML = "";
+    document.getElementById("imageBase").innerHTML = "";
+    document.getElementById("formCarga").reset();
+    $('#idVisitante').val("");
+    $('.has-error').removeClass("has-error");
+    $("#errorCurpModal").text('');
+    $("#errorNombreModal").text('');
+    $("#errorPaterno").text('');
+    $("#errorMaterno").text('');
+    $("#errorInmueble").text('');
+    $("#errorUr").text('');
+    $("#errorCuadrante").text('');
+    $("#errorpersonaV").text('');
+    $("#errornumEtiqueta").text('');
+    obtenerUR();
+    obtInmueble();
+    $('#ModalVisitantes').modal('show');
+});
+
+function asignaUR() {
+    var idUr = document.getElementById("ur").value;
+    $('#idUR').val(idUr);
+    console.log('id Ur valorUR es ' + idUr);
+
+}
+
+$('#resultadosResumenTable').on('click', '.btn-edit', function () {
+    var idVisitante = $(this).attr('idVisitante');
+    obtieneVisitante(idVisitante);
+    modo = 'editar';
+});
+
+function obtieneVisitante(idVisitante) {
+    $('.has-error').removeClass("has-error");
+    $("#errorCurpModal").text('');
+    $("#errorNombreModal").text('');
+    $("#errorPaterno").text('');
+    $("#errorMaterno").text('');
+    $("#errorInmueble").text('');
+    $("#errorUr").text('');
+    $("#errorCuadrante").text('');
+    $("#errorpersonaV").text('');
+    $("#errornumEtiqueta").text('');
+    document.getElementById("file-preview-zone").innerHTML = "";
+    document.getElementById("imageBase").innerHTML = "";
+    //document.getElementById("ItemPreview").src = "";
+    document.getElementById("formCarga").reset();
+    var cuadranteArea;
+    var inmueble;
+    var ur;
+    $('#loader').modal('toggle');
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: baseURI + "/mvc/persona/obtieneVisitante/" + idVisitante,
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+            if (response.idVisitante !== '') {
+                $('#idVisitante').val(response.idVisitante);
+                $('#curpModal').val(response.curp);
+                $('#nombreModal').val(response.nombre);
+                $('#primerApellido').val(response.apellido1);
+                $('#segundoApellido').val(response.apellido2);
+                inmueble = response.idInmueble;
+
+                if (response.idInmueble != null) {
+                    obtInmuebleMod(inmueble);
+                } else {
+                    obtInmueble();
+                }
+
+                ur = response.idUr;
+
+
+                $('#idUR').val(ur);
+                if (response.idUr != null) {
+                    obtenerURMod(ur);
+                } else {
+                    obtenerUR();
+                }
+                usuarioRol();
+                cuadranteArea = response.idCuadranteArea;
+                if (response.idCuadranteArea != null) {
+                    obtenerCuadranteS(response.idInmueble, cuadranteArea);
+                }
+                else {
+                    populateSelectVacio();
+                }
+
+                $('#cuadrante').val(response.idCuadranteArea);
+                $('#puesto').val(response.puesto);
+
+
+                $('#emergencia').val(response.telEmergencia);
+                $('#alergias').val(response.alergias);
+                $('#correo').val(response.email);
+                $('#enfermedad').val(response.enfermedad);
+                $('#personaV').val(response.personaVisita);
+                $('#numEtiqueta').val(response.idEtiqueta);
+                $('#idFoto').val(response.fotografia);
+                var fotografia = response.fotografia;
+                //var imagen = "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";
+                /*document.getElementById("ItemPreview").src = "data:image/jpg;base64," + imagen;
+                 document.getElementById("ItemPreview").width = 400;
+                 document.getElementById("ItemPreview").height = 300;*/
+                if (fotografia == null || fotografia == '') {
+                    fotografia = imagenPredeterminada();
+                }
+                document.getElementById("ItemPreview").src = "data:image/jpg;base64," + fotografia;
+                document.getElementById("ItemPreview").width = 400;
+                document.getElementById("ItemPreview").height = 300;  
+                //console.log('fotografia es ' + fotografia);
+                //var Imagen_Bin_String = bin2string(fotografia);
+                //var Imagen_Base64 = btoa(Imagen_Bin_String);
+                /* if (fotografia === null) {
+                 
+                 }
+                 else {
+                 document.getElementById("ItemPreview").src = "data:image/jpg;base64," + imagen;
+                 document.getElementById("ItemPreview").width = 400;
+                 document.getElementById("ItemPreview").height = 300;
+                 /*$(document).ready(function () {
+                 console.log("ready!");
+                 document.getElementById("ItemPreview").src = "data:image/jpg;base64," + fotografia;
+                 document.getElementById("ItemPreview").width = 400;
+                 document.getElementById("ItemPreview").height = 300;
+                 });*/
+
+                //}*/
+                $('#loader').modal('toggle');
+                $('#ModalVisitantes').modal('show');
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+
+}
+
+function imagenPredeterminada(){    
+    var imagen = "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";
+    return imagen;
+}
+
+function insertaVisitantes() {
+    var vcfData = new FormData($('#formCarga')[0]);
+    var doc = document.getElementById("cargaArchivo").value;
+
+    var idUr = document.getElementById("ur");
+    var idUrValue = idUr.value;
+
+    var foto = document.getElementById("idFoto").value;
+    if (validaDatos()) {
+        document.getElementById("btnGuardar").disabled = true;
+        if (foto === '') {
+
+            if (doc) {
+                var imgsize = document.getElementsByClassName("subirimagen")[0].files[0].size;
+                var jpgType = doc.search(".jpg");
+                var jpegType = doc.search(".jpeg");
+                if (jpgType != -1 || jpegType != -1) {
+                    if (imgsize <= 10000000) {
+                        $.ajax({
+                            type: "POST",
+                            cache: false,
+                            url: baseURI + "/mvc/persona/insertaVisitante",
+                            data: vcfData,
+                            processData: false, contentType: false,
+                            method: "POST",
+                            dataType: 'json',
+                            success: function (reponse) {
+
+                                var respuesta = reponse.msg;
+                                if (respuesta === '1') {
+                                    alert("No se encuentra registrado ese n\u00FAmero de etiqueta");
+                                }
+                                else if (respuesta === '2') {
+                                    alert("Ya est\u00E1 asignada ese n\u00FAmero de etiqueta, selecciona otra");
+                                }
+                                else {
+                                    alert(respuesta);
+                                    $('#ModalVisitantes').modal('hide');
+                                }
+
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                alert("Ocurri\u00F3 un error al registrar los datos");
+                                console.log('jqXHR.status:: ' + jqXHR.status);
+                                console.log('jqXHR.text:: ' + jqXHR.text);
+                                console.log('textStatus:: ' + textStatus);
+                            }
+                        });
+                    }
+                    else {
+                        alert("La imagen no puede tener un tama\u00F1o superior a los 10 MB");
+                        document.getElementById("btnGuardar").disabled = false;
+                    }
+                }
+                else {
+                    alert("Tipo de archivo inv\u00E1lido")
+                    document.getElementById("btnGuardar").disabled = false;
+                }
+            } else {
+                $.ajax({
+                    type: "POST",
+                    cache: false,
+                    url: baseURI + "/mvc/persona/insertaVisitante",
+                    data: vcfData,
+                    processData: false, contentType: false,
+                    method: "POST",
+                    dataType: 'json',
+                    success: function (reponse) {
+
+                        var respuesta = reponse.msg;
+                        if (respuesta === '1') {
+                            alert("No se encuentra registrado ese n\u00FAmero de etiqueta");
+                        }
+                        else if (respuesta === '2') {
+                            alert("Ya est\u00E1 asignada ese n\u00FAmero de etiqueta, selecciona otra");
+                        }
+                        else {
+                            alert(respuesta);
+                            $('#ModalVisitantes').modal('hide');
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //$('#loader').modal('toggle');
+                        alert("Ocurri\u00F3 un error al registrar los datos");
+                        /*$('#myModal1').modal('show');
+                         $("#myModal1 .modal-body").text('Ocurri\u00F3 un error al registrar los datos');*/
+                        console.log('jqXHR.status:: ' + jqXHR.status);
+                        console.log('jqXHR.text:: ' + jqXHR.text);
+                        console.log('textStatus:: ' + textStatus);
+                    }
+                });
+            }
+        } else {
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: baseURI + "/mvc/persona/insertaVisitante",
+                data: vcfData,
+                processData: false, contentType: false,
+                method: "POST",
+                dataType: 'json',
+                success: function (reponse) {
+
+                    var respuesta = reponse.msg;
+                    if (respuesta === '1') {
+                        alert("No se encuentra registrado ese n\u00FAmero de etiqueta");
+                    }
+                    else if (respuesta === '2') {
+                        alert("Ya est\u00E1 asignada ese n\u00FAmero de etiqueta, selecciona otra");
+                    }
+                    else {
+                        alert(respuesta);
+                        $('#ModalVisitantes').modal('hide');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Ocurri\u00F3 un error al registrar los datos");
+                    console.log('jqXHR.status:: ' + jqXHR.status);
+                    console.log('jqXHR.text:: ' + jqXHR.text);
+                    console.log('textStatus:: ' + textStatus);
+                }
+            });
+        }
+
+    }
+
+    document.getElementById("btnGuardar").disabled = false;
+
+
+    //}
+}
+
+function verificarCurp() {
+    console.log('modo es ' + modo);
+    if (modo === "undefined") {
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: baseURI + "/mvc/persona/verificaCurp/" + $("#curp").val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (response) {
+                if (response.respuesta !== ' ') {
+                    console.log('respuesta' + response.respuesta);
+                    $('#myModal1').modal('show');
+                    $("#myModal1 .modal-body").text(response.respuesta);
+
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('jqXHR.status:: ' + jqXHR.status);
+                console.log('jqXHR.text:: ' + jqXHR.text);
+                console.log('textStatus:: ' + textStatus);
+            }
+        });
+    }
+}
+
+function validaDatos() {
+
+    var datosValidos = true;
+    var curp = $("#curpModal").val();
+    var nombre = $("#nombreModal").val();
+    var apPaterno = $("#primerApellido").val();
+    var apMaterno = $("#segundoApellido").val();
+    var inmueble = $("#inmuebleID").val();
+    var ur = $("#ur").val();
+    var cuadrante = $("#cuadrante").val();
+    var numEtiqueta = $("#numEtiqueta").val();
+
+    var personaVisita = $("#personaV").val();
+    var idUr = document.getElementById("ur").value;
+    $('#idUR').val(idUr);
+
+
+    if (curp === null || curp.length === 0) {
+        $("#curpDivModal").addClass("has-error");
+        $("#errorCurpModal").text('');
+        $("#errorCurpModal").show();
+        $("#errorCurpModal").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (curpV(curp) && curp.length > 0) {
+        $("#curpDivModal").addClass("has-error");
+        $("#errorCurpModal").text('');
+        $("#errorCurpModal").show();
+        $("#errorCurpModal").append("Formato inv&aacute;lido para la CURP");
+        datosValidos = false;
+    }
+
+    if (nombre === null || nombre.length === 0) {
+        $("#nombreDivModal").addClass("has-error");
+        $("#errorNombreModal").text('');
+        $("#errorNombreModal").show();
+        $("#errorNombreModal").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (apPaterno === null || apPaterno.length === 0) {
+        $("#paternoDiv").addClass("has-error");
+        $("#errorPaterno").text('');
+        $("#errorPaterno").show();
+        $("#errorPaterno").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (nombre.length > 0 && !validaSoloLetras(nombre)) {
+        $("#nombreDivModal").addClass("has-error");
+        $("#errorNombreModal").text('');
+        $("#errorNombreModal").show();
+        $("#errorNombreModal").append("&Uacute;nicamente debe contener caracteres alfab&eacute;ticos");
+        datosValidos = false;
+    }
+
+    if (!validaSoloLetras(apPaterno) && apPaterno.length > 0) {
+        $("#paternoDiv").addClass("has-error");
+        $("#errorPaterno").text('');
+        $("#errorPaterno").show();
+        $("#errorPaterno").append("&Uacute;nicamente debe contener caracteres alfab&eacute;ticos");
+        datosValidos = false;
+    }
+    if (!validaSoloLetras(apMaterno) && apMaterno.length > 0) {
+        $("#maternoDiv").addClass("has-error");
+        $("#errorMaterno").text('');
+        $("#errorMaterno").show();
+        $("#errorMaterno").append("&Uacute;nicamente debe contener caracteres alfab&eacute;ticos");
+        datosValidos = false;
+    }
+
+    if (!validaSoloLetras(personaVisita) && personaVisita.length > 0) {
+        $("#perviDiv").addClass("has-error");
+        $("#errorpersonaV").text('');
+        $("#errorpersonaV").show();
+        $("#errorpersonaV").append("&Uacute;nicamente debe contener caracteres alfab&eacute;ticos");
+        datosValidos = false;
+    }
+    if (inmueble === "SELECCIONA") {
+        $("#inmuebleDiv").addClass("has-error");
+        $("#errorInmueble").text('');
+        $("#errorInmueble").show();
+        $("#errorInmueble").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (validaSoloNumeros(numEtiqueta) && numEtiqueta.length > 0) {
+        $("#etiquetaDiv").addClass("has-error");
+        $("#errornumEtiqueta").text('');
+        $("#errornumEtiqueta").show();
+        $("#errornumEtiqueta").append("&Uacute;nicamente debe contener caracteres num&eacute;ricos");
+        datosValidos = false;
+    }
+
+    if (numEtiqueta.length === 0) {
+        $("#etiquetaDiv").addClass("has-error");
+        $("#errornumEtiqueta").text('');
+        $("#errornumEtiqueta").show();
+        $("#errornumEtiqueta").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (ur == "SELECCIONA") {
+        $("#urDiv").addClass("has-error");
+        $("#errorUr").text('');
+        $("#errorUr").show();
+        $("#errorUr").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    if (cuadrante == "SELECCIONA") {
+        $("#cuadranteDiv").addClass("has-error");
+        $("#errorCuadrante").text('');
+        $("#errorCuadrante").show();
+        $("#errorCuadrante").append("Campo obligatorio");
+        datosValidos = false;
+    }
+
+    console.log('datosVlidos ess ' + datosValidos);
+
+    return datosValidos;
+}
+
+function curpV(curp) {
+    if (curp.match(/^([a-z]{4})([0-9]{6})([a-z]{6})([0-9a-z]{1}[0-9]{1})$/i)) {//AAAA######AAAAAAA-##
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function validaSoloLetras(data) {
+    var pattern = new RegExp('^[A-Z\u00C1\u00E1\u00C9\u00E9\u00CD\u00ED\u00D3\u00F3\u00DA\u00FA\u00DC\u00FC\u00D1\u00F1\\s]+$', 'i');
+    console.log('valor reg --> ' + pattern.test(data));
+    if (!pattern.test(data)) {  //Coincide con el formato general?
+        console.log("false");
+        return false;
+    }
+    else {
+        console.log("true");
+        return true;
+    }//Validado
+}
+
+function soloLetras(data) {
+    var re = /[a-zA-Z ]$/;
+    if (data.match(re))
+        return false;
+    else
+        return true;
+}
+
+/*function validaSoloLetras(data) {
+ var re = /^(?=.{1,40}$)[a-zA-ZÁÉÍÓÚñáéíóúÑ]+(?:[-' ][a-zA-Z]+)*$/;
+ console.log('expresionregular ' + data.match(re));
+ if (data.match(re))  //Coincide con el formato general?
+ return false;
+ else
+ return true; //Validado
+ }*/
+
+function validaSoloNumeros(data) {
+    var re = /^[0-9]+$/;
+    if (data.match(re))  //Coincide con el formato general?
+        return false;
+    else
+        return true; //Validado
+}
+
+$("#gafete").click(function () {
+
+    if (checkedRows.length == 0) {
+        alert("Seleccione al menos un registro");
+        return false;
+    }
+
+    window.document.location.href = baseURI + '/mvc/jasper/repEtiqueta?lstId=' + checkedRows;
+
+});
+
+function resultadoImpresion(data) {
+    $('#loader').modal('toggle');
+}
+
+function obtInmuebleMod(idInmueble)
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerInmueble",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var inmuebles;
+                inmuebles = response;
+                populateSelectInmuebleMod(inmuebles, idInmueble);
+            } else {
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectInmuebleMod(lstInmueble, idInmueble) {
+
+    document.getElementById("inmuebleID").options.length = 0;
+    for (var i = 0; i <= lstInmueble.length - 1; i++) {
+        if (i == 0 && lstInmueble.length >= 1) {
+            $('#inmuebleID').append('<option>' + 'SELECCIONA' + '</option>');
+        }
+        $('#inmuebleID').append('<option value="' + lstInmueble[i].idInmueble + '">' + lstInmueble[i].denominacion + '</option>');
+    }
+    $('#inmuebleID').val(idInmueble);
+
+}
+
+function obtenerURMod(idUr)
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerUR",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var UR;
+                UR = response;
+                populateSelectURMod(UR, idUr);
+                usuarioRol();
+            } else {
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectURMod(lstUR, idUr) {
+
+    document.getElementById("ur").options.length = 0;
+    for (var i = 0; i <= lstUR.length - 1; i++) {
+        if (i == 0 && lstUR.length >= 1) {
+            $('#ur').append('<option>' + 'SELECCIONA' + '</option>');
+        }
+        $('#ur').append('<option value="' + lstUR[i].idUr + '">' + lstUR[i].unidadResponsable + '</option>');
+    }
+    $('#ur').val(idUr);
+}
+
+
+function obtenerCuadranteS(inmuebleID, idCuadrante)
+{
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenerCuadrante/" + inmuebleID,
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var cuadrante;
+                cuadrante = response;
+                populateSelectCuadrantes(cuadrante, idCuadrante);
+            } else {
+
+                $('#cuadrante option').prop('selected', function () {
+                    return this.defaultSelected;
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function populateSelectCuadrantes(lstCuadrante, idCuadrante) {
+
+    document.getElementById("cuadrante").options.length = 0;
+    for (var i = 0; i <= lstCuadrante.length - 1; i++) {
+        if (i == 0 && lstCuadrante.length >= 1) {
+            $('#cuadrante').append('<option>' + 'SELECCIONA' + '</option>');
+        }
+        $('#cuadrante').append('<option value="' + lstCuadrante[i].idCuadranteArea + '">' + lstCuadrante[i].cuadranteArea + '</option>');
+    }
+    $('#cuadrante').val(idCuadrante);
+
+}
+
+function obtenertipoSangre()
+{
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: baseURI + "/mvc/catalogos/obtenertipoSangre",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (response) {
+
+            //drawTableGeneric(response);
+            if (response.length > 0) {
+
+                var sangre;
+                sangre = response;
+                populateSelectSangre(sangre);
+            } else {
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#mensajesError').html('<div class="alert alert-warning">No se encontraron registros</div>').show();
+            console.log('jqXHR.status:: ' + jqXHR.status);
+            console.log('jqXHR.text:: ' + jqXHR.text);
+            console.log('textStatus:: ' + textStatus);
+        }
+    });
+}
+
+function bin2string(array) {
+    var result = "";
+    for (var i = 0; i < array.length; ++i) {
+        result += (String.fromCharCode(array[i]));
+    }
+    return result;
+}
+
+
+$('#resultadosResumenTable').on('page-change.bs.table', function (e, size, number)
+{
+    $.each(checkedRows, function (i, id) {
+        var vName = $('#chk_' + id).val();
+        if (vName != 'undefined' && vName != null) {
+            $('#chk_' + id).prop("checked", true);
+        }
+    });
+});
+
+function toggleCheckbox(element)
+{
+    console.log(element.value);
+    var index = $.inArray(element.value, checkedRows);
+    if (element.checked) {
+        if (index == -1) {
+            checkedRows.push(element.value);
+        }
+    } else {
+        if (index !== -1) {
+            checkedRows.splice(index, 1);
+        }
+    }
+}
+
+
+function readFile(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            document.getElementById("file-preview-zone").innerHTML = "";
+            document.getElementById("imageBase").innerHTML = "";
+            var filePreview = document.createElement('img');
+            filePreview.id = 'file-preview';
+            //e.target.result contents the base64 data from the image uploaded
+            filePreview.src = e.target.result;
+            filePreview.width = 400;
+            filePreview.height = 300;
+
+            var previewZone = document.getElementById('file-preview-zone');
+            previewZone.appendChild(filePreview);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var fileUpload = document.getElementById('cargaArchivo');
+fileUpload.onchange = function (e) {
+    readFile(e.srcElement);
+}

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteUsuariosVisitante" pageWidth="1290" pageHeight="612" whenNoDataType="BlankPage" columnWidth="1290" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="32d2a2ce-45a7-483c-8f65-1c90041d56e1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="116"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PATH_WEB" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/ProyectosCVS/SESI/sep-sesi/sep-sesi-web/src/main/webapp/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ID_TIPO_PERSONA" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="curp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="IDUR" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="IDINMUEBLE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.curp, a.apellido1,  NVL(a.apellido2, '-----') as apellido2, a.nombre, b.denominacion, c.unidad_responsable, d.cuadrante_area,
+ e.tipo_persona, NVL (a.persona_visita, '-----') AS persona_visita  from tses011_visitantes a
+inner join tses009_inmuebles b on a.id_inmueble = b.id_inmueble
+inner join tses006_unidad_responsable c on a.id_ur = c.id_ur
+inner join tses010_cuadrante_area d on a.id_cuadrante_area = d.id_cuadrante_area
+inner join tses005_tipo_persona e on a.id_tipo_persona = e.id_tipo_persona
+AND (a.ID_TIPO_PERSONA = $P{ID_TIPO_PERSONA})
+AND (a.CURP = $P{curp} or $P{curp} is null)
+AND (a.ID_UR = $P{IDUR} or $P{IDUR} is null )
+AND (a.ID_INMUEBLE = $P{IDINMUEBLE} OR  $P{IDINMUEBLE} is null)]]>
+	</queryString>
+	<field name="CURP" class="java.lang.String"/>
+	<field name="APELLIDO1" class="java.lang.String"/>
+	<field name="APELLIDO2" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="PERSONA_VISITA" class="java.lang.String"/>
+	<field name="DENOMINACION" class="java.lang.String"/>
+	<field name="UNIDAD_RESPONSABLE" class="java.lang.String"/>
+	<field name="CUADRANTE_AREA" class="java.lang.String"/>
+	<field name="TIPO_PERSONA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<image>
+				<reportElement uuid="1d7f1d5a-adc8-4f6f-b477-eacbaec7bb75" x="0" y="12" width="227" height="72"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/EDUCACION_horizontal.png"]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement uuid="b95ae849-65ba-4f6d-a7f4-390338398a1e" x="976" y="12" width="199" height="40"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1dfa6040-9063-4642-baec-4b53a68c5a21" x="227" y="12" width="749" height="72"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE USUARIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8715cc84-f820-4d9d-b193-dbf37c3d5c3f" mode="Opaque" x="119" y="89" width="108" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ca89f319-748d-4088-8b01-c467af68a835" mode="Opaque" x="0" y="89" width="119" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CURP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="95aaa0e5-e44a-4fd0-a685-54bbfeee71ca" mode="Opaque" x="227" y="89" width="152" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRIMER APELLIDO	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9df6e582-fbe6-4aa9-87f9-1362990c9f4a" mode="Opaque" x="689" y="89" width="130" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO DE PERSONA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="073b28b4-788b-4647-a26d-ef2bf56212c2" mode="Opaque" x="530" y="89" width="159" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[INMUEBLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3fb64a5a-616b-4cad-afe2-611365715a1e" mode="Opaque" x="976" y="89" width="199" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERSONA QUE VISITA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5f7b5437-1740-441a-beef-f447a999ee6a" mode="Opaque" x="819" y="89" width="157" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b8c1e7d-c75c-4c4c-b50b-7aece404abbc" mode="Opaque" x="379" y="89" width="151" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEGUNDO APELLIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6cf631d0-a4b2-4510-b6f9-237f8f3c71fc" x="976" y="52" width="133" height="32"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE REGISTROS:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="a061b5a0-78aa-49de-9d2f-359b44f4c66b" x="1109" y="52" width="66" height="32"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d97686bd-6b68-4390-9aab-c6d56bc5bbb6" x="1" y="0" width="118" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CURP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1159ab46-b355-45c6-9c63-2ae18ca11bc9" x="119" y="0" width="109" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2b375fa0-56b9-408c-9a8c-240d16944c9c" x="228" y="0" width="151" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{APELLIDO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aa282347-5cab-4603-9d38-7f56c4e03d5b" x="379" y="0" width="151" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{APELLIDO2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a7625ed4-53d2-4709-bb35-c46b24413ae0" x="530" y="0" width="159" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DENOMINACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ea5d0a3b-2197-413c-b1a0-597b0f7fad72" x="689" y="0" width="130" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TIPO_PERSONA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="51376039-7c64-4cdc-b05e-fc729ce2c2f2" x="819" y="0" width="157" height="50"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{UNIDAD_RESPONSABLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2af5faa8-db0c-4cb5-a97f-ccf09c479b98" x="976" y="0" width="199" height="50"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PERSONA_VISITA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

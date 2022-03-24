@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses014ColoniaMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses014Colonia" >
+    <id column="ID_COLONIA" property="idColonia" jdbcType="DECIMAL" />
+    <id column="ID_ENTIDAD" property="idEntidad" jdbcType="DECIMAL" />
+    <id column="ID_ALCALDIA_MUN" property="idAlcaldiaMun" jdbcType="DECIMAL" />
+    <result column="COLONIA" property="colonia" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_COLONIA, ID_ENTIDAD, ID_ALCALDIA_MUN, COLONIA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses014ColoniaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES014_COLONIA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES014_COLONIA
+    where ID_COLONIA = #{idColonia,jdbcType=DECIMAL}
+      and ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+      and ID_ALCALDIA_MUN = #{idAlcaldiaMun,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from TSES014_COLONIA
+    where ID_COLONIA = #{idColonia,jdbcType=DECIMAL}
+      and ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+      and ID_ALCALDIA_MUN = #{idAlcaldiaMun,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses014ColoniaExample" >
+    delete from TSES014_COLONIA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses014Colonia" >
+    insert into TSES014_COLONIA (ID_COLONIA, ID_ENTIDAD, ID_ALCALDIA_MUN, 
+      COLONIA)
+    values (#{idColonia,jdbcType=DECIMAL}, #{idEntidad,jdbcType=DECIMAL}, #{idAlcaldiaMun,jdbcType=DECIMAL}, 
+      #{colonia,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses014Colonia" >
+    insert into TSES014_COLONIA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idColonia != null" >
+        ID_COLONIA,
+      </if>
+      <if test="idEntidad != null" >
+        ID_ENTIDAD,
+      </if>
+      <if test="idAlcaldiaMun != null" >
+        ID_ALCALDIA_MUN,
+      </if>
+      <if test="colonia != null" >
+        COLONIA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idColonia != null" >
+        #{idColonia,jdbcType=DECIMAL},
+      </if>
+      <if test="idEntidad != null" >
+        #{idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="idAlcaldiaMun != null" >
+        #{idAlcaldiaMun,jdbcType=DECIMAL},
+      </if>
+      <if test="colonia != null" >
+        #{colonia,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses014ColoniaExample" resultType="java.lang.Integer" >
+    select count(*) from TSES014_COLONIA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES014_COLONIA
+    <set >
+      <if test="record.idColonia != null" >
+        ID_COLONIA = #{record.idColonia,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idEntidad != null" >
+        ID_ENTIDAD = #{record.idEntidad,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idAlcaldiaMun != null" >
+        ID_ALCALDIA_MUN = #{record.idAlcaldiaMun,jdbcType=DECIMAL},
+      </if>
+      <if test="record.colonia != null" >
+        COLONIA = #{record.colonia,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES014_COLONIA
+    set ID_COLONIA = #{record.idColonia,jdbcType=DECIMAL},
+      ID_ENTIDAD = #{record.idEntidad,jdbcType=DECIMAL},
+      ID_ALCALDIA_MUN = #{record.idAlcaldiaMun,jdbcType=DECIMAL},
+      COLONIA = #{record.colonia,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses014Colonia" >
+    update TSES014_COLONIA
+    <set >
+      <if test="colonia != null" >
+        COLONIA = #{colonia,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_COLONIA = #{idColonia,jdbcType=DECIMAL}
+      and ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+      and ID_ALCALDIA_MUN = #{idAlcaldiaMun,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses014Colonia" >
+    update TSES014_COLONIA
+    set COLONIA = #{colonia,jdbcType=VARCHAR}
+    where ID_COLONIA = #{idColonia,jdbcType=DECIMAL}
+      and ID_ENTIDAD = #{idEntidad,jdbcType=DECIMAL}
+      and ID_ALCALDIA_MUN = #{idAlcaldiaMun,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,148 @@
+<%-- 
+    Document   : catAcceso
+    Created on : 23/11/2020, 01:24:39 PM
+    Author     : angel.adame
+--%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%@ page import="mx.sep.seguridad.util.SeguridadUtil"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<link rel="shortcut icon" href="https://framework-gb.cdn.gob.mx/favicon.ico">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+<link rel="stylesheet" type="text/css" href="https://framework-gb.cdn.gob.mx/assets/styles/main.css">
+
+<script type="text/javascript">
+
+
+</script>
+
+<style>
+    #myModal1{
+        width: 95% !important;
+    }
+</style>
+
+<t:particularTemplate>
+    <jsp:attribute name="paginaTitulo">      
+        Catálogo de accesos a inmuebles      
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
+    </jsp:attribute>
+    <jsp:attribute name="breadcrumb">
+    </jsp:attribute>
+    <jsp:body> 
+
+        <div class="container">
+
+           
+
+            <div ><div class="row">
+                    <h4>Catálogo de accesos a inmuebles</h4>
+                    <hr class="red">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" align="center">
+                    <h3>Criterios de búsqueda</h3>
+                </div>
+            </div>
+            
+             <div class="row">
+                <div id="divErrorPaginaAcces" class="col-md-12"></div>
+                <div id="divExitoPaginaAcces" class="col-md-12"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6" id="inmuebleCatAccesoDiv">
+                        <input id="idInmuebleCatAcceso" name="idInmuebleCat" type="hidden">
+                        <label class="control-label" for="inmuebleCatAcceso">Inmueble:</label>
+                        <select class="form-control"  id="inmuebleCatAcceso" name="inmuebleCatAcceso" onChange="asignarInmueble()">
+                            <option>SELECCIONA </option>
+                        </select>
+                        <span id="errorInmuebleCatAcceso" class="help-block"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <center>
+                    <button id="buscarCatAcceso" class="btn btn-primary" type="submit" style="margin-left: 30px;">Buscar</button>
+                    <button id="limpiarCatAcceso" class="btn btn-primary" type="submit" style="margin-left: 30px;">Limpiar</button>
+                    <button id="nuevoAcceso" class="btn btn-primary" style="margin-left: 30px;">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Nuevo acceso</button>		
+                </center>
+            </div><br><br><br>
+            <div class="table-responsive">
+                <table id="resultadosAccesoTable"></table>
+            </div>
+
+            <div id="divMensaje" 
+                 style="display: none">
+            </div>
+
+            <!----Modal----->
+
+            <div class="modal fade" id="ModalAcceso" data-backdrop="static" data-keyboard="false" style="overflow-y: scroll;">
+                <div class="modal-dialog" id="myModal1">
+                    <div class="modal-content" id="myModal2">
+                        <div class="modal-header" id="myModal3">
+                            <h4 class="modal-title">SESI</h4>
+
+                        </div>
+
+                        <div class="container">
+                            <div class="row">
+                                <div id="divErrorPagina" class="col-md-12"></div>
+                                <div id="divExitoPagina" class="col-md-12"></div>
+                            </div>
+
+                            <h3>Datos del acceso</h3>
+                            <hr class="red">
+                            <input id="idAccesoCat" name="idAccesoCat" type="hidden">
+                            <input id="idInmuebleCat" name="idInmuebleCat" type="hidden">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6" id="denominacionInmAccesDiv">
+                                        <label class="control-label" for="denominacionInmAcc">Inmueble*:</label>
+                                        <select class="form-control"  id="denominacionInmAcc" name="denominacionInmAcc" onChange="asignarInmuebleMod()">
+                                            <option>SELECCIONA </option>
+                                        </select>
+                                        <span id="errorDenominacion" class="help-block"></span>
+                                    </div>
+
+                                    <div class="col-md-6" id="accesoCatDiv">
+                                        <!--input id="idEntidadFed" name="idEntidadFed" type="hidden"-->
+                                        <label class="control-label" for="accesoCat">Acceso*:</label>
+                                        <input class="form-control" id="accesoCat" placeholder="Acceso" name="desAcceso" path="desAcceso" 
+                                               type="text" value="" onkeyup="this.value = this.value.toUpperCase()" maxlength="50"/>
+                                        <span id="errorAccesoCat" class="help-block" ></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p>(*) Campos obligatorios </p>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <button class="btn btn-primary pull-right" type="button" onclick="insertaAccesoCat()" id="btnGuardarAcceso">Guardar</button>
+                                    <button class="btn btn-default" type="button" data-dismiss="modal" onclick="cerrarModalCat()">Cerrar</button>                             
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </jsp:body>
+</t:particularTemplate>
+
+<script type="text/javascript" src="http://b.scorecardresearch.com/c2/17183199/ct.js"></script>
+<script type="text/javascript">var baseURI = '${pageContext.request.contextPath}';</script>
+<script src="<c:url value="/static/js/app/admin/catAcceso.js" />" rel="text/javascript"></script>		

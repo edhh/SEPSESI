@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.seguridad.dao.ModuloMenuDao">
+
+	<resultMap type="ModuloMenu" id="resultModuloMenu">
+		<id property="id" column="id_opcion"/>
+		<result property="modulo" column="opcion"/>
+	</resultMap>
+
+	<select id="consultarTodos" resultMap="resultModuloMenu">
+            select * from TSES019_MENUS where id_opcion_padre is null order by id_opcion asc
+		<!--select * from tpr001_menus where id_opcion_padre is null order by id_opcion-->
+	</select>
+
+	<select id="consultarModulo" resultMap="resultModuloMenu">
+		<!--select * from tpr001_menus  where id_opcion = #{id}-->
+                 select * from TSES019_MENUS  where id_opcion = #{id}
+	</select>
+</mapper>

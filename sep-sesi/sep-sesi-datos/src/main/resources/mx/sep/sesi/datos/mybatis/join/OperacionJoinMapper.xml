@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.sesi.dao.join.OperacionJoinMapper">
+   
+    <resultMap id="BaseResultMap" type="mx.sep.sesi.datos.vo.OperacionVO">
+        <id column="ID_REGISTRO" property="idRegistro" jdbcType="DECIMAL" />
+        <result column="ID_USUARIO" property="idUsuario" jdbcType="DECIMAL" />
+        <result column="ID_PERSONA" property="idPersona" jdbcType="DECIMAL" />
+        <result column="ID_VISITANTE" property="idVisitante" jdbcType="DECIMAL" />
+        <result column="ID_ACCESO" property="idAcceso" jdbcType="DECIMAL" />
+        <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="FECHA_OPERACION" property="fechaOperacion" jdbcType="TIMESTAMP" />
+        <result column="ENTRADA_SALIDA" property="entradaSalida" jdbcType="DECIMAL" />
+    </resultMap>  
+
+    <select id="consultarAcceso"  resultMap="BaseResultMap" > 
+        SELECT ID_REGISTRO, ID_USUARIO, ID_PERSONA, ID_VISITANTE, ID_ACCESO,
+        ID_INMUEBLE, FECHA_OPERACION, ENTRADA_SALIDA FROM TSES012_OPERACION a
+        where a.ID_REGISTRO is not null
+        
+        <if test="idPersona != null and idPersona != ''"  > 
+            and a.id_inmueble = #{idPersona}
+        </if> 
+        
+        <if test="idInmueble != null and idInmueble != ''"  > 
+            and a.id_inmueble = #{idInmueble}
+        </if> 
+        
+        <if test="fechaOperacion != null and fechaOperacion != ''"  > 
+            and a.FECHA_OPERACION like #{fechaOperacion}
+        </if> 
+         
+    </select>
+
+</mapper>

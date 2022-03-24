@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses006UnidadResponsableMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses006UnidadResponsable" >
+    <id column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="UNIDAD_RESPONSABLE" property="unidadResponsable" jdbcType="VARCHAR" />
+    <result column="CLAVE_UR" property="claveUr" jdbcType="VARCHAR" />
+    <result column="ABREVIATURA" property="abreviatura" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_UR, UNIDAD_RESPONSABLE, CLAVE_UR, ABREVIATURA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES006_UNIDAD_RESPONSABLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES006_UNIDAD_RESPONSABLE
+    where ID_UR = #{idUr,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES006_UNIDAD_RESPONSABLE
+    where ID_UR = #{idUr,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsableExample" >
+    delete from TSES006_UNIDAD_RESPONSABLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsable" >
+    insert into TSES006_UNIDAD_RESPONSABLE (ID_UR, UNIDAD_RESPONSABLE, CLAVE_UR, 
+      ABREVIATURA)
+    values (#{idUr,jdbcType=DECIMAL}, #{unidadResponsable,jdbcType=VARCHAR}, #{claveUr,jdbcType=VARCHAR}, 
+      #{abreviatura,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsable" >
+    insert into TSES006_UNIDAD_RESPONSABLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idUr != null" >
+        ID_UR,
+      </if>
+      <if test="unidadResponsable != null" >
+        UNIDAD_RESPONSABLE,
+      </if>
+      <if test="claveUr != null" >
+        CLAVE_UR,
+      </if>
+      <if test="abreviatura != null" >
+        ABREVIATURA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idUr != null" >
+        #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="unidadResponsable != null" >
+        #{unidadResponsable,jdbcType=VARCHAR},
+      </if>
+      <if test="claveUr != null" >
+        #{claveUr,jdbcType=VARCHAR},
+      </if>
+      <if test="abreviatura != null" >
+        #{abreviatura,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsableExample" resultType="java.lang.Integer" >
+    select count(*) from TSES006_UNIDAD_RESPONSABLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES006_UNIDAD_RESPONSABLE
+    <set >
+      <if test="record.idUr != null" >
+        ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unidadResponsable != null" >
+        UNIDAD_RESPONSABLE = #{record.unidadResponsable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.claveUr != null" >
+        CLAVE_UR = #{record.claveUr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.abreviatura != null" >
+        ABREVIATURA = #{record.abreviatura,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES006_UNIDAD_RESPONSABLE
+    set ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      UNIDAD_RESPONSABLE = #{record.unidadResponsable,jdbcType=VARCHAR},
+      CLAVE_UR = #{record.claveUr,jdbcType=VARCHAR},
+      ABREVIATURA = #{record.abreviatura,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsable" >
+    update TSES006_UNIDAD_RESPONSABLE
+    <set >
+      <if test="unidadResponsable != null" >
+        UNIDAD_RESPONSABLE = #{unidadResponsable,jdbcType=VARCHAR},
+      </if>
+      <if test="claveUr != null" >
+        CLAVE_UR = #{claveUr,jdbcType=VARCHAR},
+      </if>
+      <if test="abreviatura != null" >
+        ABREVIATURA = #{abreviatura,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_UR = #{idUr,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses006UnidadResponsable" >
+    update TSES006_UNIDAD_RESPONSABLE
+    set UNIDAD_RESPONSABLE = #{unidadResponsable,jdbcType=VARCHAR},
+      CLAVE_UR = #{claveUr,jdbcType=VARCHAR},
+      ABREVIATURA = #{abreviatura,jdbcType=VARCHAR}
+    where ID_UR = #{idUr,jdbcType=DECIMAL}
+  </update>
+</mapper>

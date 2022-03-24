@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="credencial4" columnCount="2" pageWidth="595" pageHeight="900" columnWidth="278" columnSpacing="8" leftMargin="30" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e8247c90-f1df-40d2-a65d-6af20c391144">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PATH_WEB" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/Proyectos/Sesi/sep-sesi/sep-sesi-web/src/main/webapp/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCriterio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["49,10,45,48,23"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.ID_PERSONA,
+        A.ID_TIPO_PERSONA,
+        A.ID_UR,
+        A.ID_TIPO_SANGRE,
+        A.ID_INMUEBLE,
+        A.ID_CUADRANTE_AREA,
+        A.CURP,
+        A.APELLIDO1,
+        A.APELLIDO2,
+        A.NOMBRE,
+        A.FOTOGRAFIA,
+        A.TEL_EMERGENCIA,
+        A.FECHA_ACTUALIZACION,
+        A.ESTATUS,
+        A.PUESTO,
+        A.ALERGIAS,
+        A.ENFERMEDAD,
+        A.RFC,
+        B.UNIDAD_RESPONSABLE,
+        B.CLAVE_UR,
+        C.NOMBRE_AUTORIZA,
+        C.PUESTO_AUTORIZA
+FROM TSES004_PERSONAS A, TSES006_UNIDAD_RESPONSABLE B, TSES020_FIRMANTES C
+WHERE A.ID_UR = B.ID_UR
+AND B.ID_UR = C.ID_UR
+AND A.ID_PERSONA IN ( $P!{pCriterio} )]]>
+	</queryString>
+	<field name="ID_PERSONA" class="java.math.BigDecimal"/>
+	<field name="ID_TIPO_PERSONA" class="java.math.BigDecimal"/>
+	<field name="ID_UR" class="java.math.BigDecimal"/>
+	<field name="ID_TIPO_SANGRE" class="java.math.BigDecimal"/>
+	<field name="ID_INMUEBLE" class="java.math.BigDecimal"/>
+	<field name="ID_CUADRANTE_AREA" class="java.math.BigDecimal"/>
+	<field name="CURP" class="java.lang.String"/>
+	<field name="APELLIDO1" class="java.lang.String"/>
+	<field name="APELLIDO2" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="FOTOGRAFIA" class="java.io.InputStream"/>
+	<field name="TEL_EMERGENCIA" class="java.lang.String"/>
+	<field name="FECHA_ACTUALIZACION" class="java.sql.Timestamp"/>
+	<field name="ESTATUS" class="java.math.BigDecimal"/>
+	<field name="PUESTO" class="java.lang.String"/>
+	<field name="ALERGIAS" class="java.lang.String"/>
+	<field name="ENFERMEDAD" class="java.lang.String"/>
+	<field name="RFC" class="java.lang.String"/>
+	<field name="UNIDAD_RESPONSABLE" class="java.lang.String"/>
+	<field name="CLAVE_UR" class="java.lang.String"/>
+	<field name="NOMBRE_AUTORIZA" class="java.lang.String"/>
+	<field name="PUESTO_AUTORIZA" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="125" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="388">
+			<staticText>
+				<reportElement uuid="499a7d79-b7c0-4d86-a62f-df3a68c53115" x="128" y="86" width="27" height="1" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d33cdb8d-1c5d-42f4-9f0f-260416a28615" x="21" y="91" width="136" height="16" forecolor="#666666"/>
+				<textElement rotation="UpsideDown">
+					<font fontName="Montserrat SemiBold" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="673a9811-26ff-4a05-aca5-3a274c005826" x="23" y="55" width="135" height="18" forecolor="#666666"/>
+				<textElement rotation="UpsideDown">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APELLIDO1} + " " + ($F{APELLIDO2} == null ? "":$F{APELLIDO2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2d80259a-ba85-4298-8e77-23437278dd10" x="102" y="18" width="55" height="26" forecolor="#666666"/>
+				<textElement rotation="UpsideDown">
+					<font fontName="Montserrat Medium" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PUESTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="24903a3a-454e-4925-8de9-f0d2b82b4195" x="16" y="14" width="81" height="30" forecolor="#666666"/>
+				<textElement rotation="UpsideDown">
+					<font fontName="Montserrat Medium" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIDAD_RESPONSABLE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="b5bb45ab-30ed-4ee0-b390-a4ca22d98ba0" x="117" y="281" width="75" height="9" forecolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Top">
+				<reportElement uuid="5624ca36-ecb9-49ac-9479-53b51476c2da" x="169" y="25" width="83" height="105"/>
+				<imageExpression><![CDATA[mx.sep.sesi.servicios.util.RotarImagen.rotateImage(($F{FOTOGRAFIA}), 100.00)]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="7e23257c-2786-4da1-83ac-fdac614e2891" x="18" y="235" width="83" height="16" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CURP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a0439599-5537-4881-a870-a8b30bea90d8" x="18" y="207" width="82" height="17" forecolor="#666666"/>
+				<textElement rotation="None">
+					<font fontName="Montserrat Medium" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RFC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

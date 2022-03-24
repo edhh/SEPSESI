@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- goal = mybatis-generator:generate -->
+<generatorConfiguration>
+    <context id="FlatJava5" targetRuntime="MyBatis3" defaultModelType="flat">
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                    connectionURL="jdbc:oracle:thin:@nomdgticscan.sep.gob.mx:1530/NOMDES"
+                    userId="SISEDES" 
+                    password="S1s3D35#trY">
+        </jdbcConnection> 
+        
+        <javaModelGenerator targetPackage="mx.sep.sesi.modelo" 
+                        targetProject="MAVEN">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mx.sep.sesi.datos.mybatis"  
+                     targetProject="MAVEN">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="mx.sep.sesi.dao"
+                         targetProject="MAVEN">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        
+
+        <!--<table tableName="TSES001_USUARIOS"/>
+        <table tableName="TSES002_ROLES"/>
+        <table tableName="TSES003_ROL_USUARIO"/>
+        <table tableName="TSES004_PERSONAS"/>
+        <table tableName="TSES005_TIPO_PERSONA"/>
+        <table tableName="TSES006_UNIDAD_RESPONSABLE"/>
+        <table tableName="TSES007_TIPO_SANGRE"/>
+        <table tableName="TSES008_ALERGIAS"/>
+        <table tableName="TSES009_INMUEBLES"/>
+        <table tableName="TSES010_CUADRANTE_AREA"/>
+        <table tableName="TSES011_VISITANTES"/>
+        <table tableName="TSES012_OPERACION"/>
+        <table tableName="TSES013_ACCESOS"/>
+        <table tableName="TSES014_COLONIA"/>
+        <table tableName="TSES015_ALCALDIA_MUN"/>
+        <table tableName="TSES016_ENTIDAD"/>
+        <table tableName="TSES017_INCIDENCIAS"/>
+        <table tableName="TSES018_ENFERMEDAD"/>
+        <table tableName="TSES019_MENUS"/>
+        <table tableName="TSES020_FIRMANTES"/> 
+        <table tableName="TSES021_BITACORA"/> -->
+        <!--<table tableName="TSES022_TRADUCCION_SERVICIO"/>     -->
+        <!--<table tableName="TSES001_USUARIOS"/>
+        <table tableName="TSES002_ROLES"/>
+        <table tableName="TSES009_INMUEBLES"/>-->
+        <!--<table tableName="TSES023_PARAMETROS"/>-->
+        <!--<table tableName="TSES020_FIRMANTES"/>-->
+        <!--<table tableName="TSES004_PERSONAS"/>-->
+        <!--<table tableName="tses024_equipos"/>
+        <table tableName="TSES004_PERSONAS"/>-->
+        <table tableName="TSES004_PERSONAS"/>
+    </context>
+
+</generatorConfiguration>

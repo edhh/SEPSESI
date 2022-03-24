@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses001UsuariosMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses001Usuarios" >
+    <id column="ID_USUARIO" property="idUsuario" jdbcType="DECIMAL" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="ID_ACCESO" property="idAcceso" jdbcType="DECIMAL" />
+    <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+    <result column="APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+    <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+    <result column="NOMBRE_USU" property="nombreUsu" jdbcType="VARCHAR" />
+    <result column="CONTRASENA" property="contrasena" jdbcType="VARCHAR" />
+    <result column="ACTIVO" property="activo" jdbcType="DECIMAL" />
+    <result column="CURP" property="curp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_USUARIO, ID_INMUEBLE, ID_ACCESO, ID_UR, APELLIDO1, APELLIDO2, NOMBRE, NOMBRE_USU, 
+    CONTRASENA, ACTIVO, CURP
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses001UsuariosExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES001_USUARIOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES001_USUARIOS
+    where ID_USUARIO = #{idUsuario,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES001_USUARIOS
+    where ID_USUARIO = #{idUsuario,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses001UsuariosExample" >
+    delete from TSES001_USUARIOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses001Usuarios" >
+    insert into TSES001_USUARIOS (ID_USUARIO, ID_INMUEBLE, ID_ACCESO, 
+      ID_UR, APELLIDO1, APELLIDO2, 
+      NOMBRE, NOMBRE_USU, CONTRASENA, 
+      ACTIVO, CURP)
+    values (#{idUsuario,jdbcType=DECIMAL}, #{idInmueble,jdbcType=DECIMAL}, #{idAcceso,jdbcType=DECIMAL}, 
+      #{idUr,jdbcType=DECIMAL}, #{apellido1,jdbcType=VARCHAR}, #{apellido2,jdbcType=VARCHAR}, 
+      #{nombre,jdbcType=VARCHAR}, #{nombreUsu,jdbcType=VARCHAR}, #{contrasena,jdbcType=VARCHAR}, 
+      #{activo,jdbcType=DECIMAL}, #{curp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses001Usuarios" >
+    insert into TSES001_USUARIOS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idUsuario != null" >
+        ID_USUARIO,
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE,
+      </if>
+      <if test="idAcceso != null" >
+        ID_ACCESO,
+      </if>
+      <if test="idUr != null" >
+        ID_UR,
+      </if>
+      <if test="apellido1 != null" >
+        APELLIDO1,
+      </if>
+      <if test="apellido2 != null" >
+        APELLIDO2,
+      </if>
+      <if test="nombre != null" >
+        NOMBRE,
+      </if>
+      <if test="nombreUsu != null" >
+        NOMBRE_USU,
+      </if>
+      <if test="contrasena != null" >
+        CONTRASENA,
+      </if>
+      <if test="activo != null" >
+        ACTIVO,
+      </if>
+      <if test="curp != null" >
+        CURP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idUsuario != null" >
+        #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idAcceso != null" >
+        #{idAcceso,jdbcType=DECIMAL},
+      </if>
+      <if test="idUr != null" >
+        #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="apellido1 != null" >
+        #{apellido1,jdbcType=VARCHAR},
+      </if>
+      <if test="apellido2 != null" >
+        #{apellido2,jdbcType=VARCHAR},
+      </if>
+      <if test="nombre != null" >
+        #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="nombreUsu != null" >
+        #{nombreUsu,jdbcType=VARCHAR},
+      </if>
+      <if test="contrasena != null" >
+        #{contrasena,jdbcType=VARCHAR},
+      </if>
+      <if test="activo != null" >
+        #{activo,jdbcType=DECIMAL},
+      </if>
+      <if test="curp != null" >
+        #{curp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses001UsuariosExample" resultType="java.lang.Integer" >
+    select count(*) from TSES001_USUARIOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES001_USUARIOS
+    <set >
+      <if test="record.idUsuario != null" >
+        ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idInmueble != null" >
+        ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idAcceso != null" >
+        ID_ACCESO = #{record.idAcceso,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUr != null" >
+        ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.apellido1 != null" >
+        APELLIDO1 = #{record.apellido1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.apellido2 != null" >
+        APELLIDO2 = #{record.apellido2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nombre != null" >
+        NOMBRE = #{record.nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nombreUsu != null" >
+        NOMBRE_USU = #{record.nombreUsu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contrasena != null" >
+        CONTRASENA = #{record.contrasena,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activo != null" >
+        ACTIVO = #{record.activo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.curp != null" >
+        CURP = #{record.curp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES001_USUARIOS
+    set ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      ID_ACCESO = #{record.idAcceso,jdbcType=DECIMAL},
+      ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      APELLIDO1 = #{record.apellido1,jdbcType=VARCHAR},
+      APELLIDO2 = #{record.apellido2,jdbcType=VARCHAR},
+      NOMBRE = #{record.nombre,jdbcType=VARCHAR},
+      NOMBRE_USU = #{record.nombreUsu,jdbcType=VARCHAR},
+      CONTRASENA = #{record.contrasena,jdbcType=VARCHAR},
+      ACTIVO = #{record.activo,jdbcType=DECIMAL},
+      CURP = #{record.curp,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses001Usuarios" >
+    update TSES001_USUARIOS
+    <set >
+      <if test="idInmueble != null" >
+        ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="idAcceso != null" >
+        ID_ACCESO = #{idAcceso,jdbcType=DECIMAL},
+      </if>
+      <if test="idUr != null" >
+        ID_UR = #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="apellido1 != null" >
+        APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+      </if>
+      <if test="apellido2 != null" >
+        APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+      </if>
+      <if test="nombre != null" >
+        NOMBRE = #{nombre,jdbcType=VARCHAR},
+      </if>
+      <if test="nombreUsu != null" >
+        NOMBRE_USU = #{nombreUsu,jdbcType=VARCHAR},
+      </if>
+      <if test="contrasena != null" >
+        CONTRASENA = #{contrasena,jdbcType=VARCHAR},
+      </if>
+      <if test="activo != null" >
+        ACTIVO = #{activo,jdbcType=DECIMAL},
+      </if>
+      <if test="curp != null" >
+        CURP = #{curp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_USUARIO = #{idUsuario,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses001Usuarios" >
+    update TSES001_USUARIOS
+    set ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      ID_ACCESO = #{idAcceso,jdbcType=DECIMAL},
+      ID_UR = #{idUr,jdbcType=DECIMAL},
+      APELLIDO1 = #{apellido1,jdbcType=VARCHAR},
+      APELLIDO2 = #{apellido2,jdbcType=VARCHAR},
+      NOMBRE = #{nombre,jdbcType=VARCHAR},
+      NOMBRE_USU = #{nombreUsu,jdbcType=VARCHAR},
+      CONTRASENA = #{contrasena,jdbcType=VARCHAR},
+      ACTIVO = #{activo,jdbcType=DECIMAL},
+      CURP = #{curp,jdbcType=VARCHAR}
+    where ID_USUARIO = #{idUsuario,jdbcType=DECIMAL}
+  </update>
+</mapper>

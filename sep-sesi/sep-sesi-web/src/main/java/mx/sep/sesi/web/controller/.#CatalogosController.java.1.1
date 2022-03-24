@@ -1,0 +1,83 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.web.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import mx.sep.sesi.modelo.Tses009Inmuebles;
+import mx.sep.sesi.modelo.Tses010CuadranteArea;
+import mx.sep.sesi.modelo.Tses018Enfermedad;
+import mx.sep.sesi.modelo.Tses006UnidadResponsable;
+import mx.sep.sesi.modelo.Tses007TipoSangre;
+import mx.sep.sesi.modelo.Tses008Alergias;
+import mx.sep.sesi.servicios.CatalogosServicio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+
+/**
+ *
+ * @author heriberto.perez
+ */
+@Controller
+@RequestMapping(value = "/catalogos")
+public class CatalogosController {
+    
+    @Autowired
+    private CatalogosServicio catalogosServicio;
+    
+    @RequestMapping(value = "/obtenerInmueble", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Tses009Inmuebles> obtenerInmueble() throws Exception {
+        List<Tses009Inmuebles> inmuebleSelect = new ArrayList<Tses009Inmuebles>();
+        inmuebleSelect = catalogosServicio.obtenerInmueble();
+        return inmuebleSelect;
+    }
+    
+    @RequestMapping(value = "/obtenerUR", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Tses006UnidadResponsable> obtenerUR() throws Exception {
+        List<Tses006UnidadResponsable> urSelect = new ArrayList<Tses006UnidadResponsable>();
+        urSelect = catalogosServicio.obtenerUR();
+        return urSelect;
+    }
+    
+    @RequestMapping(value = "/obtenertipoSangre", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Tses007TipoSangre> obtenertipoSangre() throws Exception {
+        List<Tses007TipoSangre> sangreSelect = new ArrayList<Tses007TipoSangre>();
+        sangreSelect = catalogosServicio.obtenertipoSangre();
+        return sangreSelect;
+    }
+    
+    @RequestMapping(value = "/obtenerAlergias", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Tses008Alergias> obtenerAlergias() throws Exception {
+        List<Tses008Alergias> alergiasSelect = new ArrayList<Tses008Alergias>();
+        alergiasSelect = catalogosServicio.obtenerAlergias();
+        return alergiasSelect;
+    }
+    
+    @RequestMapping(value = "/obtenerCuadrante/{idInmueble}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Tses010CuadranteArea> obtenerCuadrante(@PathVariable Short idInmueble) throws Exception {
+        List<Tses010CuadranteArea> cuadranteSelect = new ArrayList<Tses010CuadranteArea>();
+        cuadranteSelect = catalogosServicio.obtenerCuadrante(idInmueble);
+        return cuadranteSelect;
+    }
+    
+    @RequestMapping(value = "/obtenerEnfermedad", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Tses018Enfermedad> obtenerEnfermedad() throws Exception {
+        List<Tses018Enfermedad> enfermedadSelect = new ArrayList<Tses018Enfermedad>();
+        enfermedadSelect = catalogosServicio.obtenerEnfermedad();
+        return enfermedadSelect;
+    }
+    
+}

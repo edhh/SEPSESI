@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="credencialPVC(2)" pageWidth="612" pageHeight="800" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="14ca542c-cf88-4f23-bfb1-c46448d44c1b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="terceraQA"/>
+	<property name="ireport.background.image.properties" value="true,true,0.25,-25,114,39,0,565,603"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\luis.mendoza\\Documents\\reportesREPASEv2\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pRuta" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/ProyectosCVS/Repase/sep-repase/sep-repase-web/src/main/webapp"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PATH_JASPER" class="java.lang.String"/>
+	<parameter name="id_principal" class="java.math.BigDecimal"/>
+	<parameter name="numero_sesion" class="java.math.BigDecimal"/>
+	<parameter name="PAutenticidad" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	ct.CCT
+	, pr.ID_PRINCIPAL
+	, NVL(TO_CHAR(ac.HORA_FINAL, 'HH24:mi'), '-----') AS horaFinal
+	, pr.ID_TURNO
+           ,cp.PERIODO
+           , CASE ac.ID_ESTATUS WHEN 1 THEN 'EN PROCESO'
+             WHEN 2 THEN 'CERRADA'
+             ELSE '' END AS ESTATUS
+           ,ce.CICLO_ESCOLAR
+,CASE
+		WHEN pr.PRESENTO_PLANTILLA = 1 THEN 'SI'
+		WHEN pr.PRESENTO_PLANTILLA = 2 THEN 'NO'
+		ELSE 'NO'
+		END AS PRESENTO_PLANTILLA
+           ,ac.ID_ESTATUS
+FROM TRE005_IG_P_S pr
+	INNER JOIN SIGED.CT ct ON (ct.ID_CT = pr.ID_CT)
+	INNER JOIN TRE058_ACTA_SESION ac ON (pr.ID_PRINCIPAL = ac.ID_PRINCIPAL)
+          INNER JOIN TRE059_CAT_PERIODO_CONSEJO cp ON (cp.ID_PERIODO_CONSEJO =pr.ID_PERIODO_CONSEJO)
+          INNER JOIN TRE053_CAT_CICLOS_ESCOLARES ce ON (ce.ID_CICLO_ESCOLAR =pr.ID_CICLO_ESCOLAR)
+WHERE pr.ID_PRINCIPAL = $P{id_principal}
+	AND ac.NUMERO_SESION = $P{numero_sesion}]]>
+	</queryString>
+	<field name="CCT" class="java.lang.String"/>
+	<field name="ID_PRINCIPAL" class="java.math.BigDecimal"/>
+	<field name="HORAFINAL" class="java.lang.String"/>
+	<field name="ID_TURNO" class="java.math.BigDecimal"/>
+	<field name="PERIODO" class="java.lang.String"/>
+	<field name="ESTATUS" class="java.lang.String"/>
+	<field name="CICLO_ESCOLAR" class="java.lang.String"/>
+	<field name="ID_ESTATUS" class="java.math.BigDecimal"/>
+	<field name="PRESENTO_PLANTILLA" class="java.lang.String"/>
+	<detail>
+		<band height="620" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="4c94ede6-8fcd-4670-af43-9e4edad67565" isPrintRepeatedValues="false" x="2" y="0" width="550" height="620"/>
+				<subreportParameter name="id_turno">
+					<subreportParameterExpression><![CDATA[$F{ID_TURNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PATH_JASPER">
+					<subreportParameterExpression><![CDATA[$P{PATH_JASPER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="id_principal">
+					<subreportParameterExpression><![CDATA[$F{ID_PRINCIPAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{PATH_JASPER} + "subRepDatosGenerales.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="500">
+			<subreport>
+				<reportElement uuid="036370b0-4cce-446f-8c9c-b221059753b5" x="0" y="0" width="552" height="500" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="PATH_JASPER">
+					<subreportParameterExpression><![CDATA[$P{PATH_JASPER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="id_principal">
+					<subreportParameterExpression><![CDATA[$F{ID_PRINCIPAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{PATH_JASPER} + "subreportePFederales.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

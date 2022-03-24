@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses013AccesosMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses013Accesos" >
+    <id column="ID_ACCESO" property="idAcceso" jdbcType="DECIMAL" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="DES_ACCESO" property="desAcceso" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_ACCESO, ID_INMUEBLE, DES_ACCESO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses013AccesosExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES013_ACCESOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES013_ACCESOS
+    where ID_ACCESO = #{idAcceso,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES013_ACCESOS
+    where ID_ACCESO = #{idAcceso,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses013AccesosExample" >
+    delete from TSES013_ACCESOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses013Accesos" >
+    insert into TSES013_ACCESOS (ID_ACCESO, ID_INMUEBLE, DES_ACCESO
+      )
+    values (#{idAcceso,jdbcType=DECIMAL}, #{idInmueble,jdbcType=DECIMAL}, #{desAcceso,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses013Accesos" >
+    insert into TSES013_ACCESOS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idAcceso != null" >
+        ID_ACCESO,
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE,
+      </if>
+      <if test="desAcceso != null" >
+        DES_ACCESO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idAcceso != null" >
+        #{idAcceso,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="desAcceso != null" >
+        #{desAcceso,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses013AccesosExample" resultType="java.lang.Integer" >
+    select count(*) from TSES013_ACCESOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES013_ACCESOS
+    <set >
+      <if test="record.idAcceso != null" >
+        ID_ACCESO = #{record.idAcceso,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idInmueble != null" >
+        ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.desAcceso != null" >
+        DES_ACCESO = #{record.desAcceso,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES013_ACCESOS
+    set ID_ACCESO = #{record.idAcceso,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      DES_ACCESO = #{record.desAcceso,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses013Accesos" >
+    update TSES013_ACCESOS
+    <set >
+      <if test="idInmueble != null" >
+        ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="desAcceso != null" >
+        DES_ACCESO = #{desAcceso,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_ACCESO = #{idAcceso,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses013Accesos" >
+    update TSES013_ACCESOS
+    set ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      DES_ACCESO = #{desAcceso,jdbcType=VARCHAR}
+    where ID_ACCESO = #{idAcceso,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.join.TSES004PersonasJoinMapper">
+  
+    <resultMap id="resultMapPersonasJoin" type="mx.sep.sesi.modelo.join.TSES004PersonasJoin" >
+        <id column="ID_PERSONA" property="idPersona" jdbcType="DECIMAL" />
+        <result column="CURP" property="curp" jdbcType="VARCHAR" />
+        <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+        <result column="APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+        <result column="APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+        <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+        <result column="ID_TIPO_PERSONA" property="idTipoPersona" jdbcType="DECIMAL" />
+        <result column="PUESTO" property="puesto" jdbcType="VARCHAR" />
+    
+        <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+        <result column="UNIDAD_RESPONSABLE" property="unidadResponsable" jdbcType="VARCHAR" />
+        <result column="TIPO_PERSONA" property="tipoPersona" jdbcType="VARCHAR" />
+        <result column="ESTATUS" property="estatus" jdbcType="DECIMAL" />
+        <result column="FECHA_OPERACION" property="fecha" jdbcType="DATE" />
+        <result column="ENTRADA_SALIDA" property="entradaSalida" jdbcType="DECIMAL" />
+        <result column="OPERACION" property="operacion" jdbcType="VARCHAR" />
+        <result column="ESTATUSDES" property="estatusDes" jdbcType="VARCHAR" />
+        <result column="FECHADATE" property="fechaDate" jdbcType="VARCHAR" />
+        <result column="ALERGIAS" property="alergias" jdbcType="VARCHAR" />
+        <result column="TEL_EMERGENCIA" property="telEmergencia" jdbcType="VARCHAR" />
+        <result column="ENFERMEDAD" property="enfermedad" jdbcType="VARCHAR" />
+        <result column="TIPO_SANGRE" property="tipoSangre" jdbcType="VARCHAR" />
+        <result column="FOTOGRAFIA" property="fotografia" jdbcType="BLOB" />
+        <result column="NUM_SERIE" property="numSerie" jdbcType="VARCHAR" />
+        <result column="CURP" property="curp" jdbcType="VARCHAR" />
+    </resultMap>
+  
+    <resultMap id="resultMapVisitantesJoin" type="mx.sep.sesi.modelo.join.Tses011VisitanteJoin" >
+        <id column="ID_VISITANTE" property="idVisitante" jdbcType="DECIMAL" />
+        <result column="CURP" property="curp" jdbcType="VARCHAR" />
+        <result column="NOMBRE" property="nombre" jdbcType="VARCHAR" />
+        <result column="APELLIDO1" property="apellido1" jdbcType="VARCHAR" />
+        <result column="APELLIDO2" property="apellido2" jdbcType="VARCHAR" />
+        <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+        <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+        <result column="ID_TIPO_PERSONA" property="idTipoPersona" jdbcType="DECIMAL" />
+        <result column="PERSONA_VISITA" property="personaVisita" jdbcType="VARCHAR" />
+    
+        <result column="DENOMINACION" property="denominacion" jdbcType="VARCHAR" />
+        <result column="UNIDAD_RESPONSABLE" property="unidadResponsable" jdbcType="VARCHAR" />
+        <result column="TIPO_PERSONA" property="tipoPersona" jdbcType="VARCHAR" />
+        <result column="ESTATUS" property="estatus" jdbcType="DECIMAL" />
+        <result column="FECHA_OPERACION" property="fecha" jdbcType="DATE" />
+        <result column="ENTRADA_SALIDA" property="entradaSalida" jdbcType="DECIMAL" />
+        <result column="OPERACION" property="operacion" jdbcType="VARCHAR" />
+        <result column="ESTATUSDES" property="estatusDes" jdbcType="VARCHAR" />
+        <result column="FECHADATE" property="fechaDate" jdbcType="VARCHAR" />
+        <result column="NUMERO_SERIE_VIS" property="numSerie" jdbcType="VARCHAR" />
+    </resultMap>
+  
+    <select id="selecPersonas" resultMap="resultMapPersonasJoin">
+        SELECT * 
+        FROM TSES004_PERSONAS PER
+        LEFT JOIN TSES009_INMUEBLES INM 
+        ON PER.ID_INMUEBLE = INM.ID_INMUEBLE
+        INNER JOIN TSES005_TIPO_PERSONA TIPO 
+        ON PER.ID_TIPO_PERSONA = TIPO.ID_TIPO_PERSONA
+        INNER JOIN TSES006_UNIDAD_RESPONSABLE UR 
+        ON PER.ID_UR = UR.ID_UR
+        WHERE  PER.ID_TIPO_PERSONA = #{idTipoPersona}
+        
+        <if test="idUr != null and idUr != ''"  > 
+            AND PER.ID_UR = #{idUr}
+        </if> 
+       
+        <if test="curp != null and curp != ''"  > 
+            AND PER.CURP = #{curp}
+        </if> 
+        <if test="nombre != null and nombre != ''"  >
+            AND PER.NOMBRE LIKE (CONCAT( '%' , CONCAT(#{nombre, jdbcType=VARCHAR} , '%')))             
+        </if> 
+        <if test="primerApellido != null and primerApellido != ''"  >
+            AND PER.APELLIDO1 LIKE (CONCAT( '%' , CONCAT(#{primerApellido, jdbcType=VARCHAR} , '%'))) 
+        </if> 
+        <if test="segundoApellido != null and segundoApellido != ''"  > 
+            AND PER.APELLIDO2 LIKE (CONCAT( '%' , CONCAT(#{segundoApellido, jdbcType=VARCHAR} , '%'))) 
+        </if>   
+        order by PER.CURP
+    </select>
+    
+    <select id="selectVisitantes" resultMap="resultMapVisitantesJoin">
+        SELECT  vis.id_visitante, vis.id_inmueble, vis.curp, vis.apellido1, vis.apellido2, vis.nombre, vis.persona_visita, INM.denominacion,
+        UR.UNIDAD_RESPONSABLE
+        FROM TSES011_VISITANTES VIS
+        LEFT JOIN TSES009_INMUEBLES INM ON VIS.ID_INMUEBLE = INM.ID_INMUEBLE
+        JOIN TSES005_TIPO_PERSONA TIPO ON VIS.ID_TIPO_PERSONA = TIPO.ID_TIPO_PERSONA
+        JOIN TSES006_UNIDAD_RESPONSABLE UR ON VIS.ID_UR = UR.ID_UR
+        AND VIS.ID_TIPO_PERSONA = 3
+     
+        <if test="curp != null and curp != ''"  > 
+            AND VIS.CURP = #{curp}
+        </if> 
+        <if test="nombre != null and nombre != ''"  >
+            AND VIS.NOMBRE LIKE (CONCAT( '%' , CONCAT(#{nombre, jdbcType=VARCHAR} , '%')))             
+        </if> 
+        <if test="idUr != null and idUr != ''"  >
+            AND VIS.ID_INMUEBLE = #{idUr}             
+        </if>
+        order by VIS.CURP
+    </select>
+    
+    <select id="consultaPersonas" resultMap="resultMapPersonasJoin">
+        select a.curp, a.apellido1, a.apellido2, a.nombre, a.puesto, b.denominacion, c.unidad_responsable, d.cuadrante_area, 
+        case a.estatus when 1 then 'ACTIVO'
+        when 0 then 'INACTIVO'
+        end as EstatusDes, e.tipo_persona from tses004_personas a
+        inner join tses009_inmuebles b on a.id_inmueble = b.id_inmueble
+        inner join tses006_unidad_responsable c on a.id_ur = c.id_ur
+        inner join tses010_cuadrante_area d on a.id_cuadrante_area = d.id_cuadrante_area
+        inner join tses005_tipo_persona e on a.id_tipo_persona = e.id_tipo_persona
+     
+        <if test="idTipoPersona != null and idTipoPersona != ''"  > 
+            AND a.ID_TIPO_PERSONA = #{idTipoPersona}
+        </if> 
+        <if test="curp != null and curp != ''"  > 
+            AND a.CURP = #{curp}
+        </if> 
+        <if test="idUr != null and idUr != ''"  >
+            AND a.ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND a.ID_INMUEBLE = #{idInmueble}             
+        </if>
+    </select>
+    
+    <select id="consultaPersonasPC" resultMap="resultMapPersonasJoin">
+        select a.curp, a.apellido1, a.apellido2, a.nombre, a.puesto, b.denominacion, c.unidad_responsable, d.cuadrante_area, a.alergias, a.tel_emergencia,
+        a.enfermedad,
+        case a.estatus when 1 then 'ACTIVO'
+        when 0 then 'INACTIVO'
+        end as EstatusDes, e.tipo_persona,f.tipo_sangre from tses004_personas a
+        inner join tses009_inmuebles b on a.id_inmueble = b.id_inmueble
+        inner join tses006_unidad_responsable c on a.id_ur = c.id_ur
+        inner join tses010_cuadrante_area d on a.id_cuadrante_area = d.id_cuadrante_area
+        inner join tses005_tipo_persona e on a.id_tipo_persona = e.id_tipo_persona
+        inner join tses007_tipo_sangre f on a.id_tipo_sangre = f.id_tipo
+     
+        <if test="idTipoPersona != null and idTipoPersona != ''"  > 
+            AND a.ID_TIPO_PERSONA = #{idTipoPersona}
+        </if> 
+        <if test="curp != null and curp != ''"  > 
+            AND a.CURP = #{curp}
+        </if> 
+        <if test="idUr != null and idUr != ''"  >
+            AND a.ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND a.ID_INMUEBLE = #{idInmueble}             
+        </if>
+    </select>
+    
+    <select id="consultaVisitantes" resultMap="resultMapVisitantesJoin">
+        SELECT  vis.id_visitante, vis.id_inmueble, vis.curp, vis.apellido1, vis.apellido2, vis.nombre, vis.persona_visita, INM.denominacion,
+        UR.UNIDAD_RESPONSABLE, e.tipo_persona
+        FROM TSES011_VISITANTES VIS
+        LEFT JOIN TSES009_INMUEBLES INM ON VIS.ID_INMUEBLE = INM.ID_INMUEBLE
+        JOIN TSES005_TIPO_PERSONA TIPO ON VIS.ID_TIPO_PERSONA = TIPO.ID_TIPO_PERSONA
+        JOIN TSES006_UNIDAD_RESPONSABLE UR ON VIS.ID_UR = UR.ID_UR
+        inner join tses005_tipo_persona e on vis.id_tipo_persona = e.id_tipo_persona
+        AND VIS.ID_TIPO_PERSONA = 3
+     
+        <if test="curp != null and curp != ''"  > 
+            AND vis.CURP = #{curp}
+        </if> 
+        <if test="idUr != null and idUr != ''"  >
+            AND vis.ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND vis.id_inmueble = #{idInmueble}             
+        </if>
+    </select>
+    
+    <select id="consultaOperacion" resultMap="resultMapPersonasJoin">
+       select * from 
+        (select ROW_NUMBER() OVER(PARTITION BY a.id_persona, TO_CHAR(a.fecha_operacion, 'DD-MM-YYYY')
+       ORDER BY a.id_persona,a.fecha_operacion) AS Row_num, a.id_persona, count(a.id_persona) as total, b.nombre, b.apellido1,b.apellido2,b.id_tipo_persona,
+        b.id_ur,a.id_inmueble, c.denominacion, d.unidad_responsable, e.tipo_persona, a.fecha_operacion, TO_CHAR(a.fecha_operacion, 'DD-MM-YYYY') AS FECHADATE,
+         case when decode (mod(ROW_NUMBER() OVER(PARTITION BY a.id_persona, TO_CHAR(a.fecha_operacion, 'DD-MM-YYYY')
+       ORDER BY a.id_persona,a.fecha_operacion),2),0,'Salida',1,'Entrada') = 'Salida' then 'Salida' else 'Entrada' end as Operacion from tses012_operacion a
+        inner join tses004_personas b on a.id_persona = b.id_persona
+        inner join tses009_inmuebles c on a.id_inmueble = c.id_inmueble
+        inner join tses006_unidad_responsable d on b.id_ur = d.id_ur
+        inner join tses005_tipo_persona e on b.id_tipo_persona = e.id_tipo_persona
+        group by a.id_persona, b.nombre, b.apellido1, b.apellido2,b.id_tipo_persona,b.id_ur,a.id_inmueble,c.denominacion, d.unidad_responsable, e.tipo_persona, a.fecha_operacion
+        order by a.fecha_operacion)
+        
+        
+        Where ID_TIPO_PERSONA = #{idTipoPersona}
+        <if test="idOperacion == 1"  > 
+            AND Operacion = 'Entrada'
+        </if> 
+        <if test="idOperacion == 2"  > 
+            AND Operacion = 'Salida'
+        </if> 
+       <!--<if test="idOperacion != null and idOperacion != ''"  > 
+            AND a.entrada_salida = #{idOperacion}
+        </if>-->
+        <!--<if test="idTipoPersona != null and idTipoPersona != ''"  > 
+            AND b.ID_TIPO_PERSONA = #{idTipoPersona}
+        </if> -->
+        <if test="idUr != null and idUr != ''"  >
+            AND ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND ID_INMUEBLE = #{idInmueble}             
+        </if>
+        <!--<if test="fecha1 != null and fecha1 != ''"  >
+            AND a.FECHA_OPERACION BETWEEN #{fecha1} AND  #{fecha2}        
+        </if>-->
+        <if test="fecha1 != null and fecha1 != ''"  >
+            AND FECHA_OPERACION >= #{fecha1}       
+        </if>
+        <if test="fecha2 != null and fecha2 != ''"  >
+            AND FECHA_OPERACION &lt;= #{fecha2}       
+        </if>
+        <!--<if test="fechaOpIni != null" >
+            and a.fecha_operacion >= #{fechaOpIni}
+        </if> 
+        <if test="fechaOpFin != null" >
+            and a.fecha_operacion &lt;= #{fechaOpFin}
+        </if>   -->
+        
+    </select>
+    
+    <select id="consultaOperacionVisitante" resultMap="resultMapVisitantesJoin">
+        select * from 
+        (select ROW_NUMBER() OVER(PARTITION BY a.id_visitante, TO_CHAR(a.fecha_operacion, 'DD-MM-YYYY')
+       ORDER BY a.id_visitante,a.fecha_operacion) AS Row_num, a.id_visitante, count(a.id_visitante) as total, b.nombre, b.apellido1,b.apellido2,b.id_tipo_persona,
+       b.id_ur,a.id_inmueble, c.denominacion, d.unidad_responsable, e.tipo_persona, a.fecha_operacion, TO_CHAR(a.fecha_operacion, 'DD-MM-YYYY') AS FECHADATE,
+         case when decode (mod(ROW_NUMBER() OVER(PARTITION BY a.id_visitante, TO_CHAR(a.fecha_operacion, 'DD-MM-YYYY')
+       ORDER BY a.id_visitante,a.fecha_operacion),2),0,'Salida',1,'Entrada') = 'Salida' then 'Salida' else 'Entrada' end as Operacion from tses012_operacion a
+        inner join tses011_visitantes b on a.id_visitante = b.id_visitante
+        inner join tses009_inmuebles c on a.id_inmueble = c.id_inmueble
+        inner join tses006_unidad_responsable d on b.id_ur = d.id_ur
+        inner join tses005_tipo_persona e on b.id_tipo_persona = e.id_tipo_persona
+         group by a.id_visitante, b.nombre, b.apellido1, b.apellido2,b.id_tipo_persona,b.id_ur,a.id_inmueble,c.denominacion, d.unidad_responsable, e.tipo_persona, a.fecha_operacion
+        order by a.fecha_operacion)
+        
+        Where ID_TIPO_PERSONA = #{idTipoPersona}
+        
+        <if test="idOperacion == 1"  > 
+            AND Operacion = 'Entrada'
+        </if>
+        <if test="idOperacion == 2"  > 
+            AND Operacion = 'Salida'
+        </if> 
+        <!--<if test="idOperacion != null and idOperacion != ''"  > 
+            AND a.entrada_salida = #{idOperacion}
+        </if> -->
+        <!--<if test="idTipoPersona != null and idTipoPersona != ''"  > 
+            AND b.ID_TIPO_PERSONA = #{idTipoPersona}
+        </if> -->
+        <if test="idUr != null and idUr != ''"  >
+            AND ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND ID_INMUEBLE = #{idInmueble}             
+        </if>
+        <!--<if test="fecha1 != null and fecha1 != ''"  >
+            AND a.FECHA_OPERACION BETWEEN #{fecha1} AND  #{fecha2}        
+        </if>-->
+        <if test="fecha1 != null and fecha1 != ''"  >
+            AND FECHA_OPERACION >= #{fecha1}       
+        </if>
+        <if test="fecha2 != null and fecha2 != ''"  >
+            AND FECHA_OPERACION &lt;= #{fecha2}       
+        </if>
+        <!--<if test="fechaOpIni != null" >
+            and a.fecha_operacion >= #{fechaOpIni}
+        </if> 
+        <if test="fechaOpFin != null" >
+            and a.fecha_operacion &lt;= #{fechaOpFin}
+        </if>   -->
+        
+    </select>
+    
+    <select id="consultaEquipos" resultMap="resultMapPersonasJoin">
+       select a.id_equipo, b.num_serie, c.curp, c.nombre, c.apellido1, c.apellido2, d.producto, TO_CHAR(a.fecha_operacion,'DD-MM-YYYY') AS FECHADATE, 
+                CASE a.entrada_salida
+                WHEN 1 THEN 'Entrada'
+                WHEN 0 THEN 'Salida'
+                END as operacion,
+                e.denominacion, f.tipo_persona, g.unidad_responsable
+                from tses027_operacion_equipos a
+                inner join tses024_equipos b on a.id_equipo = b.id_equipo
+                inner join tses004_personas c on b.id_persona = c.id_persona
+                inner join tses026_partidas d on b.id_partida = d.id_partida
+                inner join tses009_inmuebles e on a.id_inmueble = e.id_inmueble
+                inner join tses005_tipo_persona f on c.id_tipo_persona = f.id_tipo_persona
+                inner join tses006_unidad_responsable g on c.id_ur = g.id_ur
+        
+        
+        Where f.id_tipo_persona = #{idTipoPersona}
+       <if test="idOperacion != null and idOperacion != ''"  > 
+            AND a.entrada_salida = #{idOperacion}
+        </if>
+        <!--<if test="idTipoPersona != null and idTipoPersona != ''"  > 
+            AND b.ID_TIPO_PERSONA = #{idTipoPersona}
+        </if> -->
+        <if test="idUr != null and idUr != ''"  >
+            AND g.ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND a.ID_INMUEBLE = #{idInmueble}             
+        </if>
+        <!--<if test="fecha1 != null and fecha1 != ''"  >
+            AND a.FECHA_OPERACION BETWEEN #{fecha1} AND  #{fecha2}        
+        </if>-->
+        <!--<if test="fecha1 != null and fecha1 != ''"  >
+            AND FECHA_OPERACION >= #{fecha1}       
+        </if>
+        <if test="fecha2 != null and fecha2 != ''"  >
+            AND FECHA_OPERACION &lt;= #{fecha2}       
+        </if>-->
+        <if test="fecha1 != null" >
+            and a.fecha_operacion >= #{fecha1}
+        </if> 
+        <if test="fecha2 != null" >
+            and a.fecha_operacion &lt;= #{fecha2}
+        </if>   
+        <if test="curp != null and curp != ''"  > 
+            AND c.CURP = #{curp}
+        </if> 
+        <if test="serie != null and serie != ''"  > 
+            AND b.num_serie = #{serie}
+        </if> 
+    </select>
+    
+    <select id="consultaEquiposVisitante" resultMap="resultMapVisitantesJoin">
+        select * from 
+             (select row_number() over (partition by a.id_equipo_vis, TO_CHAR (a.fecha_operacion, 'DD-MM-YYYY')
+             order by a.id_equipo_vis, a.fecha_operacion) as row_num, a.id_equipo_vis, count (a.id_equipo_vis) as total, a.id_inmueble, a.fecha_operacion,
+             a.entrada_salida, c.nombre,c.curp, c.apellido1, NVL(c.apellido2, '-----') as apellido2, c.id_tipo_persona, c.id_ur, d.denominacion,
+             e.unidad_responsable, f.tipo_persona, b.numero_serie_vis,
+             case when decode (mod(row_number() over (partition by a.id_equipo_vis, TO_CHAR (a.fecha_operacion, 'DD-MM-YYYY')
+             order by a.id_equipo_vis, a.fecha_operacion),2),0,'Salida',1,'Entrada') = 'Salida' then 'Salida' else 'Entrada' end as Operacion
+             from tses027_operacion_equipos a
+             inner join tses025_equipos_visitante b on a.id_equipo_vis = b.id_equipo_vis
+             inner join tses011_visitantes c on b.id_visitante = c.id_visitante
+             inner join tses009_inmuebles d on c.id_inmueble = d.id_inmueble
+             inner join tses006_unidad_responsable e on c.id_ur = e.id_ur
+             inner join tses005_tipo_persona f on c.id_tipo_persona = f.id_tipo_persona
+             group by a.id_equipo_vis,a.id_inmueble,a.fecha_operacion, a.entrada_salida, c.nombre,c.curp, c.apellido1, c.apellido2, d.denominacion,
+              c.id_tipo_persona, c.id_ur, e.unidad_responsable, f.tipo_persona, b.numero_serie_vis
+             order by a.fecha_operacion)
+        
+        Where ID_TIPO_PERSONA = #{idTipoPersona}
+      <if test="idOperacion == 1"  > 
+            AND Operacion = 'Entrada'
+        </if>
+        <if test="idOperacion == 2"  > 
+            AND Operacion = 'Salida'
+        </if> 
+        <if test="idUr != null and idUr != ''"  >
+            AND ID_UR = #{idUr}             
+        </if>
+        <if test="idInmueble != null and idInmueble != ''"  >
+            AND ID_INMUEBLE = #{idInmueble}             
+        </if>
+        <if test="fecha1 != null and fecha1 != ''"  >
+            AND FECHA_OPERACION >= #{fecha1}       
+        </if>
+        <if test="fecha2 != null and fecha2 != ''"  >
+            AND FECHA_OPERACION &lt;= #{fecha2}       
+        </if>
+        <if test="curp != null and curp != ''"  > 
+            AND curp = #{curp}
+        </if> 
+        <if test="serie != null and serie != ''"  > 
+            AND numero_serie_vis = #{serie}
+        </if> 
+    </select>
+    
+    <select id="obtenerListaPersonas" resultMap="resultMapPersonasJoin">
+       SELECT A.ID_PERSONA,
+        A.ID_TIPO_PERSONA,
+        A.ID_UR,
+        A.ID_TIPO_SANGRE,
+        A.ID_INMUEBLE,
+        A.ID_CUADRANTE_AREA,
+        A.CURP,
+        A.APELLIDO1,
+        A.APELLIDO2,
+        A.NOMBRE,
+        A.FOTOGRAFIA,
+        A.TEL_EMERGENCIA,
+        A.FECHA_ACTUALIZACION,
+        A.ESTATUS,
+        A.PUESTO,
+        A.ALERGIAS,
+        A.ENFERMEDAD,
+        B.UNIDAD_RESPONSABLE,
+        B.CLAVE_UR,
+        C.NOMBRE_AUTORIZA,
+        C.PUESTO_AUTORIZA
+        FROM TSES004_PERSONAS A, TSES006_UNIDAD_RESPONSABLE B, TSES020_FIRMANTES C
+        WHERE A.ID_UR = B.ID_UR
+        AND B.ID_UR = C.ID_UR
+        AND A.ID_PERSONA IN 
+        (#{criterios}   )
+        
+    </select>
+    
+    <select id="consultaPersonasQR" resultMap="resultMapPersonasJoin">
+        select a.fotografia, a.curp, a.apellido1, a.apellido2, a.nombre, a.puesto, c.unidad_responsable, 
+        case a.estatus when 1 then 'ACTIVO'
+        when 0 then 'INACTIVO'
+        end as EstatusDes, e.tipo_persona from tses004_personas a
+        inner join tses006_unidad_responsable c on a.id_ur = c.id_ur
+        inner join tses005_tipo_persona e on a.id_tipo_persona = e.id_tipo_persona
+     
+        <if test="idPersona != null and idPersona != ''"  > 
+            AND a.ID_PERSONA = #{idPersona}
+        </if> 
+        
+    </select>
+    
+    <select id="consultaPersonasQREquipos" resultMap="resultMapPersonasJoin">
+        select a.fotografia, a.curp, a.apellido1, a.apellido2, a.nombre, a.puesto, c.unidad_responsable, 
+        case a.estatus when 1 then 'ACTIVO'
+        when 0 then 'INACTIVO'
+        end as EstatusDes, e.tipo_persona from tses004_personas a
+        inner join tses006_unidad_responsable c on a.id_ur = c.id_ur
+        inner join tses005_tipo_persona e on a.id_tipo_persona = e.id_tipo_persona
+     
+        <if test="curp != null and curp != ''"  > 
+            AND a.curp = #{curp}
+        </if> 
+        
+    </select>
+    
+</mapper>

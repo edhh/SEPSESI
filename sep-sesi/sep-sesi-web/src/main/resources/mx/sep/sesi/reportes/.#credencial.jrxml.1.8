@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="credencial" pageWidth="595" pageHeight="870" columnWidth="453" leftMargin="142" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e8247c90-f1df-40d2-a65d-6af20c391144">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="PATH_WEB" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/ProyectosCVS/SESI/sep-sesi/sep-sesi-web/src/main/webapp/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCriterio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["49,10,45,48,23"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.ID_PERSONA,
+        A.ID_TIPO_PERSONA,
+        A.ID_UR,
+        A.ID_TIPO_SANGRE,
+        A.ID_INMUEBLE,
+        A.ID_CUADRANTE_AREA,
+        A.CURP,
+        A.APELLIDO1,
+        A.APELLIDO2,
+        A.NOMBRE,
+        A.FOTOGRAFIA,
+        A.TEL_EMERGENCIA,
+        A.FECHA_ACTUALIZACION,
+        A.ESTATUS,
+        A.PUESTO,
+        A.ALERGIAS,
+        A.ENFERMEDAD,
+        B.UNIDAD_RESPONSABLE,
+        B.CLAVE_UR,
+        C.NOMBRE_AUTORIZA,
+        C.PUESTO_AUTORIZA
+FROM TSES004_PERSONAS A, TSES006_UNIDAD_RESPONSABLE B, TSES020_FIRMANTES C
+WHERE A.ID_UR = B.ID_UR
+AND B.ID_UR = C.ID_UR
+AND A.ID_PERSONA IN ( $P!{pCriterio} )]]>
+	</queryString>
+	<field name="ID_PERSONA" class="java.math.BigDecimal"/>
+	<field name="ID_TIPO_PERSONA" class="java.math.BigDecimal"/>
+	<field name="ID_UR" class="java.math.BigDecimal"/>
+	<field name="ID_TIPO_SANGRE" class="java.math.BigDecimal"/>
+	<field name="ID_INMUEBLE" class="java.math.BigDecimal"/>
+	<field name="ID_CUADRANTE_AREA" class="java.math.BigDecimal"/>
+	<field name="CURP" class="java.lang.String"/>
+	<field name="APELLIDO1" class="java.lang.String"/>
+	<field name="APELLIDO2" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="FOTOGRAFIA" class="java.io.InputStream"/>
+	<field name="TEL_EMERGENCIA" class="java.lang.String"/>
+	<field name="FECHA_ACTUALIZACION" class="java.sql.Timestamp"/>
+	<field name="ESTATUS" class="java.math.BigDecimal"/>
+	<field name="PUESTO" class="java.lang.String"/>
+	<field name="ALERGIAS" class="java.lang.String"/>
+	<field name="ENFERMEDAD" class="java.lang.String"/>
+	<field name="UNIDAD_RESPONSABLE" class="java.lang.String"/>
+	<field name="CLAVE_UR" class="java.lang.String"/>
+	<field name="NOMBRE_AUTORIZA" class="java.lang.String"/>
+	<field name="PUESTO_AUTORIZA" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="18" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="274">
+			<image scaleImage="FillFrame">
+				<reportElement uuid="fdbddf54-9df2-4254-b05f-949744a0d0f2" x="0" y="127" width="156" height="62" forecolor="#999999"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_cafe.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="84e888ff-dd45-492b-81fe-30397401a2ff" x="0" y="15" width="156" height="112"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_vino.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="c884ddba-ff6c-4913-a922-2edbd83b7cc9" x="8" y="37" width="140" height="29"/>
+				<box leftPadding="0"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/EDUCACION_horizontal_blanco.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="6b303789-d550-4901-8af3-4c3ba7a738c3" x="77" y="85" width="73" height="82"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/foto_margen.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="499a7d79-b7c0-4d86-a62f-df3a68c53115" x="8" y="130" width="27" height="10" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5aa5366c-0ff7-49e8-acc7-47e16802a455" x="8" y="193" width="26" height="11" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PUESTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b202f53-f96a-4dc4-8388-393d762aeb41" x="8" y="227" width="75" height="9" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÁREA DE ADSCRIPCIÓN]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="d04fe9a7-88e4-45ff-9c99-b760958f276c" x="95" y="191" width="43" height="43"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+    new com.google.zxing.qrcode.QRCodeWriter().encode(
+            ($F{ID_PERSONA}.longValue() < 10 ? "000000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 100 ? "00000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 1000 ? "0000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 10000 ? "000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 100000 ? "00"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 1000000 ? "0"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} ), com.google.zxing.BarcodeFormat.QR_CODE, 200, 200));]]></imageExpression>
+			</image>
+			<line>
+				<reportElement uuid="7b1288ec-1984-468e-8336-88fd36e5a34b" x="0" y="273" width="343" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="b352c6c5-c086-4099-99f7-2719025fc023" x="247" y="169" width="29" height="8" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUTORIZA]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="98a6cf8e-a40f-41bd-81a5-a513b0dff27b" x="190" y="218" width="140" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="4bc1f6f5-d942-46d2-8e7f-6d690fb351d6" x="189" y="27" width="140" height="29"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/EDUCACION_horizontal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="3f8bf124-46bf-457c-8b45-968b4a1c02e5" x="238" y="256" width="46" height="9" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<text><![CDATA[31/12/2020]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="90ac466d-7cd3-4177-9a59-92765ac405e1" x="244" y="242" width="26" height="9" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat" size="5"/>
+				</textElement>
+				<text><![CDATA[VIGENCIA]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="4293d0b6-8e21-440a-a4c4-32d52a1ead19" x="217" y="70" width="84" height="74"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+    new com.google.zxing.qrcode.QRCodeWriter().encode(
+            ($F{ID_PERSONA}.longValue() < 10 ? "000000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 100 ? "00000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 1000 ? "0000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 10000 ? "000"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 100000 ? "00"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}.longValue() < 1000000 ? "0"+$F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} :
+                $F{ID_PERSONA}+"-"+$F{ID_TIPO_PERSONA}+"-"+$F{CURP}+"-"+$F{CLAVE_UR} ), com.google.zxing.BarcodeFormat.QR_CODE, 200, 200));]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="d33cdb8d-1c5d-42f4-9f0f-260416a28615" x="8" y="91" width="64" height="32" forecolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Montserrat SemiBold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="673a9811-26ff-4a05-aca5-3a274c005826" x="8" y="139" width="64" height="46" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APELLIDO1} + " " + ($F{APELLIDO2} == null ? "":$F{APELLIDO2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2d80259a-ba85-4298-8e77-23437278dd10" x="8" y="201" width="64" height="19" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PUESTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="24903a3a-454e-4925-8de9-f0d2b82b4195" x="8" y="238" width="128" height="34" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIDAD_RESPONSABLE}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Top">
+				<reportElement uuid="5624ca36-ecb9-49ac-9479-53b51476c2da" x="78" y="86" width="70" height="80"/>
+				<imageExpression><![CDATA[$F{FOTOGRAFIA}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="e9f3d323-16b1-4bda-afc8-6a54fc7cf5d6" x="190" y="220" width="140" height="9" forecolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_AUTORIZA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c8d015b8-627b-469c-bd99-76eec94e8d58" x="190" y="228" width="140" height="10" forecolor="#BC955C"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PUESTO_AUTORIZA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

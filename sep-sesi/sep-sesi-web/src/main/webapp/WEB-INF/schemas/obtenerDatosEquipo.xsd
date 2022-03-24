@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ws="http://web.sesi.sep.mx/schemas"
+           elementFormDefault="qualified"
+           targetNamespace="http://web.sesi.sep.mx/schemas">
+    
+    <!--Request -->
+    <xs:element name="getDatosEquipoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="curp" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="18"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>    
+                <xs:element name="numSerie" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="30"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>  
+                <xs:element name="idPartida" type="xs:long" minOccurs="1"/>     
+                <xs:element name="tipoOperacion" type="xs:long" minOccurs="1"/>   
+                <xs:element name="correo" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="60"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>    
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+    <!-- Response -->
+    <xs:element name="getDatosEquipoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="datosEquipo" type="ws:datosEquipo" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="statusOper" type="xs:short"/>
+                <xs:element name="tipoError" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--Mensaje de salida complexType -->           
+    <xs:complexType name="datosEquipo">
+        <xs:sequence>
+            <xs:element name="curp">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="18"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="numSerie">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="30"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="correo">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>      
+        </xs:sequence>                                        
+    </xs:complexType>        
+</xs:schema>

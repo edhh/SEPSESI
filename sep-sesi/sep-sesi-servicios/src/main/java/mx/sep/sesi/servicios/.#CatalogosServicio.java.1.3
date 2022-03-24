@@ -1,0 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.servicios;
+
+import java.util.List;
+import mx.sep.sesi.modelo.Tses006UnidadResponsable;
+import mx.sep.sesi.modelo.Tses007TipoSangre;
+import mx.sep.sesi.modelo.Tses009Inmuebles;
+import mx.sep.sesi.modelo.Tses010CuadranteArea;
+import mx.sep.sesi.modelo.Tses005TipoPersona;
+
+/**
+ *
+ * @author heriberto.perez
+ */
+public interface CatalogosServicio {
+    
+    List<Tses009Inmuebles> obtenerInmueble();
+    
+    List<Tses006UnidadResponsable> obtenerUR();
+    
+    List<Tses007TipoSangre> obtenertipoSangre();
+    
+    List<Tses010CuadranteArea> obtenerCuadrante(Short idInmueble);
+    
+    List<Tses010CuadranteArea> obtenerCuadranteTodos();
+    
+    List<Tses005TipoPersona> obtenerTipoPersona();
+}

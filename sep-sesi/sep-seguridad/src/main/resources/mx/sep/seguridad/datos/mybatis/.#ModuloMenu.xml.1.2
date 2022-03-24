@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.seguridad.dao.ModuloMenuDao">
+
+	<resultMap type="ModuloMenu" id="resultModuloMenu">
+		<id property="id" column="id_opcion"/>
+		<result property="modulo" column="opcion"/>
+	</resultMap>
+
+	<select id="consultarTodos" resultMap="resultModuloMenu">
+            select * from TSES019_MENUS where id_opcion_padre is null order by id_opcion asc
+		<!--select * from tpr001_menus where id_opcion_padre is null order by id_opcion-->
+	</select>
+
+	<select id="consultarModulo" resultMap="resultModuloMenu">
+		<!--select * from tpr001_menus  where id_opcion = #{id}-->
+                 select * from TSES019_MENUS  where id_opcion = #{id}
+	</select>
+        
+         <select id="consultarPorRol" resultMap="resultModuloMenu">
+            select TSES019_MENUS.*
+            from acl_object_identity left join TSES019_MENUS on acl_object_identity.object_id_identity = TSES019_MENUS.id_opcion 
+            left join acl_sid acli_sid on acli_sid.id = acl_object_identity.owner_sid 
+            left join acl_class on acl_class.id = acl_object_identity.object_id_class   
+            left join acl_entry on acl_object_identity.id = acl_entry.acl_object_identity 
+            left join acl_sid on acl_entry.sid = acl_sid.id  
+            where acl_sid.id = #{rol}
+            order by acl_object_identity.object_id_identity asc, acl_entry.ace_order asc
+	</select>
+</mapper>

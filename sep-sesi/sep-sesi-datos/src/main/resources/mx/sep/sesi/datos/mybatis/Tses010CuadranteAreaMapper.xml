@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses010CuadranteAreaMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses010CuadranteArea" >
+    <id column="ID_CUADRANTE_AREA" property="idCuadranteArea" jdbcType="DECIMAL" />
+    <result column="ID_INMUEBLE" property="idInmueble" jdbcType="DECIMAL" />
+    <result column="CUADRANTE_AREA" property="cuadranteArea" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_CUADRANTE_AREA, ID_INMUEBLE, CUADRANTE_AREA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses010CuadranteAreaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES010_CUADRANTE_AREA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES010_CUADRANTE_AREA
+    where ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES010_CUADRANTE_AREA
+    where ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses010CuadranteAreaExample" >
+    delete from TSES010_CUADRANTE_AREA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses010CuadranteArea" >
+    insert into TSES010_CUADRANTE_AREA (ID_CUADRANTE_AREA, ID_INMUEBLE, CUADRANTE_AREA
+      )
+    values (#{idCuadranteArea,jdbcType=DECIMAL}, #{idInmueble,jdbcType=DECIMAL}, #{cuadranteArea,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses010CuadranteArea" >
+    insert into TSES010_CUADRANTE_AREA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idCuadranteArea != null" >
+        ID_CUADRANTE_AREA,
+      </if>
+      <if test="idInmueble != null" >
+        ID_INMUEBLE,
+      </if>
+      <if test="cuadranteArea != null" >
+        CUADRANTE_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idCuadranteArea != null" >
+        #{idCuadranteArea,jdbcType=DECIMAL},
+      </if>
+      <if test="idInmueble != null" >
+        #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="cuadranteArea != null" >
+        #{cuadranteArea,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses010CuadranteAreaExample" resultType="java.lang.Integer" >
+    select count(*) from TSES010_CUADRANTE_AREA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES010_CUADRANTE_AREA
+    <set >
+      <if test="record.idCuadranteArea != null" >
+        ID_CUADRANTE_AREA = #{record.idCuadranteArea,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idInmueble != null" >
+        ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cuadranteArea != null" >
+        CUADRANTE_AREA = #{record.cuadranteArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES010_CUADRANTE_AREA
+    set ID_CUADRANTE_AREA = #{record.idCuadranteArea,jdbcType=DECIMAL},
+      ID_INMUEBLE = #{record.idInmueble,jdbcType=DECIMAL},
+      CUADRANTE_AREA = #{record.cuadranteArea,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses010CuadranteArea" >
+    update TSES010_CUADRANTE_AREA
+    <set >
+      <if test="idInmueble != null" >
+        ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      </if>
+      <if test="cuadranteArea != null" >
+        CUADRANTE_AREA = #{cuadranteArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses010CuadranteArea" >
+    update TSES010_CUADRANTE_AREA
+    set ID_INMUEBLE = #{idInmueble,jdbcType=DECIMAL},
+      CUADRANTE_AREA = #{cuadranteArea,jdbcType=VARCHAR}
+    where ID_CUADRANTE_AREA = #{idCuadranteArea,jdbcType=DECIMAL}
+  </update>
+</mapper>

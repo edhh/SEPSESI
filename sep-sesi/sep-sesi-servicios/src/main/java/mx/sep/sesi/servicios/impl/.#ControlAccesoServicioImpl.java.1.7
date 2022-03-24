@@ -1,0 +1,103 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mx.sep.sesi.servicios.impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+//import java.util.Optional;
+import mx.sep.sesi.dao.Tses004PersonasMapper;
+import mx.sep.sesi.dao.Tses011VisitantesMapper;
+import mx.sep.sesi.dao.Tses012OperacionMapper;
+import mx.sep.sesi.dao.join.OperacionJoinMapper;
+import mx.sep.sesi.dao.join.SecuenciasJoinMapper;
+import mx.sep.sesi.datos.vo.OperacionVO;
+import mx.sep.sesi.modelo.Tses004Personas;
+import mx.sep.sesi.modelo.Tses011Visitantes;
+import mx.sep.sesi.modelo.Tses011VisitantesExample;
+import mx.sep.sesi.modelo.Tses012Operacion;
+import mx.sep.sesi.modelo.Tses012OperacionExample;
+import mx.sep.sesi.servicios.ControlAccesoServicio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @author pedro.flores
+ */
+@Service
+public class ControlAccesoServicioImpl implements ControlAccesoServicio{
+
+    @Autowired
+    private Tses004PersonasMapper tses004PersonasMapper;
+    
+    @Autowired
+    private Tses012OperacionMapper tses012OperacionMapper;
+    
+    @Autowired
+    private Tses011VisitantesMapper tses011VisitantesMapper;
+    
+    @Autowired
+    private SecuenciasJoinMapper secuenciasJoinMapper;
+    
+    @Autowired
+    private OperacionJoinMapper operacionJoinMapper;
+    
+            
+    public Tses004Personas obtenerInformacion(Integer idPersona) {
+        Tses004Personas persona = new Tses004Personas();
+        persona = tses004PersonasMapper.selectByPrimaryKey(idPersona);
+        return persona;
+    }  
+
+    public Tses011Visitantes obtenerVisitantePorEtiqueta( Integer idInmueble, Long idEtiqueta ) {
+        Tses011Visitantes visitante = null;
+        Tses011VisitantesExample criterios = new Tses011VisitantesExample();
+        criterios.createCriteria().andIdInmuebleEqualTo( idInmueble ).andIdEtiquetaEqualTo( idEtiqueta );        
+        List<Tses011Visitantes> lstVisitantes = tses011VisitantesMapper.selectByExampleWithBLOBs(criterios);
+        if( lstVisitantes != null && lstVisitantes.size() > 0 ){
+            visitante = lstVisitantes.get(0);
+        }
+        return visitante;                
+    }   
+    
+   /* public Optional<BigDecimal> registrarEntrada(OperacionVO operacionVO) throws Exception { 
+        java.util.Date fecha = new Date();
+        //operacionJoinMapper.consultarOperacion(operacionVO.getIdPersona(), operacionVO.getIdInmueble(), fecha);        
+        Tses012Operacion operacion = new Tses012Operacion();   
+        System.out.println("Servicio solicita idOperacion...");
+        BigDecimal idOperacion  = secuenciasJoinMapper.nextIdOperacion(); 
+        System.out.println("Servicio respuesta idOperacion: " + idOperacion);
+        operacion.setIdRegistro(idOperacion);
+        operacion.setIdUsuario(operacionVO.getIdUsuario());
+        operacion.setIdPersona(operacionVO.getIdPersona());
+        operacion.setIdVisitante(operacionVO.getIdVisitante());
+        operacion.setIdAcceso(operacionVO.getIdAcceso());
+        operacion.setIdInmueble(operacionVO.getIdInmueble());
+        operacion.setFechaOperacion(fecha);
+        operacion.setEntradaSalida((short)1);        
+        tses012OperacionMapper.insert(operacion);  
+        System.out.println("Servicio finaliza proceso de inserción... ");
+        return Optional.of(idOperacion);
+    }*/
+    
+    public void registrarSalida(OperacionVO operacionVO) {
+        java.util.Date fecha = new Date();
+        Tses012Operacion operacion = new Tses012Operacion();
+        BigDecimal idOperacion  = secuenciasJoinMapper.nextIdOperacion();
+        operacion.setIdRegistro(idOperacion.longValue());
+        operacion.setIdUsuario(operacionVO.getIdUsuario());
+        operacion.setIdPersona(operacionVO.getIdPersona());
+        operacion.setIdVisitante(operacionVO.getIdVisitante());
+        operacion.setIdAcceso(operacionVO.getIdAcceso());
+        operacion.setIdInmueble(operacionVO.getIdInmueble());
+        operacion.setFechaOperacion(fecha);
+        operacion.setEntradaSalida((short)0);        
+        tses012OperacionMapper.insert(operacion);        
+    }
+    
+}

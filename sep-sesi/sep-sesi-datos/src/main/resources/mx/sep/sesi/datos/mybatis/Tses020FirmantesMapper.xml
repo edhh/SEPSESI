@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses020FirmantesMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses020Firmantes" >
+    <id column="ID_FIRMANTE" property="idFirmante" jdbcType="DECIMAL" />
+    <result column="ID_UR" property="idUr" jdbcType="DECIMAL" />
+    <result column="NOMBRE_AUTORIZA" property="nombreAutoriza" jdbcType="VARCHAR" />
+    <result column="PUESTO_AUTORIZA" property="puestoAutoriza" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="mx.sep.sesi.modelo.Tses020Firmantes" extends="BaseResultMap" >
+    <result column="FOTOGRAFIA" property="fotografia" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_FIRMANTE, ID_UR, NOMBRE_AUTORIZA, PUESTO_AUTORIZA
+  </sql>
+  <sql id="Blob_Column_List" >
+    FOTOGRAFIA
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="mx.sep.sesi.modelo.Tses020FirmantesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TSES020_FIRMANTES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses020FirmantesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES020_FIRMANTES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TSES020_FIRMANTES
+    where ID_FIRMANTE = #{idFirmante,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES020_FIRMANTES
+    where ID_FIRMANTE = #{idFirmante,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses020FirmantesExample" >
+    delete from TSES020_FIRMANTES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses020Firmantes" >
+    insert into TSES020_FIRMANTES (ID_FIRMANTE, ID_UR, NOMBRE_AUTORIZA, 
+      PUESTO_AUTORIZA, FOTOGRAFIA)
+    values (#{idFirmante,jdbcType=DECIMAL}, #{idUr,jdbcType=DECIMAL}, #{nombreAutoriza,jdbcType=VARCHAR}, 
+      #{puestoAutoriza,jdbcType=VARCHAR}, #{fotografia,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses020Firmantes" >
+    insert into TSES020_FIRMANTES
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idFirmante != null" >
+        ID_FIRMANTE,
+      </if>
+      <if test="idUr != null" >
+        ID_UR,
+      </if>
+      <if test="nombreAutoriza != null" >
+        NOMBRE_AUTORIZA,
+      </if>
+      <if test="puestoAutoriza != null" >
+        PUESTO_AUTORIZA,
+      </if>
+      <if test="fotografia != null" >
+        FOTOGRAFIA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idFirmante != null" >
+        #{idFirmante,jdbcType=DECIMAL},
+      </if>
+      <if test="idUr != null" >
+        #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="nombreAutoriza != null" >
+        #{nombreAutoriza,jdbcType=VARCHAR},
+      </if>
+      <if test="puestoAutoriza != null" >
+        #{puestoAutoriza,jdbcType=VARCHAR},
+      </if>
+      <if test="fotografia != null" >
+        #{fotografia,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses020FirmantesExample" resultType="java.lang.Integer" >
+    select count(*) from TSES020_FIRMANTES
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES020_FIRMANTES
+    <set >
+      <if test="record.idFirmante != null" >
+        ID_FIRMANTE = #{record.idFirmante,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUr != null" >
+        ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nombreAutoriza != null" >
+        NOMBRE_AUTORIZA = #{record.nombreAutoriza,jdbcType=VARCHAR},
+      </if>
+      <if test="record.puestoAutoriza != null" >
+        PUESTO_AUTORIZA = #{record.puestoAutoriza,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fotografia != null" >
+        FOTOGRAFIA = #{record.fotografia,jdbcType=BLOB},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update TSES020_FIRMANTES
+    set ID_FIRMANTE = #{record.idFirmante,jdbcType=DECIMAL},
+      ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      NOMBRE_AUTORIZA = #{record.nombreAutoriza,jdbcType=VARCHAR},
+      PUESTO_AUTORIZA = #{record.puestoAutoriza,jdbcType=VARCHAR},
+      FOTOGRAFIA = #{record.fotografia,jdbcType=BLOB}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES020_FIRMANTES
+    set ID_FIRMANTE = #{record.idFirmante,jdbcType=DECIMAL},
+      ID_UR = #{record.idUr,jdbcType=DECIMAL},
+      NOMBRE_AUTORIZA = #{record.nombreAutoriza,jdbcType=VARCHAR},
+      PUESTO_AUTORIZA = #{record.puestoAutoriza,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses020Firmantes" >
+    update TSES020_FIRMANTES
+    <set >
+      <if test="idUr != null" >
+        ID_UR = #{idUr,jdbcType=DECIMAL},
+      </if>
+      <if test="nombreAutoriza != null" >
+        NOMBRE_AUTORIZA = #{nombreAutoriza,jdbcType=VARCHAR},
+      </if>
+      <if test="puestoAutoriza != null" >
+        PUESTO_AUTORIZA = #{puestoAutoriza,jdbcType=VARCHAR},
+      </if>
+      <if test="fotografia != null" >
+        FOTOGRAFIA = #{fotografia,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID_FIRMANTE = #{idFirmante,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="mx.sep.sesi.modelo.Tses020Firmantes" >
+    update TSES020_FIRMANTES
+    set ID_UR = #{idUr,jdbcType=DECIMAL},
+      NOMBRE_AUTORIZA = #{nombreAutoriza,jdbcType=VARCHAR},
+      PUESTO_AUTORIZA = #{puestoAutoriza,jdbcType=VARCHAR},
+      FOTOGRAFIA = #{fotografia,jdbcType=BLOB}
+    where ID_FIRMANTE = #{idFirmante,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses020Firmantes" >
+    update TSES020_FIRMANTES
+    set ID_UR = #{idUr,jdbcType=DECIMAL},
+      NOMBRE_AUTORIZA = #{nombreAutoriza,jdbcType=VARCHAR},
+      PUESTO_AUTORIZA = #{puestoAutoriza,jdbcType=VARCHAR}
+    where ID_FIRMANTE = #{idFirmante,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="credencialPvc2" pageWidth="157" pageHeight="241" columnWidth="157" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e8247c90-f1df-40d2-a65d-6af20c391144">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="372"/>
+	<parameter name="PATH_WEB" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/ProyectosCVS/SESI/sep-sesi/sep-sesi-web/src/main/webapp/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCriterio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["49,10,45,48,23"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.ID_PERSONA,
+        A.ID_TIPO_PERSONA,
+        A.ID_UR,
+        A.ID_TIPO_SANGRE,
+        A.ID_INMUEBLE,
+        A.ID_CUADRANTE_AREA,
+        A.CURP,
+        A.APELLIDO1,
+        A.APELLIDO2,
+        A.NOMBRE,
+        A.FOTOGRAFIA,
+        A.TEL_EMERGENCIA,
+        A.FECHA_ACTUALIZACION,
+        A.ESTATUS,
+        A.PUESTO,
+        A.ALERGIAS,
+        A.ENFERMEDAD,
+        B.UNIDAD_RESPONSABLE,
+        B.CLAVE_UR,
+        C.NOMBRE_AUTORIZA,
+        C.PUESTO_AUTORIZA
+FROM TSES004_PERSONAS A, TSES006_UNIDAD_RESPONSABLE B, TSES020_FIRMANTES C
+WHERE A.ID_UR = B.ID_UR
+AND B.ID_UR = C.ID_UR
+AND A.ID_PERSONA IN ( $P!{pCriterio} )]]>
+	</queryString>
+	<field name="ID_PERSONA" class="java.math.BigDecimal"/>
+	<field name="ID_TIPO_PERSONA" class="java.math.BigDecimal"/>
+	<field name="ID_UR" class="java.math.BigDecimal"/>
+	<field name="ID_TIPO_SANGRE" class="java.math.BigDecimal"/>
+	<field name="ID_INMUEBLE" class="java.math.BigDecimal"/>
+	<field name="ID_CUADRANTE_AREA" class="java.math.BigDecimal"/>
+	<field name="CURP" class="java.lang.String"/>
+	<field name="APELLIDO1" class="java.lang.String"/>
+	<field name="APELLIDO2" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="FOTOGRAFIA" class="java.io.InputStream"/>
+	<field name="TEL_EMERGENCIA" class="java.lang.String"/>
+	<field name="FECHA_ACTUALIZACION" class="java.sql.Timestamp"/>
+	<field name="ESTATUS" class="java.math.BigDecimal"/>
+	<field name="PUESTO" class="java.lang.String"/>
+	<field name="ALERGIAS" class="java.lang.String"/>
+	<field name="ENFERMEDAD" class="java.lang.String"/>
+	<field name="UNIDAD_RESPONSABLE" class="java.lang.String"/>
+	<field name="CLAVE_UR" class="java.lang.String"/>
+	<field name="NOMBRE_AUTORIZA" class="java.lang.String"/>
+	<field name="PUESTO_AUTORIZA" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<detail>
+		<band height="241" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement uuid="fdbddf54-9df2-4254-b05f-949744a0d0f2" x="-2" y="91" width="157" height="60" forecolor="#999999"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_cafe.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="84e888ff-dd45-492b-81fe-30397401a2ff" x="-2" y="-3" width="157" height="96"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/fondo_vino.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="c884ddba-ff6c-4913-a922-2edbd83b7cc9" x="7" y="9" width="138" height="30"/>
+				<box leftPadding="0"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/EDUCACION_horizontal_blanco.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="6b303789-d550-4901-8af3-4c3ba7a738c3" x="81" y="48" width="69" height="73"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/foto_margen.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="499a7d79-b7c0-4d86-a62f-df3a68c53115" x="4" y="94" width="27" height="10" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APELLIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5aa5366c-0ff7-49e8-acc7-47e16802a455" x="4" y="153" width="26" height="11" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PUESTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b202f53-f96a-4dc4-8388-393d762aeb41" x="4" y="192" width="75" height="9" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÁREA DE ADSCRIPCIÓN]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="7b1288ec-1984-468e-8336-88fd36e5a34b" x="-2" y="237" width="157" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="d33cdb8d-1c5d-42f4-9f0f-260416a28615" x="3" y="62" width="75" height="30" forecolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Montserrat SemiBold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="673a9811-26ff-4a05-aca5-3a274c005826" x="3" y="101" width="75" height="48" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APELLIDO1} + " " + ($F{APELLIDO2} == null ? "":$F{APELLIDO2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2d80259a-ba85-4298-8e77-23437278dd10" x="4" y="163" width="89" height="26" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PUESTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="24903a3a-454e-4925-8de9-f0d2b82b4195" x="4" y="200" width="148" height="35" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIDAD_RESPONSABLE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5844e621-74c2-466f-b304-ba0c808456bc" x="4" y="54" width="26" height="11" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Top">
+				<reportElement uuid="e98bdcd9-ac65-42bd-861a-f11ee7efaa4c" x="82" y="49" width="67" height="71"/>
+				<imageExpression><![CDATA[$F{FOTOGRAFIA}]]></imageExpression>
+			</image>
+			<break>
+				<reportElement uuid="b43dc7a7-f786-4fdc-a023-8202a3926aad" x="0" y="-4" width="154" height="1"/>
+			</break>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="289b9218-553f-47e0-b03f-e931fc901eb6" x="95" y="152" width="47" height="47"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/" + $F{ID_PERSONA} + "qrComprobante.gif"]]></imageExpression>
+			</image>
+		</band>
+		<band height="241" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement uuid="00759f0e-eea8-4123-b1fc-07c135e7fcc4" x="21" y="40" width="115" height="115"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/" + $F{ID_PERSONA} + "qrComprobante.gif"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement uuid="c3a1baf0-f3ea-4be2-b840-93423023d2e5" x="9" y="179" width="140" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="2b76d2a3-1faf-4cbf-afd9-a81ea86f557e" x="9" y="180" width="140" height="20" forecolor="#666666"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_AUTORIZA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bf305dad-5787-4e80-bd5c-6a86e75ed212" x="9" y="200" width="140" height="20" forecolor="#BC955C"/>
+				<textElement textAlignment="Center">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PUESTO_AUTORIZA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1f160819-7535-4401-ae08-d9a7a7da3ccc" x="52" y="222" width="76" height="9" forecolor="#666666"/>
+				<textElement>
+					<font fontName="Montserrat" size="5"/>
+				</textElement>
+				<text><![CDATA[FECHA EXPEDICIÓN]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="af8a8470-8235-4e68-8b41-0aa414a398fd" x="39" y="231" width="75" height="9" forecolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Montserrat Medium" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="860f2d01-5b37-4683-8aba-b62f3f5075ea" x="-2" y="-2" width="157" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="4b5a72e7-d08e-4d1b-a448-be93d6304936" x="64" y="151" width="32" height="8" forecolor="#BC955C"/>
+				<textElement>
+					<font fontName="Montserrat" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUTORIZA]]></text>
+			</staticText>
+			<break>
+				<reportElement uuid="b0057170-6a0d-4657-a85c-a5df67de4389" x="0" y="-1" width="157" height="1"/>
+			</break>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="a691b1e3-f8d4-4d6a-92dd-2c865246001f" x="10" y="16" width="138" height="30"/>
+				<imageExpression><![CDATA[$P{PATH_WEB} + "static/images/reporte/EDUCACION_horizontal.png"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

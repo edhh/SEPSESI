@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mx.sep.sesi.dao.join.SecuenciasJoinMapper">
+                   
+    <select id="nextIdOperacion" resultType="java.lang.Long" >
+        select SQ_TSES012.nextval from dual
+    </select>
+    
+    <select id="nextIdUsuario" resultType="java.lang.Integer" >
+        select SQ_TSES001.nextval from dual
+    </select>
+    
+     <select id="nextIdRolUsuario" resultType="java.lang.Integer" >
+        select SQ_TSES003.nextval from dual
+    </select>
+    
+    <select id="nextIdFirmante" resultType="java.lang.Integer" >
+        select SQ_TSES020.nextval from dual
+    </select>
+    
+     <select id="nextIdBitacora" resultType="java.lang.Long" >
+        select SQ_TSES021.nextval from dual
+    </select>
+    
+</mapper>

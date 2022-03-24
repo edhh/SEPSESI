@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="repTerceraSesion" pageWidth="612" pageHeight="800" columnWidth="552" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="10" uuid="14ca542c-cf88-4f23-bfb1-c46448d44c1b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="371"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="terceraQA"/>
+	<property name="ireport.background.image.properties" value="true,true,0.25,-25,114,39,0,565,603"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\luis.mendoza\\Documents\\reportesREPASEv2\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pCriterio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["49,10,45,48,23"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PATH_WEB" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/ProyectosCVS/SESI/sep-sesi/sep-sesi-web/src/main/webapp/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PATH_JASPER" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<detail>
+		<band height="620" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="4c94ede6-8fcd-4670-af43-9e4edad67565" isPrintRepeatedValues="false" x="2" y="0" width="550" height="620"/>
+				<subreportParameter name="$P{pCriterio}">
+					<subreportParameterExpression><![CDATA[$P{pCriterio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PATH_JASPER">
+					<subreportParameterExpression><![CDATA[$P{PATH_JASPER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{PATH_JASPER} + "subRep1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="72">
+			<subreport>
+				<reportElement uuid="4077a087-5d05-4ebb-bea6-0e91fe6eebc8" x="1" y="1" width="552" height="70" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="PATH_JASPER">
+					<subreportParameterExpression><![CDATA[$P{PATH_JASPER}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{PATH_JASPER} + "subRep1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

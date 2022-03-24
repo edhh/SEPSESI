@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.join.BitacoraJoinMapper" >
+    <resultMap id="bitacoraConsultaMap" type="mx.sep.sesi.datos.vo.BitacoraVO">
+        <id column="ID_BITACORA" property="idBitacora" />                
+        <result column="ID_USUARIO" property="idUsuario" />
+         <result column="ID_ROL" property="idRol" />   
+        <result column="DESC_ROL" property="descRol" />  
+        <result column="NOMBRE_USU" property="nombreUsu" />
+        <result column="NOMBRE_COMPLETO" property="nombreCompleto" />   
+        <result column="PROCESO" property="proceso" />
+        <result column="ID_TRAD_SERVICIO" property="idTradServicio" />
+        <result column="DESCRIPCION" property="descripcion" />
+        <result column="DETALLE" property="detalle" />
+        <result column="FECHA_OPERACION" property="fechaOperacion" />				
+        <result column="FECHA_OPERACION" property="fechaOpIni" />				
+        <result column="FECHA_OPERACION" property="fechaOpFin" />				
+        				
+    </resultMap>
+    
+    <select id="obtenerUsuarioConsulta" resultMap="bitacoraConsultaMap" parameterType="mx.sep.sesi.datos.vo.BitacoraVO">
+        
+         SELECT TSES021.ID_BITACORA
+        , TSES001.ID_USUARIO
+        , TSES001.NOMBRE_USU
+       , TSES001.NOMBRE || ' ' || TSES001.APELLIDO1 || ' ' || TSES001.APELLIDO2 as nombre_completo
+        , TSES003.ID_ROL
+        , TSES002.DESC_ROL
+        , TSES021.PROCESO                    
+        , TSES021.ID_TRAD_SERVICIO
+        , TSES022.DESCRIPCION
+        , TSES021.DETALLE
+        , TSES021.FECHA_OPERACION
+                        
+        FROM TSES021_BITACORA TSES021
+        INNER JOIN TSES022_TRADUCCION_SERVICIO TSES022
+        ON TSES021.ID_TRAD_SERVICIO = TSES022.ID_TRAD_SERVICIO
+        INNER JOIN TSES001_USUARIOS TSES001
+        ON TSES001.ID_USUARIO = TSES021.ID_USUARIO
+        INNER JOIN TSES003_ROL_USUARIO TSES003
+        ON TSES003.ID_USUARIO = TSES001.ID_USUARIO
+        INNER JOIN TSES002_ROLES TSES002
+        ON TSES003.ID_ROL = TSES002.ID_ROL
+        
+           <if test=" idTradServicio !=null">
+			AND TSES022.ID_TRAD_SERVICIO = #{idTradServicio} 
+        </if>
+        <if test="nombreUsu != ''">
+			AND TSES001.NOMBRE_USU like #{nombreUsu} 
+        </if>
+        <if test="fechaOpIni != null and fechaOpFin != null" >
+            AND TSES021.FECHA_OPERACION BETWEEN #{fechaOpIni}  AND (#{fechaOpFin} + 1)
+        </if> 
+        
+        
+    </select>
+    
+    
+</mapper>

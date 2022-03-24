@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mx.sep.sesi.dao.Tses003RolUsuarioMapper" >
+  <resultMap id="BaseResultMap" type="mx.sep.sesi.modelo.Tses003RolUsuario" >
+    <id column="ID_ROL_USUARIO" property="idRolUsuario" jdbcType="DECIMAL" />
+    <result column="ID_USUARIO" property="idUsuario" jdbcType="DECIMAL" />
+    <result column="ID_ROL" property="idRol" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID_ROL_USUARIO, ID_USUARIO, ID_ROL
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mx.sep.sesi.modelo.Tses003RolUsuarioExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TSES003_ROL_USUARIO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TSES003_ROL_USUARIO
+    where ID_ROL_USUARIO = #{idRolUsuario,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TSES003_ROL_USUARIO
+    where ID_ROL_USUARIO = #{idRolUsuario,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="mx.sep.sesi.modelo.Tses003RolUsuarioExample" >
+    delete from TSES003_ROL_USUARIO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mx.sep.sesi.modelo.Tses003RolUsuario" >
+    insert into TSES003_ROL_USUARIO (ID_ROL_USUARIO, ID_USUARIO, ID_ROL
+      )
+    values (#{idRolUsuario,jdbcType=DECIMAL}, #{idUsuario,jdbcType=DECIMAL}, #{idRol,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mx.sep.sesi.modelo.Tses003RolUsuario" >
+    insert into TSES003_ROL_USUARIO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idRolUsuario != null" >
+        ID_ROL_USUARIO,
+      </if>
+      <if test="idUsuario != null" >
+        ID_USUARIO,
+      </if>
+      <if test="idRol != null" >
+        ID_ROL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idRolUsuario != null" >
+        #{idRolUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idUsuario != null" >
+        #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idRol != null" >
+        #{idRol,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mx.sep.sesi.modelo.Tses003RolUsuarioExample" resultType="java.lang.Integer" >
+    select count(*) from TSES003_ROL_USUARIO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TSES003_ROL_USUARIO
+    <set >
+      <if test="record.idRolUsuario != null" >
+        ID_ROL_USUARIO = #{record.idRolUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idUsuario != null" >
+        ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idRol != null" >
+        ID_ROL = #{record.idRol,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TSES003_ROL_USUARIO
+    set ID_ROL_USUARIO = #{record.idRolUsuario,jdbcType=DECIMAL},
+      ID_USUARIO = #{record.idUsuario,jdbcType=DECIMAL},
+      ID_ROL = #{record.idRol,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mx.sep.sesi.modelo.Tses003RolUsuario" >
+    update TSES003_ROL_USUARIO
+    <set >
+      <if test="idUsuario != null" >
+        ID_USUARIO = #{idUsuario,jdbcType=DECIMAL},
+      </if>
+      <if test="idRol != null" >
+        ID_ROL = #{idRol,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID_ROL_USUARIO = #{idRolUsuario,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mx.sep.sesi.modelo.Tses003RolUsuario" >
+    update TSES003_ROL_USUARIO
+    set ID_USUARIO = #{idUsuario,jdbcType=DECIMAL},
+      ID_ROL = #{idRol,jdbcType=DECIMAL}
+    where ID_ROL_USUARIO = #{idRolUsuario,jdbcType=DECIMAL}
+  </update>
+</mapper>

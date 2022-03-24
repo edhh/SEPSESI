@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+       profile="testing">
+     
+    <!-- con esto indicamos a Spring que tome en cuenta todas las anotaciones  @Required,
+	@Autowired, @PostConstruct, @PreDestroy and @Resource que coloquemos en nuestros beans de servicios. -->  
+	<context:annotation-config />
+	<!-- Se buscan todos los archivos de configuraci�n de beans de servicios. Si el m�dulo maven de los servicios es
+			demasiado grande o se desea dividir por razones de control, los beans de servicio ser�n tomados autom�ticamente
+			siempre y cuando vivan dentro del paquete base mx.sep.peeare.servicios-->
+	<import resource="classpath*:mx/sep/sesi/servicios/**/*-config.xml" />
+	<!-- Usamos el mismo truco para obtener los archivos de configuraci�n de beans de obtenci�n de datos (t�picamente Daos) -->
+	<import resource="classpath*:mx/sep/sesi/datos/**/*-config.xml" />
+
+	<!-- Creamos un "advice" para indicar c�mo se comportar� la transacci�n seg�n los m�todos que se llamen.
+		Igualmente, por default, si estos m�todos lanzan un RuntimeException o un Error se har� rollback a la transacci�n. 
+		Si para cierto tipo de excepciones NO se desea hacer rollback se debe especificar en no-rollback-for -->       
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	    <tx:attributes>
+	        <!-- Los m�todos de consulta crea transacciones de s�lo lectura. -->
+	        <tx:method name="busca*" read-only="true"/>            
+	        <tx:method name="consulta*" read-only="true"/>
+	        <!-- todo lo dem�s tiene configuraci�n default -->
+	        <tx:method name="*" />	        
+	    </tx:attributes>
+	</tx:advice>
+	
+	<!-- Por �ltimo indicamos cu�ndo debe entrar en acci�n nuestro advice. En este caso ser� al ejecutar
+		cualquier m�todo dentro de cualquier clase que en su l�nea de paquetes incluya uno que se llame "servicios" -->
+	<aop:config>
+	    <aop:pointcut id="pointcutServicios" expression="execution(* mx..*servicios..*.*(..))"/>
+	    <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcutServicios" order="1"/>
+	</aop:config>       
+</beans>	
